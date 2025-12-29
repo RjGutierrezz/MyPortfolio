@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import { useGraph } from '@react-three/fiber'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { SkeletonUtils } from 'three-stdlib'
@@ -10,14 +10,23 @@ export function Tokyo2(props) {
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene])
   const { nodes, materials } = useGraph(clone)
   const { actions } = useAnimations(animations, group)
+
+  React.useEffect(() => {
+    if (!actions) return
+
+    Object.values(actions).forEach((action) => {
+      action.reset().play()
+    })
+  }, [actions])
+
   return (
     <group
       ref={group}
       {...props}
       dispose={null}
-      scale={0.012}                 // 🔥 MAIN FIX: normalize Sketchfab scale
-      position={[0, -2, 0]}         // 🔥 bring into camera view
-      rotation={[0, Math.PI / 2, 0]} // 🔥 nice isometric angle
+      scale={0.012}                 // MAIN FIX: normalize Sketchfab scale
+      position={[0, -2.5, 0]}         // bring into camera view
+      rotation={[0, Math.PI / 2, 0]} // nice isometric angle
     >
       <group name="Sketchfab_Scene">
         <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]}>
