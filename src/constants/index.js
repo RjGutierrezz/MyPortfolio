@@ -95,15 +95,15 @@ const navLinks = [
   
   const techStackImgs = [
     {
-      name: "React Developer",
+      name: "React",
       imgPath: "/images/logos/react.png",
     },
     {
-      name: "Python Developer",
+      name: "Python",
       imgPath: "/images/logos/python.svg",
     },
     {
-      name: "Backend Developer",
+      name: "TypeScript",
       imgPath: "/images/logos/ts.png",
     },
     {
@@ -111,38 +111,69 @@ const navLinks = [
       imgPath: "/images/logos/three.png",
     },
     {
-      name: "Project Manager",
+      name: "Git",
       imgPath: "/images/logos/git.svg",
     },
   ];
   
   const techStackIcons = [
     {
-      name: "React Developer",
+      name: "React",
       modelPath: "/models/react_logo-transformed.glb",
       scale: 1,
       rotation: [0, 0, 0],
     },
     {
-      name: "Python Developer",
+      name: "Python",
       modelPath: "/models/python-transformed.glb",
       scale: 0.8,
       rotation: [0, 0, 0],
     },
     {
-      name: "Backend Developer",
+      name: "TypeScript",
       modelPath: "/models/ts.glb",
       scale: 1.8,
       rotation: [0, 0, 0],
     },
     {
-      name: "Interactive Developer",
+      name: "JavaScript",
+      modelPath: "/models/js.glb",
+      scale: 10,
+      rotation: [0, 0, 0],
+    },
+    {
+      name: "C++",
+      modelPath: "/models/c.glb",
+      scale: 0.08,
+      rotation: [0, 0, 0],
+    },
+    {
+      name: "Java",
+      modelPath: "/models/java.glb",
+      scale: 1.2,
+      rotation: [0, -Math.PI / 4, 0],
+    },
+    {
+      name: "HTML",
+      modelPath: "/models/html.glb",
+      scale: 1.2,
+      rotation: [0, 0, 0],
+      // position: [0, 10, 0] ,
+    },
+    {
+      name: "CSS",
+      modelPath: "/models/css.glb",
+      scale: 1.2,
+      rotation: [0, 0, 0],
+    },
+    {
+      name: "Three.js",
       modelPath: "/models/three.js-transformed.glb",
       scale: 0.05,
       rotation: [0, 0, 0],
     },
     {
-      name: "Project Manager",
+      name: "Git",
       modelPath: "/models/git-svg-transformed.glb",
       scale: 0.05,
       rotation: [0, -Math.PI / 4, 0],

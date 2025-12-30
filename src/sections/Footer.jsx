@@ -5,7 +5,13 @@ const Footer = () => {
     <div className='footer'>
       <div className='footer-container'>
         <div className='flex flex-col justify-center'> 
-          <a href="https://github.com/RjGutierrezz" target="_blank">Visit my GitHub</a>
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View my Resume
+          </a>
         </div>
         <div className='socials'>
           {socialImgs.map((img) => (
