@@ -205,11 +205,57 @@ section {
       h2 {
         @apply text-lg md:text-xl lg:text-2xl font-semibold mt-5;
       }
+
+      /* changed: allow project cards to have a pinned CTA area */
+      .project {
+        @apply flex flex-col;
+      }
     }
   }
 
+  /* changed: shared text+cta layout for showcase cards */
+  .showcase-text-with-cta {
+    @apply flex flex-col flex-1;
+  }
+
+  /* keep placement rule you already have */
+  .showcase-cta {
+    @apply mt-6 self-start;
+  }
+
+  /* new: underline that expands to cover the whole "button" on hover */
+  .learn-more-fill {
+    /* changed: make it a consistent-height box so text stays centered on hover fill */
+    @apply relative inline-flex items-center font-semibold uppercase text-white;
+    height: 2rem;            /* tweak: 1.75rem / 2rem / 2.25rem */
+    padding: 0 0.4rem;       /* changed: remove top/bottom padding that offsets centering */
+  }
+
+  .learn-more-fill::after {
+    content: "";
+    position: absolute;
+    left: -0.4rem;                /* changed: match padding */
+    bottom: 0;
+
+    width: calc(100% + 0.8rem);   /* changed: match padding */
+    height: 2px;
+    background: #fff;
+    z-index: -1;
+
+    transform-origin: bottom;
+    transition: height 300ms ease;
+  }
+
+  .learn-more-fill:hover {
+    color: #000;              /* text turns black */
+  }
+
+  .learn-more-fill:hover::after {
+    height: 100%;             /* underline expands to cover entire link area */
+  }
+
   .cta-wrapper {
-    @apply relative z-20 cursor-pointer;
+    @apply relative z-50 cursor-pointer; /* was z-20 */
   }
 
   .cta-button {
@@ -222,8 +268,9 @@ section {
     }
 
     .text {
+      /* changed: remove default negative translate that can hide the label */
       @apply uppercase md:text-lg text-black transition-all duration-500
-        group-hover:text-white-50 group-hover:-translate-x-5 xl:translate-x-0 -translate-x-5;
+        group-hover:text-white-50 group-hover:-translate-x-5 translate-x-0;
     }
 
     .arrow-wrapper {
@@ -269,10 +316,15 @@ section {
 
   .gradient-edge {
     @apply w-36 h-full absolute bottom-0 z-20;
+    background: linear-gradient(
+      90deg,
+      #5f22d9 0%,
+      rgba(95, 34, 217, 0) 100%
+    ); /* Gradient with #5f22d9 */
   }
 
   .tech-card-animated-bg {
-    @apply absolute left-0 bottom-[-100%] w-full h-full bg-[#2D3240] group-hover:bottom-0 transition-all duration-700;
+    @apply absolute left-0 bottom-[-100%] w-full h-full bg-[#2c016d] group-hover:bottom-0 transition-all duration-700;
   }
 
   .tech-card-content {
@@ -298,7 +350,7 @@ section {
 
     input,
     textarea {
-      @apply w-full px-4 py-4 md:text-base text-sm placeholder:text-blue-50 bg-blue-100 rounded-md;
+      @apply w-full px-4 py-4 md:text-base text-sm placeholder:text-blue-50 bg-[#2c016d] rounded-md;
     }
 
     a {
@@ -322,10 +374,10 @@ section {
     }
 
     .socials {
-      @apply flex items-center justify-center gap-5;
+      @apply flex items-center justify-center gap-5 ;
 
       .icon {
-        @apply border border-black-50 bg-black-100 flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-500 hover:bg-black-50;
+        @apply border border-[#5f22d9] bg-[#2c016d] flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-500 hover:bg-[#5f22d9];
       }
 
       img {
@@ -391,19 +443,19 @@ section {
 
 .gradient-edge:nth-of-type(1) {
   left: 0;
-  background: rgb(0, 0, 0);
   background: linear-gradient(
     90deg,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(255, 255, 255, 0) 100%
+    #5f22d9 0%,
+    rgba(95, 34, 217, 0) 100%
   );
 }
+
 .gradient-edge:nth-of-type(2) {
   right: 0;
   background: linear-gradient(
     -90deg,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(255, 255, 255, 0) 100%
+    #5f22d9 0%,
+    rgba(95, 34, 217, 0) 100%
   );
 }
 

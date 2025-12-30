@@ -1,10 +1,10 @@
 const navLinks = [
     {
-      name: "Work",
+      name: "Personal Projects",
       link: "#work",
     },
     {
-      name: "Experience",
+      name: "Collaborated Projects",
       link: "#experience",
     },
     {
@@ -12,8 +12,12 @@ const navLinks = [
       link: "#skills",
     },
     {
-      name: "Testimonials",
-      link: "#testimonials",
+      name: "Tech Stack",
+      link: "#techstack",
+    },
+    {
+      name: "GitHub",
+      link: "https://github.com/RjGutierrezz",
     },
   ];
   
@@ -57,18 +61,18 @@ const navLinks = [
     {
       imgPath: "/images/logos/company-logo-7.png",
     },
-    {
-      imgPath: "/images/logos/company-logo-8.png",
-    },
-    {
-      imgPath: "/images/logos/company-logo-9.png",
-    },
-    {
-      imgPath: "/images/logos/company-logo-10.png",
-    },
-    {
-      imgPath: "/images/logos/company-logo-11.png",
-    },
+    // {
+    //   imgPath: "/images/logos/company-logo-8.png",
+    // },
+    // {
+    //   imgPath: "/images/logos/company-logo-9.png",
+    // },
+    // {
+    //   imgPath: "/images/logos/company-logo-10.png",
+    // },
+    // {
+    //   imgPath: "/images/logos/company-logo-11.png",
+    // },
   ];
   
   const abilities = [
@@ -100,7 +104,7 @@ const navLinks = [
     },
     {
       name: "Backend Developer",
-      imgPath: "/images/logos/node.png",
+      imgPath: "/images/logos/ts.png",
     },
     {
       name: "Interactive Developer",
@@ -127,9 +131,9 @@ const navLinks = [
     },
     {
       name: "Backend Developer",
-      modelPath: "/models/node-transformed.glb",
-      scale: 5,
-      rotation: [0, -Math.PI / 2, 0],
+      modelPath: "/models/ts.glb",
+      scale: 1.8,
+      rotation: [0, 0, 0],
     },
     {
       name: "Interactive Developer",
@@ -147,39 +151,39 @@ const navLinks = [
   
   const expCards = [
     {
-      review: "Adrian brought creativity and technical expertise to the team, significantly improving our frontend performance. His work has been invaluable in delivering faster experiences.",
-      imgPath: "/images/exp1.png",
-      logoPath: "/images/logo1.png",
-      title: "Frontend Developer",
-      date: "January 2023 - Present",
-      responsibilities: [
-        "Developed and maintained user-facing features for the Hostinger website.",
-        "Collaborated closely with UI/UX designers to ensure seamless user experiences.",
-        "Optimized web applications for maximum speed and scalability.",
-      ],
-    },
-    {
-      review: "Adrian’s contributions to Docker's web applications have been outstanding. He approaches challenges with a problem-solving mindset.",
+      review: "The Machine Learning Model for Income & Expense Prediction is a supervised learning specifically regression-based machine learning models to predict outcomes using a computer science salary dataset.",
       imgPath: "/images/exp2.png",
-      logoPath: "/images/logo2.png",
-      title: "Full Stack Developer",
-      date: "June 2020 - December 2023",
+      logoPath: "/images/salary.png",
+      title: "Machine Learning Model for Income & Expense Prediction ",
+      date: "Fall 2025",
       responsibilities: [
-        "Led the development of Docker's web applications, focusing on scalability.",
-        "Worked with backend engineers to integrate APIs seamlessly with the frontend.",
-        "Contributed to open-source projects that were used with the Docker ecosystem.",
+        "Developed and evaluated multiple regression models, including Linear Regression, Ridge Regression, and Lasso Regression, to predict outcomes using a CS salary dataset.",
+        "Implemented a Random Forest regression model to capture non-linear relationships and compare performance against linear approaches.",
+        "Performed feature preprocessing and model evaluation using appropriate error metrics to assess accuracy and generalization.",
       ],
     },
     {
-      review: "Adrian’s work on Appwrite’s mobile app brought a high level of quality and efficiency. He delivered solutions that enhanced our mobile experience & meet our product goals.",
-      imgPath: "/images/exp3.png",
-      logoPath: "/images/logo3.png",
-      title: "React Native Developer",
-      date: "March 2019 - May 2020",
+      review: "The Photon Project was a team-based academic project focused on building a real-time multiplayer laser tag UI . Working in an Agile development environment, our team collaborated through sprint planning, regular stand-ups, and iterative development cycles to design a responsive and scalable application.",
+      imgPath: "/images/exp1.png",
+      logoPath: "/images/spacegun.png",
+      title: "Photon Project",
+      date: "Spring 2025",
       responsibilities: [
-        "Built cross-platform mobile apps using React Native, integrating with Appwrite's backend services.",
-        "Improved app performance and user experience through code optimization and testing.",
-        "Coordinated with the product team to implement features based on feedback.",
+        "Created a real-time multiplayer laser tag application system using a client-server architecture in Python.",
+        "Implemented custom networking protocol to handle players actions, scores, and game state synchronization.",
+        "Optimized the application for maximum speed and scalability.",
+      ],
+    },
+    {
+      review: "PokemonShop is a database-driven web application that simulates a Pokémon bundle marketplace, allowing users to manage accounts, view and analyze bundle ownership, and generate detailed reports. The project integrates a Python backend with a MySQL database to handle user data, bundle relationships, and analytics such as shared bundle matching and total value summaries.",
+      imgPath: "/images/exp3.png",
+      logoPath: "/images/shop.png",
+      title: "Pokemon TCG Shop",
+      date: "Spring 2025",
+      responsibilities: [
+        "Developed the entire frontend interface, designing user workflows and dynamically rendering database query results as structured HTML tables.",
+        "Implemented the majority of backend functionality in Python, including user creation, bundle reporting, data filtering, user matching, and summary analytics using MySQL queries.",
+        "Designed and executed complex SQL joins and aggregations to support features such as bundle ownership reports, user matching based on shared attributes, and total value analysis.",
       ],
     },
   ];
@@ -248,10 +252,12 @@ const navLinks = [
     {
       name: "insta",
       imgPath: "/images/insta.png",
+      url: "https://www.instagram.com/hotmorovs/"
     },
     {
       name: "fb",
       imgPath: "/images/fb.png",
+      url: "https://www.facebook.com/roverjuliann.gutierrez/"
     },
     {
       name: "x",
@@ -260,6 +266,7 @@ const navLinks = [
     {
       name: "linkedin",
       imgPath: "/images/linkedin.png",
+      url: "https://www.linkedin.com/in/rover-gutierrez-536669249"
     },
   ];
   

@@ -40,6 +40,20 @@ const ExperienceSection = () => {
       },
     })
 
+    gsap.utils.toArray('.expText').forEach((text)=> {
+      gsap.from(text, {
+        xPercent: 0,
+        opacity: 0,
+        duration: 1,
+        ease: 'power2.inOut',
+        scrollTrigger: {
+          trigger: text,
+          start: 'top 60%',
+        }
+      })
+    })
+
+
   }, []);
 
   return (
@@ -53,7 +67,7 @@ const ExperienceSection = () => {
                 <div className="xl:w-2/6">
                   <GlowCard card={card} index={index}> 
                     <div>
-                      <img src={card.imgPath} alt={card.title} />
+                      {/* <img src={card.imgPath} alt={card.title} /> */}
                     </div>
                   </GlowCard>
                 </div>

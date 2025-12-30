@@ -5,10 +5,7 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-
-
 const ShowcaseSection = () => {
-
   const sectionRef = useRef(null);
   const rydeRef = useRef(null);
   const libraryRef = useRef(null);
@@ -46,7 +43,7 @@ const ShowcaseSection = () => {
     });
   }, []);
 
-return (
+  return (
     <div id="work" ref={sectionRef} className="app-showcase">
       <div className="w-full">
         <div className="showcaselayout">
@@ -54,14 +51,17 @@ return (
             <div className="image-wrapper">
               <img src="/images/project1.png" alt="Pottery WebApp" />
             </div>
-            <div className="text-content">
+            <div className="text-content showcase-text-with-cta">
               <h2>
-              Tailored WebApp platform built under ours sponsors preferences to display, manage, and promote his pottery
+                Tailored WebApp platform built under ours sponsors preferences to display, manage, and promote his pottery
               </h2>
               <p className="text-white-50 md:text-xl">
                 A fullstack app built with React Typescript, CSS, and Supabase for a fast,
                 user-friendly experience.
               </p>
+              <a href="" className="showcase-cta learn-more-fill">
+                LEARN MORE
+              </a>
             </div>
           </div>
 
@@ -73,7 +73,12 @@ return (
                   alt="Library Management Platform"
                 />
               </div>
-              <h2>Real Time Multiplayer Laser Tag Application</h2>
+              <div className="showcase-text-with-cta">
+                <h2>Real Time Multiplayer Laser Tag Application</h2>
+                <a href="" className="showcase-cta learn-more-fill">
+                  LEARN MORE
+                </a>
+              </div>
             </div>
 
             <div className="project" ref={ycDirectoryRef}>
@@ -82,7 +87,12 @@ return (
                   src="/images/project3.png" 
                   alt="YC Directory App" />
               </div>
-              <h2>YC Directory - A Startup Showcase App</h2>
+              <div className="showcase-text-with-cta">
+                <h2>YC Directory - A Startup Showcase App</h2>
+                <a href="" className="showcase-cta learn-more-fill">
+                  LEARN MORE
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -91,4 +101,4 @@ return (
   );
 };
 
-export default ShowcaseSection
+export default ShowcaseSection;
