@@ -25,7 +25,7 @@ const HeroExperience = () => {
         <Particles count={100}/>
         <group
         scale={isMobile? 0.7 : 1} position={[0, 3.8, 0]} rotation={[0, -Math.PI / 40, 0.0]}>
-          {/* <Tokyo2/> */}
+          <Tokyo2/>
         </group>
     </Canvas>
   )

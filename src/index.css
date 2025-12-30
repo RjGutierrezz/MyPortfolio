@@ -220,7 +220,7 @@ section {
 
   /* keep placement rule you already have */
   .showcase-cta {
-    @apply mt-6 self-start;
+    @apply mt-6 self-start ;
   }
 
   /* new: underline that expands to cover the whole "button" on hover */
@@ -247,7 +247,7 @@ section {
   }
 
   .learn-more-fill:hover {
-    color: #000;              /* text turns black */
+    color: #5f22d9;
   }
 
   .learn-more-fill:hover::after {

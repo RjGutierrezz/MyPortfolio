@@ -59,7 +59,7 @@ const ShowcaseSection = () => {
                 A fullstack app built with React Typescript, CSS, and Supabase for a fast,
                 user-friendly experience.
               </p>
-              <a href="" className="showcase-cta learn-more-fill">
+              <a href="https://github.com/jjmendez819/sales-app/tree/main" target="_blank" className="showcase-cta learn-more-fill">
                 LEARN MORE
               </a>
             </div>
@@ -67,14 +67,14 @@ const ShowcaseSection = () => {
 
           <div className="project-list-wrapper overflow-hidden">
             <div className="project" ref={libraryRef}>
-              <div className="image-wrapper bg-[#e4e4e4]">
+              <div className="image-wrapper bg-[#a6c9e7]">
                 <img
-                  src="/images/project2.png"
+                  src="/images/working.png"
                   alt="Library Management Platform"
                 />
               </div>
               <div className="showcase-text-with-cta">
-                <h2>Real Time Multiplayer Laser Tag Application</h2>
+                <h2>In Progress</h2>
                 <a href="" className="showcase-cta learn-more-fill">
                   LEARN MORE
                 </a>
@@ -82,13 +82,13 @@ const ShowcaseSection = () => {
             </div>
 
             <div className="project" ref={ycDirectoryRef}>
-              <div className="image-wrapper bg-[#fcd5b1]">
+              <div className="image-wrapper bg-[#a6c9e7]">
                 <img 
-                  src="/images/project3.png" 
+                  src="/images/working.png" 
                   alt="YC Directory App" />
               </div>
               <div className="showcase-text-with-cta">
-                <h2>YC Directory - A Startup Showcase App</h2>
+                <h2>In Progress</h2>
                 <a href="" className="showcase-cta learn-more-fill">
                   LEARN MORE
                 </a>
