@@ -3,16 +3,17 @@ Welcome to my portfolio website! This is my personal porfolio website showcasing
 
 This project serves as a personal portfolio and a sandbox for me to experiment and learn more about modern frontend technologies, animations, and 3D web development which recently sparked my interest.
 
-## Technologies Used
+## Technologies Used 💻
 
 - Frontend: React.js, Vite
 - 3D Rendering: Three.js, React Three Fiber, @react-three/dre
 - Styling: CSS
 - Other tools: EmailJS 
 
-## Installation Guide
+## Installation Guide 📍
 ```bash
 git clone https://github.com/RjGutierrezz/MyPortfolio.git
+
 # Then navigate to the file directory
 cd MyPorfolio
 
