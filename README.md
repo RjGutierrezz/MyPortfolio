@@ -5,10 +5,10 @@ This project serves as a personal portfolio and a sandbox for me to experiment a
 
 ## Technologies Used
 
-Frontend: 
-3D Rendering: 
-Styling:
-Other tools: 
+- Frontend: React.js, Vite
+- 3D Rendering: Three.js, React Three Fiber, @react-three/dre
+- Styling: CSS
+- Other tools: EmailJS 
 
 ## Installation Guide
 ```bash
