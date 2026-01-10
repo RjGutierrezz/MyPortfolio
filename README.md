@@ -1,3 +1,10 @@
+<div align="center">
+  <br />
+      <img src="public/images/pmockup.png" alt="Project Banner">
+    </a>
+  <br />
+</div>
+
 ## Overview
 Welcome to my portfolio website! This is my personal porfolio website showcasing my projects, skills, and my experience through an interactive and modern interface, this includes 3D elements built with React Three Fiber.
 

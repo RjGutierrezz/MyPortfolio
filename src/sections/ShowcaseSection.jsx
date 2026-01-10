@@ -53,11 +53,10 @@ const ShowcaseSection = () => {
             </div>
             <div className="text-content showcase-text-with-cta">
               <h2>
-                Tailored WebApp platform built under ours sponsors preferences to display, manage, and promote his pottery
+                Tailored WebApp platform built under our sponsors preferences to display, manage, and promote his pottery
               </h2>
               <p className="text-white-50 md:text-xl">
-                A fullstack app built with React Typescript, CSS, and Supabase for a fast,
-                user-friendly experience.
+              A full-stack web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.
               </p>
               <a href="https://github.com/jjmendez819/sales-app/tree/main" target="_blank" className="showcase-cta learn-more-fill">
                 LEARN MORE
@@ -67,15 +66,15 @@ const ShowcaseSection = () => {
 
           <div className="project-list-wrapper overflow-hidden">
             <div className="project" ref={libraryRef}>
-              <div className="image-wrapper bg-[#a6c9e7]">
+              <div className="image-wrapper bg-[#e63e5e]">
                 <img
-                  src="/images/working.png"
-                  alt="Library Management Platform"
+                  src="/images/appmockup.png"
+                  alt="StudyBreak-Bite"
                 />
               </div>
               <div className="showcase-text-with-cta">
-                <h2>In Progress</h2>
-                <a href="" className="showcase-cta learn-more-fill">
+                <h2>A mobile food discovery and delivery app built for university students, focused on saving time and minimizing interruptions during busy academic schedules.</h2>
+                <a href="https://github.com/RjGutierrezz/StudyBreak-Bite.git" className="showcase-cta learn-more-fill">
                   LEARN MORE
                 </a>
               </div>
@@ -94,6 +93,8 @@ const ShowcaseSection = () => {
                 </a>
               </div>
             </div>
+
+            
           </div>
         </div>
       </div>
