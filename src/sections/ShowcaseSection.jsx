@@ -77,7 +77,7 @@ const ShowcaseSection = () => {
               </div>
               <div className="showcase-text-with-cta">
                 <h2>A mobile food discovery and delivery app built for university students, focused on saving time and minimizing interruptions during busy academic schedules.</h2>
-                <a href="https://github.com/RjGutierrezz/StudyBreak-Bite.git" className="showcase-cta learn-more-fill">
+                <a href="https://github.com/RjGutierrezz/StudyBreak-Bite.git" target="_blank" className="showcase-cta learn-more-fill">
                   LEARN MORE
                 </a>
               </div>

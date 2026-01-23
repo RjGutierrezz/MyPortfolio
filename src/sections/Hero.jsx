@@ -34,8 +34,7 @@ const Hero = () => {
         </div>
 
         <div className="hero-layout">
-            {}
-            <header className="flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
+            <header className="order-2 md:order-1 flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
                 <div className="flex flex-col gap-7">
                     <div className='hero-text'>
                         <h1>Creating
@@ -62,8 +61,7 @@ const Hero = () => {
                 </div>
 
             </header>
-            { /* Right: 3D MODEL*/}
-            <figure>
+            <figure className="order-1 md:order-2">
                 <div className="hero-3d-layout">
                     <HeroExperience/>
                 </div>
