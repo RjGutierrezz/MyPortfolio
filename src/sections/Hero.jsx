@@ -6,6 +6,8 @@ import { useGSAP} from '@gsap/react'
 import gsap from 'gsap';
 import AnimatedCounter from '../components/AnimatedCounter.jsx'
 
+const ASSET_BASE = import.meta.env.BASE_URL;
+const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
 
 const Hero = () => {
     useGSAP (() => {
@@ -28,7 +30,7 @@ const Hero = () => {
   return (
     <section id="hero" className="relative overflow-hidden">
         <div className="absolute top-0 left-0 z-10">
-            <img src="/images/bg.png" alt="background"/>
+            <img src={asset("images/bg.png")}/>
         </div>
 
         <div className="hero-layout">

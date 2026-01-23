@@ -4,10 +4,12 @@ import GlowCard from '../components/GlowCard.jsx'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useRef } from 'react'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const ExperienceSection = () => {
+  const rootRef = useRef(null);
 
   useGSAP(() => {
     gsap.utils.toArray('.timeline-card').forEach((card)=> {
@@ -54,10 +56,10 @@ const ExperienceSection = () => {
     })
 
 
-  }, []);
+  }, { scope: rootRef });
 
   return (
-    <section id="experience" className="w-full md:mt-40 mt-20 section-padding xl:px-0">
+    <section ref={rootRef} id="experience" className="w-full md:mt-40 mt-20 section-padding xl:px-0">
       <div className ="w-full h-full md:px-20 px-5">
         <TitleHeader title="Collaborated Project Experience" sub="My Career Overview"/>
         <div className ="mt-32 relative">
@@ -86,7 +88,7 @@ const ExperienceSection = () => {
                       <div className=''>
                         <h1 className='font-semibold text-3xl'>{card.title}</h1>
                         <p className='my-5 text-white-50'>{card.date}</p>
-                        <p className='text-[#839cb5] italoc'>Responsibilities</p>
+                        <p className='text-[#839cb5] italic'>Responsibilities</p>
                         <ul className='list-disc ms-5 mt-5 flex flex-col gap-5 text-white-50'>
                           {card.responsibilities.map((responsibility) => (
                             <li key={responsibility} className='text-lg'>{responsibility}</li>

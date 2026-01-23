@@ -5,6 +5,9 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const ASSET_BASE = import.meta.env.BASE_URL;
+const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
+
 const ShowcaseSection = () => {
   const sectionRef = useRef(null);
   const rydeRef = useRef(null);
@@ -49,7 +52,7 @@ const ShowcaseSection = () => {
         <div className="showcaselayout">
           <div ref={rydeRef} className="first-project-wrapper">
             <div className="image-wrapper">
-              <img src="/images/project1.png" alt="Pottery WebApp" />
+              <img src={asset("images/project1.png")} alt="Pottery WebApp" />
             </div>
             <div className="text-content showcase-text-with-cta">
               <h2>
@@ -68,7 +71,7 @@ const ShowcaseSection = () => {
             <div className="project" ref={libraryRef}>
               <div className="image-wrapper bg-[#e63e5e]">
                 <img
-                  src="/images/appmockup.png"
+                  src={asset("images/appmockup.png")}
                   alt="StudyBreak-Bite"
                 />
               </div>
@@ -83,7 +86,7 @@ const ShowcaseSection = () => {
             <div className="project" ref={ycDirectoryRef}>
               <div className="image-wrapper bg-[#a6c9e7]">
                 <img 
-                  src="/images/working.png" 
+                  src={asset("images/working.png")}
                   alt="YC Directory App" />
               </div>
               <div className="showcase-text-with-cta">

@@ -1,12 +1,15 @@
 import { socialImgs } from "../constants";
 
+const ASSET_BASE = import.meta.env.BASE_URL;
+const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
+
 const Footer = () => {
   return (
     <div className='footer'>
       <div className='footer-container'>
         <div className='flex flex-col justify-center'> 
           <a
-            href="/resume.pdf"
+            href={asset("resume.pdf")}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -15,8 +18,14 @@ const Footer = () => {
         </div>
         <div className='socials'>
           {socialImgs.map((img) => (
-            <a className='icon' target='_blank' href={img.url} key={img.url}>
-              <img src={img.imgPath}/>
+            <a
+              className='icon'
+              target='_blank'
+              rel="noopener noreferrer"
+              href={img.url}
+              key={img.url}
+            >
+              <img src={img.imgPath} />
             </a>
           ))}
         </div>

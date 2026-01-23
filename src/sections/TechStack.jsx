@@ -14,6 +14,8 @@ const TechStack = () => {
 
   useGSAP(
     () => {
+      // NOTE: modelPath values come from constants and are BASE_URL-aware for GitHub Pages.
+      // Avoid hardcoding "/models/..." here.
       // This animation is triggered when the user scrolls to the #skills wrapper
       // The animation starts when the top of the wrapper is at the center of the screen
       // The animation is staggered, meaning each card will animate in sequence
