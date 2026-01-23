@@ -1,8 +1,11 @@
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
 
+const ASSET_BASE = import.meta.env.BASE_URL;
+const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
+
 export function Island(props) {
-  const { nodes, materials } = useGLTF('/models/low_poly_floating_island.glb')
+  const { nodes, materials } = useGLTF(asset('models/low_poly_floating_island.glb'))
   return (
     <group
       {...props}
@@ -609,4 +612,4 @@ export function Island(props) {
   )
 }
 
-useGLTF.preload('/models/low_poly_floating_island.glb')
+useGLTF.preload(asset('models/low_poly_floating_island.glb'))
