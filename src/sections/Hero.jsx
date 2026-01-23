@@ -53,11 +53,11 @@ const Hero = () => {
                         <h1>Into Real Projects</h1>
                         <h1>That Deliver Results</h1>
                     </div>
-                <p className='text-white-50 md:text-xl relative z-10 pointer-events-none mt-20'>
-                Hello! My name is Rover Gutierrez, a developer based in Sacramento CA. I'm a full-stack developer who enjoys building web and mobile applications and turning ideas into real projects. I love learning new technologies by actually using them and figuring things out as I go, whether that’s working on the front end, the backend, or somewhere in between.
-                What I enjoy most about development is the mix of creativity and problem-solving, and seeing something come together from start to finish. When I’m not working on my computer, I usually spend my time playing video games, staying active, or reading manga.
+                <p className='text-white-50 md:text-xl relative z-10 pointer-events-none'>
+                  Hello! My name is Rover Gutierrez,<br /> a full stack developer based in Sacramento CA. <br />
+                  I'm a full-stack developer who enjoys building web <br /> and mobile applications that matter.
                 </p>
-                <Button className="md:w-80 md-16 w-60 h-12" id="button" text="See my work"/>
+                <Button className="md:w-80 md-16 w-60 h-12 mb-20" id="button" text="See my work"/>
                 </div>
 
             </header>
