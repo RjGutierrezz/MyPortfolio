@@ -36,4 +36,4 @@ After running the script the app will run locally at:
 http://localhost:5173
 ```
 
-Open the link and enjoy the experience 😁
+Open the link and enjoy the experience! 😁
