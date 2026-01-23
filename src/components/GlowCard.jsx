@@ -1,5 +1,8 @@
 import React, { useRef } from 'react'
 
+const ASSET_BASE = import.meta.env.BASE_URL;
+const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
+
 const GlowCard = ({card, children, index}) => {
   const cardRefs = useRef([]);
 
@@ -24,7 +27,7 @@ const GlowCard = ({card, children, index}) => {
       <div className="glow"></div>
       <div className='flex items-center gap-1 mb-5'>
         {Array.from({length: 5}, (_, i) => (
-          <img src="/images/star.png" key={i} alt="star" className='size-5'/>
+          <img src={asset("images/star.png")} key={i} alt="star" className='size-5'/>
         ))}
 
       </div>

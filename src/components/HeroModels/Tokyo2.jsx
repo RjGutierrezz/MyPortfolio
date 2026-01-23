@@ -1,12 +1,14 @@
-
 import React, { useRef, useEffect } from 'react'
 import { useGraph } from '@react-three/fiber'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { SkeletonUtils } from 'three-stdlib'
 
+const ASSET_BASE = import.meta.env.BASE_URL;
+const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
+
 export function Tokyo2(props) {
   const group = React.useRef()
-  const { scene, animations } = useGLTF('/models/sketchfab_3d_editor_challenge_littlest_tokyo.glb')
+  const { scene, animations } = useGLTF(asset('models/sketchfab_3d_editor_challenge_littlest_tokyo.glb'))
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene])
   const { nodes, materials } = useGraph(clone)
   const { actions } = useAnimations(animations, group)
@@ -312,4 +314,4 @@ export function Tokyo2(props) {
   )
 }
 
-useGLTF.preload('/models/sketchfab_3d_editor_challenge_littlest_tokyo.glb')
+useGLTF.preload(asset('models/sketchfab_3d_editor_challenge_littlest_tokyo.glb'))
