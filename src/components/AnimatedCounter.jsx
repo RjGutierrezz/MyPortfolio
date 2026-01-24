@@ -49,7 +49,7 @@ const AnimatedCounter = () => {
         {counterItems.map((item) => (
           <div
             key={item.label}
-            className="counter-card bg-[#2c016d] rounded-lg p-10 flex flex-col justify-center"
+            className="counter-card bg-transparent rounded-lg p-10 flex flex-col justify-center"
           >
             <div className="counter-number text-white text-5xl font-bold mb-2">
               {hasStarted ? (

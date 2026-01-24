@@ -5,7 +5,7 @@
   --gradient: radial-gradient(circle, #e5e5e5 0%, #fff 100%);
 
   /* keep timeline in-sync with page bg */
-  --timeline-bg-color: #5f22d9;
+  --timeline-bg-color: #7161ef;
   --timeline-bg-image: none;
 }
 
@@ -14,9 +14,9 @@ body {
   width: 100dvw;
   overflow-x: hidden;
 
-  background: #5f22d9;
+  background: #7161ef;
 
-  color: white;
+  color: #f2e9e4;
   scroll-behavior: smooth;
   font-family: "Mona Sans", sans-serif;
 }
@@ -27,7 +27,8 @@ section {
 
 @theme {
   --font-sans: "Mona Sans", sans-serif;
-  --color-white-50: #d9ecff;
+  --color-white-50: #f2e9e4;
+  --color-white-100: white;
   --color-black-50: #1c1c21;
   --color-black-100: #0e0e10;
   --color-black-200: #282732;
@@ -112,11 +113,16 @@ section {
     @apply fixed w-full left-1/2 py-5 px-5 md:px-20 -translate-x-1/2 z-[100] transition-all duration-300 ease-in-out;
 
     &.scrolled {
-      @apply top-0 bg-[#2c016d];
+      @apply top-0;
+      backdrop-filter: blur(10px); /* Apply the blur effect */
+      -webkit-backdrop-filter: blur(10px); /* Add support for Safari */
+      background-color: rgba(113, 97, 239, 0.5);
     }
 
     &.not-scrolled {
-      @apply md:top-10 top-0 bg-transparent;
+      @apply md:top-10 top-0;
+      backdrop-filter: blur(10px); /* Apply the blur effect */
+      background-color: #7161ef;
     }
 
     .inner {
@@ -151,7 +157,7 @@ section {
       @apply flex;
 
       .inner {
-        @apply px-5 py-2 rounded-lg bg-white text-black group-hover:bg-[#5f22d9] transition-colors duration-300;
+        @apply px-5 py-2 rounded-lg bg-[#f2e9e4] text-black group-hover:bg-[#7161ef] transition-colors duration-300;
 
         span {
           @apply group-hover:text-white transition-colors duration-300;
@@ -192,14 +198,15 @@ section {
     }
 
     .project-list-wrapper {
-      @apply flex md:flex-row flex-col xl:flex-col gap-10 xl:w-[40%];
+      @apply grid grid-cols-1 md:grid-cols-2 gap-8;  
+      /* flex md:flex-row flex-col xl:flex-col gap-10 xl:w-[40%]; */
 
       .image-wrapper {
         @apply xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl xl:px-5 2xl:px-12 py-0;
       }
 
       img {
-        @apply w-full h-full object-contain rounded-xl;
+        @apply w-full h-full object-contain rounded-xl p-10;
       }
 
       h2 {
@@ -208,7 +215,20 @@ section {
 
       /* changed: allow project cards to have a pinned CTA area */
       .project {
-        @apply flex flex-col;
+        @apply border border-[#8f8f94] rounded-lg p-5 flex flex-col transition-colors duration-300 ease-in-out;
+      }
+
+      .project:hover {
+        border-color: #ffffff;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      }
+
+      .project .image-wrapper img {
+        @apply transition-transform duration-300 ease-in-out;
+      }
+
+      .project:hover .image-wrapper img {
+        transform: scale(1.1);
       }
     }
   }
@@ -226,7 +246,7 @@ section {
   /* new: underline that expands to cover the whole "button" on hover */
   .learn-more-fill {
     /* changed: make it a consistent-height box so text stays centered on hover fill */
-    @apply relative inline-flex items-center font-semibold uppercase text-white;
+    @apply relative inline-flex items-center font-semibold uppercase text-white-100;
     height: 2rem;            /* tweak: 1.75rem / 2rem / 2.25rem */
     padding: 0 0.4rem;       /* changed: remove top/bottom padding that offsets centering */
   }
@@ -247,7 +267,7 @@ section {
   }
 
   .learn-more-fill:hover {
-    color: #5f22d9;
+    color: #7161ef;
   }
 
   .learn-more-fill:hover::after {
@@ -259,7 +279,7 @@ section {
   }
 
   .cta-button {
-    @apply px-4 py-4 rounded-lg bg-[#5f22d9] flex justify-center items-center relative cursor-pointer overflow-hidden;
+    @apply px-4 py-4 rounded-lg bg-[#7161ef] flex justify-center items-center relative cursor-pointer overflow-hidden;
 
     .bg-circle {
       @apply absolute -right-10 origin-center top-1/2 -translate-y-1/2 
@@ -307,7 +327,7 @@ section {
   }
 
   .timeline-logo {
-    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border border-[#5f22d9] bg-[#5f22d9];
+    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border border-[#7161ef] bg-[#7161ef];
   }
 
   .exp-card-wrapper {
@@ -318,7 +338,7 @@ section {
     @apply w-36 h-full absolute bottom-0 z-20;
     background: linear-gradient(
       90deg,
-      #5f22d9 0%,
+      #7161ef 0%,
       rgba(95, 34, 217, 0) 100%
     ); /* Gradient with #5f22d9 */
   }
@@ -377,7 +397,7 @@ section {
       @apply flex items-center justify-center gap-5 ;
 
       .icon {
-        @apply border border-[#5f22d9] bg-[#2c016d] flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-500 hover:bg-[#5f22d9];
+        @apply border border-[#7161ef] bg-[#2c016d] flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-500 hover:bg-[#7161ef];
       }
 
       img {

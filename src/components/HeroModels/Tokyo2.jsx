@@ -27,7 +27,7 @@ export function Tokyo2(props) {
       {...props}
       dispose={null}
       scale={0.012}                 // MAIN FIX: normalize Sketchfab scale
-      position={[0, -4.5, 0]}         // bring into camera view
+      position={[0, -4.3, 0]}         // bring into camera view
       rotation={[0, Math.PI / 2, 0]} // nice isometric angle
     >
       <group name="Sketchfab_Scene">
