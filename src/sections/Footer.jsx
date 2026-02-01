@@ -17,17 +17,19 @@ const Footer = () => {
           </a>
         </div>
         <div className='socials'>
-          {socialImgs.map((img) => (
-            <a
-              className='icon'
-              target='_blank'
-              rel="noopener noreferrer"
-              href={img.url}
-              key={img.url}
-            >
-              <img src={img.imgPath} />
-            </a>
-          ))}
+          {socialImgs
+            .filter((img) => Boolean(img.url)) // don't render items missing a url
+            .map((img) => (
+              <a
+                className='icon'
+                target='_blank'
+                rel="noopener noreferrer"
+                href={img.url}
+                key={img.url || img.name} // stable + unique
+              >
+                <img src={img.imgPath} alt={img.name} />
+              </a>
+            ))}
         </div>
 
         <div className='flex flex-col justify-center items-center'>

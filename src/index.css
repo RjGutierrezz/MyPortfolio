@@ -43,6 +43,15 @@ section {
   .flex-col-center {
     @apply flex flex-col justify-center items-center;
   }
+
+  /* added: make an image follow text color using CSS masking */
+  .icon-mask {
+    background-color: currentColor;
+    -webkit-mask: var(--icon-url) no-repeat center / contain;
+    mask: var(--icon-url) no-repeat center / contain;
+    display: inline-block;
+    flex: none;
+  }
 }
 
 @layer components {
@@ -238,9 +247,15 @@ section {
     @apply flex flex-col flex-1;
   }
 
-  /* keep placement rule you already have */
-  .showcase-cta {
-    @apply mt-6 self-start ;
+  /* changed: keep "cta spacing" for project cards only */
+  .project .showcase-cta {
+    @apply mt-6 self-start;
+  }
+
+  /* added: header row should not push the link down (can make underline look missing) */
+  .showcase-header .showcase-cta {
+    margin-top: 0;
+    align-self: center;
   }
 
   /* new: underline that expands to cover the whole "button" on hover */
@@ -249,15 +264,16 @@ section {
     @apply relative inline-flex items-center font-semibold uppercase text-white-100;
     height: 2rem;            /* tweak: 1.75rem / 2rem / 2.25rem */
     padding: 0 0.4rem;       /* changed: remove top/bottom padding that offsets centering */
+    z-index: 0; /* added: ensure ::after (z:-1) stays behind THIS link, not behind the whole page */
   }
 
   .learn-more-fill::after {
     content: "";
     position: absolute;
-    left: -0.4rem;                /* changed: match padding */
+    left: -0.4rem;                
     bottom: 0;
 
-    width: calc(100% + 0.8rem);   /* changed: match padding */
+    width: calc(100% + 0.8rem);   
     height: 2px;
     background: #fff;
     z-index: -1;
@@ -267,11 +283,11 @@ section {
   }
 
   .learn-more-fill:hover {
-    color: #7161ef;
+    color: #7161ef; 
   }
 
   .learn-more-fill:hover::after {
-    height: 100%;             /* underline expands to cover entire link area */
+    height: 100%;  
   }
 
   .cta-wrapper {

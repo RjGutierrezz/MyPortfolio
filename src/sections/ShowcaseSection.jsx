@@ -51,10 +51,29 @@ const ShowcaseSection = () => {
   }, []);
 
 
-  // TODO: View all that will show the user the entire project library
   return (
     <div id="work" ref={sectionRef} className="app-showcase">
       <div className="w-full">
+        <div className="showcase-header md:mb-10 flex items-center justify-between w-full text-white-50">
+          <div className="flex items-center gap-3">
+            <span
+              className="icon-mask size-6 md:size-7"
+              style={{ ["--icon-url"]: `url(${asset("images/starlogo.png")})` }}
+              aria-hidden="true"
+            />
+            <h3 className="text-xl md:text-3xl font-bold">
+              Featured Projects
+            </h3>
+          </div>
+
+          <a
+            href="#work" 
+            className="showcase-cta learn-more-fill"
+          >
+            View all
+          </a>
+        </div>
+
         <div className="showcaselayout">
 
           {/* Disregarding this, not a big fan */}
