@@ -7,14 +7,11 @@ import { Link } from "react-router-dom";
 gsap.registerPlugin(ScrollTrigger);
 
 const ASSET_BASE = import.meta.env.BASE_URL;
-const asset = (p) =>
-  `${ASSET_BASE}${String(p)
-    .replace(/^\/+/, "")
-    .replace(/^assets\//, "")}`;
+const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
 
 const truncateText = (text, maxLength) => {
-  return text.length > maxLength ? text.substring (0, maxLength) + "..." : text;
-}
+  return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+};
 
 const ShowcaseSection = () => {
   const sectionRef = useRef(null);
@@ -54,7 +51,6 @@ const ShowcaseSection = () => {
     });
   }, []);
 
-
   return (
     <div id="work" ref={sectionRef} className="app-showcase">
       <div className="w-full">
@@ -62,7 +58,10 @@ const ShowcaseSection = () => {
           <div className="flex items-center gap-3">
             <span
               className="icon-mask size-6 md:size-7"
-              style={{ ["--icon-url"]: `url(${asset("images/starlogo.png")})` }}
+              style={{
+                color: "#f2e9e4",
+                ["--icon-url"]: `url(${asset("images/starlogo.png")})`,
+              }}
               aria-hidden="true"
             />
             <h3 className="text-xl md:text-3xl font-bold">

@@ -7,9 +7,6 @@
   /* keep timeline in-sync with page bg */
   --timeline-bg-color: #1B263B;
   --timeline-bg-image: none;
-
-  /* added: safety net if something is still pointing at /assets/images/starlogo.png */
-  --starlogo-url: url("/images/starlogo.png");
 }
 
 html,
@@ -50,8 +47,8 @@ section {
   /* added: make an image follow text color using CSS masking */
   .icon-mask {
     background-color: currentColor;
-    -webkit-mask: var(--icon-url, var(--icon-url-fallback)) no-repeat center / contain;
-    mask: var(--icon-url, var(--icon-url-fallback)) no-repeat center / contain;
+    -webkit-mask: var(--icon-url) no-repeat center / contain;
+    mask: var(--icon-url) no-repeat center / contain;
     display: inline-block;
     flex: none;
   }
