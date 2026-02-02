@@ -60,7 +60,7 @@ const ShowcaseSection = () => {
               className="icon-mask size-6 md:size-7"
               style={{
                 color: "#f2e9e4",
-                ["--icon-url"]: `url(${asset("images/starlogo.png")})`,
+                ["--icon-url"]: 'url("/images/starlogo.png")',
               }}
               aria-hidden="true"
             />
