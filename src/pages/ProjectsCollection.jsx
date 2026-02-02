@@ -37,7 +37,7 @@ const ProjectsCollection = () => {
         <div className="flex items-center gap-3 mt-10">
           <span
             className="icon-mask size-7 md:size-8 text-white-50"
-            style={{ ["--icon-url"]: `url(${asset("images/projectlogo.png")})` }}
+            style={{ ["--icon-url"]: 'url("/images/projectlogo.png")' }}
             aria-hidden="true"
           />
           <h3 className="text-xl md:text-3xl font-bold">
@@ -83,7 +83,7 @@ const ProjectsCollection = () => {
                       <div className="mt-6 flex items-center gap-2 text-white-50/80">
                         <span
                           className="icon-mask size-4 md:size-5"
-                          style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
+                          style={{ ["--icon-url"]: 'url("/images/tag.png")' }}
                           aria-hidden="true"
                         />
                         <span className="text-sm md:text-base font-semibold">
@@ -129,7 +129,7 @@ const ProjectsCollection = () => {
               >
                 <span
                   className="icon-mask size-5 md:size-6"
-                  style={{ ["--icon-url"]: `url(${asset("images/close.png")})` }}
+                  style={{ ["--icon-url"]: 'url("/images/close.png")' }}
                   aria-hidden="true"
                 />
               </button>
@@ -158,7 +158,7 @@ const ProjectsCollection = () => {
                     <div className="mt-6 flex items-center gap-2 text-white-50/80">
                       <span
                         className="icon-mask size-4 md:size-5"
-                        style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
+                        style={{ ["--icon-url"]: 'url("/images/tag.png")' }}
                         aria-hidden="true"
                       />
                       <span className="text-sm md:text-base font-semibold">
