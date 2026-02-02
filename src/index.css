@@ -225,6 +225,7 @@ section {
       /* changed: allow project cards to have a pinned CTA area */
       .project {
         @apply border border-[#8f8f94] rounded-lg p-5 flex flex-col transition-colors duration-300 ease-in-out;
+        position: relative; /* added */
       }
 
       .project:hover {
@@ -249,7 +250,8 @@ section {
 
   /* changed: keep "cta spacing" for project cards only */
   .project .showcase-cta {
-    @apply mt-6 self-start;
+    margin-top: auto; /* changed: pushes CTA to bottom */
+    align-self: flex-start;
   }
 
   /* added: header row should not push the link down (can make underline look missing) */
@@ -420,6 +422,33 @@ section {
         @apply inline-block;
       }
     }
+  }
+
+  /* added: global project hover effects (same as ShowcaseSection) */
+  .project:hover {
+    border-color: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+
+  .project .image-wrapper img {
+    @apply transition-transform duration-300 ease-in-out;
+  }
+
+  .project:hover .image-wrapper img {
+    transform: scale(1.1);
+  }
+
+  /* added: global project base border (Showcase currently has this nested, ProjectsCollection needs it too) */
+  .project {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(242, 233, 228, 0.6); /* visible on purple bg; tweak as desired */
+    border-radius: 0.5rem;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
+    position: relative; /* added */
   }
 }
 

@@ -310,6 +310,39 @@ const navLinks = [
       url: "https://www.linkedin.com/in/rover-gutierrez-536669249"
     },
   ];
+
+  const projects = [
+    {
+      id: "studybreak-bite",
+      title: "StudyBreak-Bite",
+      imgPath: asset("images/appmockup.png"),
+      imgAlt: "StudyBreak-Bite",
+      imgBgClass: "bg-[#dec0f1]",
+      description:
+        "A mobile food discovery and delivery app built for university students, focused on saving time and minimizing interruptions during busy academic schedules.",
+      href: "https://github.com/RjGutierrezz/StudyBreak-Bite.git",
+    },
+    {
+      id: "pottery-webapp",
+      title: "Pottery WebApp",
+      imgPath: asset("images/project1.png"),
+      imgAlt: "Pottery WebApp",
+      imgBgClass: "bg-[#dec0f1]",
+      description:
+        "A full-stack web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.",
+      href: "https://github.com/jjmendez819/sales-app/tree/main",
+    },
+    {
+      id: "in-progress",
+      title: "In progress",
+      imgPath: asset("images/working.png"),
+      imgAlt: "Project in progress",
+      imgBgClass: "bg-[#dec0f1]",
+      description: "Coming soon",
+      href: "",
+      disabled: true,
+    },
+  ];
   
   export {
     words,
@@ -323,4 +356,5 @@ const navLinks = [
     techStackIcons,
     techStackImgs,
     navLinks,
+    projects,
   };
