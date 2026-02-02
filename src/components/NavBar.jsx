@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { Link } from "react-router-dom"; // added
 import { navLinks } from '../constants/index.js';
 
 // added: BASE_URL-safe helper (same idea used in constants)
 const ASSET_BASE = import.meta.env.BASE_URL;
 const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
 const isExternal = (url) => /^https?:\/\//i.test(url);
+const isRoutePath = (url) => typeof url === "string" && url.startsWith("/"); // added
 
 const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -60,14 +62,22 @@ const NavBar = () => {
           <ul>
             {navLinks.map(({ link, name }) => (
               <li key={name} className="group">
-                <a
-                  href={link}
-                  target={isExternal(link) ? "_blank" : undefined}
-                  rel={isExternal(link) ? "noopener noreferrer" : undefined}
-                >
-                  <span>{name}</span>
-                  <span className="underline" />
-                </a>
+                {isExternal(link) ? (
+                  <a href={link} target="_blank" rel="noopener noreferrer">
+                    <span>{name}</span>
+                    <span className="underline" />
+                  </a>
+                ) : isRoutePath(link) ? (
+                  <Link to={link}>
+                    <span>{name}</span>
+                    <span className="underline" />
+                  </Link>
+                ) : (
+                  <a href={link}>
+                    <span>{name}</span>
+                    <span className="underline" />
+                  </a>
+                )}
               </li>
             ))}
           </ul>
