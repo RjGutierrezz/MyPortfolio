@@ -7,7 +7,10 @@ import { Link } from "react-router-dom";
 gsap.registerPlugin(ScrollTrigger);
 
 const ASSET_BASE = import.meta.env.BASE_URL;
-const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
+const asset = (p) =>
+  `${ASSET_BASE}${String(p)
+    .replace(/^\/+/, "")
+    .replace(/^assets\//, "")}`;
 
 const truncateText = (text, maxLength) => {
   return text.length > maxLength ? text.substring (0, maxLength) + "..." : text;
