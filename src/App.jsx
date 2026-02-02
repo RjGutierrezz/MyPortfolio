@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import ProjectsCollection from "./pages/ProjectsCollection.jsx";
 import LogoSection from './components/LogoSection.jsx'
 import NavBar from './components/NavBar.jsx'
@@ -48,7 +48,7 @@ const getBasename = () => {
 
 const App = () => {
   return (
-    <BrowserRouter basename={getBasename()}>
+    <HashRouter>
       <ScrollToHash />
       <Routes>
         <Route
@@ -84,7 +84,7 @@ const App = () => {
           }
         />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
