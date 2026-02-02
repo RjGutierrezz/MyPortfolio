@@ -1,0 +1,4 @@
+{
+  // SPA fallback for React Router (BrowserRouter)
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+}

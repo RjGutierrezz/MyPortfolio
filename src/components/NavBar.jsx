@@ -51,8 +51,8 @@ const NavBar = () => {
   return (
     <header className={`navbar ${scrolled ? 'scrolled' : 'not-scrolled'}`}>
       <div className="inner">
-        {/* changed: HashRouter-friendly */}
-        <a className="logo" href="#/">
+        {/* changed: behaves like navLinks (works from /project(s) too) */}
+        <a className="logo" href={asset("#hero")}>
           Rover Gutierrez
         </a>
 
@@ -73,8 +73,8 @@ const NavBar = () => {
           </ul>
         </nav>
 
-        {/* changed: HashRouter-friendly */}
-        <a href="#/#contact" className="contact-btn group">
+        {/* optional: make contact consistent too (works from /project(s)) */}
+        <a href={asset("#contact")} className="contact-btn group">
           <div className="inner">
             <span>Contact me</span>
           </div>

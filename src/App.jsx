@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import ProjectsCollection from "./pages/ProjectsCollection.jsx";
 import LogoSection from './components/LogoSection.jsx'
 import NavBar from './components/NavBar.jsx'
@@ -48,7 +48,7 @@ const getBasename = () => {
 
 const App = () => {
   return (
-    <HashRouter>
+    <BrowserRouter basename={getBasename()}>
       <ScrollToHash />
       <Routes>
         <Route
@@ -83,8 +83,11 @@ const App = () => {
             </AppLayout>
           }
         />
+
+        {/* added: SPA fallback inside the app */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
