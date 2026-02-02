@@ -70,7 +70,7 @@ const ShowcaseSection = () => {
             </h3>
           </div>
 
-          <Link to="/project" className="showcase-cta learn-more-fill">
+          <Link to="/projects" className="showcase-cta learn-more-fill">
             View all
           </Link>
         </div>
