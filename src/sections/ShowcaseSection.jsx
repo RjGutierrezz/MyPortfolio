@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -17,18 +17,60 @@ const ShowcaseSection = () => {
   const sectionRef = useRef(null);
   const studyBreakRef = useRef(null);
   const potteryRef = useRef(null);
-  const libraryRef = useRef(null);
+
+  const [activeProject, setActiveProject] = useState(null);
+
+  const featured = [
+    {
+      id: "studybreak-bite",
+      title: "StudyBreak-Bite",
+      imgPath: asset("images/appmockup.png"),
+      imgAlt: "StudyBreak-Bite",
+      imgBgClass: "bg-[#E0E1DD]",
+      description:
+        "A mobile food discovery and delivery app built for university students, focused on saving time and minimizing interruptions during busy academic schedules.",
+      href: "https://github.com/RjGutierrezz/StudyBreak-Bite.git",
+      techStack: ["React Native", "JavaScript", "Expo"],
+    },
+    {
+      id: "pottery-webapp",
+      title: "Pottery WebApp",
+      imgPath: asset("images/project1.png"),
+      imgAlt: "Pottery WebApp",
+      imgBgClass: "bg-[#E0E1DD]",
+      description:
+        "A full-stack web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.",
+      href: "https://github.com/jjmendez819/sales-app/tree/main",
+      techStack: ["Next.js", "TypeScript", "Supabase"],
+    },
+  ];
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") setActiveProject(null);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+
+  useEffect(() => {
+    if (!activeProject) return;
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [activeProject]);
 
   useGSAP(() => {
-    // Animation for the main section
     gsap.fromTo(
       sectionRef.current,
       { opacity: 0 },
       { opacity: 1, duration: 3 }
     );
 
-    // Animations for each app showcase
-    const cards = [studyBreakRef.current, potteryRef.current, libraryRef.current];
+    const cards = [studyBreakRef.current, potteryRef.current];
 
     cards.forEach((card, index) => {
       gsap.fromTo(
@@ -64,9 +106,7 @@ const ShowcaseSection = () => {
               }}
               aria-hidden="true"
             />
-            <h3 className="text-xl md:text-3xl font-bold">
-              Featured Projects
-            </h3>
+            <h3 className="text-xl md:text-3xl font-bold">Featured Projects</h3>
           </div>
 
           <Link to="/projects" className="showcase-cta learn-more-fill">
@@ -75,88 +115,187 @@ const ShowcaseSection = () => {
         </div>
 
         <div className="showcaselayout">
-
-          {/* Disregarding this, not a big fan */}
-          {/* <div ref={rydeRef} className="first-project-wrapper">
-            <div className="image-wrapper">
-              <img src={asset("images/project1.png")} alt="Pottery WebApp" />
-            </div>
-            <div className="text-content showcase-text-with-cta">
-              <h2>
-                Tailored WebApp platform built under our sponsors preferences to display, manage, and promote his pottery
-              </h2>
-              <p className="text-white-50 md:text-xl">
-                A full-stack web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.
-              </p>
-              <a href="https://github.com/jjmendez819/sales-app/tree/main" target="_blank" className="showcase-cta learn-more-fill">
-                LEARN MORE
-              </a>
-            </div>
-          </div> */}
-
           <div className="project-list-wrapper overflow-hidden">
-
-            {/* StudyBreak-Bite */}
-            <div className="project" ref={studyBreakRef}>
-              <div className="image-wrapper bg-[#E0E1DD]">
-                <img
-                  src={asset("images/appmockup.png")}
-                  alt="StudyBreak-Bite"
-                />
+            <div
+              className="project"
+              ref={studyBreakRef}
+              role="button"
+              tabIndex={0}
+              onClick={() => setActiveProject(featured[0])}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setActiveProject(featured[0]);
+                }
+              }}
+            >
+              <div className={`image-wrapper ${featured[0].imgBgClass}`}>
+                <img src={featured[0].imgPath} alt={featured[0].imgAlt} />
               </div>
+
               <div className="showcase-text-with-cta text-white-100">
-                <h2>StudyBreak-Bite</h2>
-                
+                <h2>{featured[0].title}</h2>
+
                 <p className="text-white-50 md:text-lg">
-                  {truncateText ("A mobile food discovery and delivery app built for university students, focused on saving time and minimizing interruptions during busy academic schedules.", 140)}
+                  {truncateText(featured[0].description, 140)}
                 </p>
-                <a href="https://github.com/RjGutierrezz/StudyBreak-Bite.git" target="_blank" className="showcase-cta learn-more-fill">
-                  LEARN MORE
-                </a>
+
+                <div className="mt-6 flex items-center gap-2 text-white-50/80">
+                  <span
+                    className="icon-mask size-4 md:size-5"
+                    style={{ ["--icon-url"]: 'url("/images/tag.png")' }}
+                    aria-hidden="true"
+                  />
+                  <span className="text-sm md:text-base font-semibold">
+                    Tech Stack
+                  </span>
+                </div>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {featured[0].techStack.map((t) => (
+                    <span
+                      key={`${featured[0].id}-${t}`}
+                      className="text-xs md:text-sm px-3 py-1 rounded-full bg-[#415A77] text-white-50 border border-white/20"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* Pottery WebApp*/}
-            <div className="project" ref={potteryRef}>
-              <div className="image-wrapper bg-[#E0E1DD]">
-                <img 
-                  src={asset("images/project1.png")}
-                  alt="Pottery WebApp" />
+            <div
+              className="project"
+              ref={potteryRef}
+              role="button"
+              tabIndex={0}
+              onClick={() => setActiveProject(featured[1])}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setActiveProject(featured[1]);
+                }
+              }}
+            >
+              <div className={`image-wrapper ${featured[1].imgBgClass}`}>
+                <img src={featured[1].imgPath} alt={featured[1].imgAlt} />
               </div>
+
               <div className="showcase-text-with-cta text-white-100">
-                <h2>Pottery WebApp</h2>
-                
+                <h2>{featured[1].title}</h2>
+
                 <p className="text-white-50 md:text-lg">
-                  {truncateText("A full-stack web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.", 140)}
+                  {truncateText(featured[1].description, 140)}
                 </p>
-                <a href="https://github.com/jjmendez819/sales-app/tree/main" target="_blank" className="showcase-cta learn-more-fill">
-                  LEARN MORE
-                </a>
+
+                <div className="mt-6 flex items-center gap-2 text-white-50/80">
+                  <span
+                    className="icon-mask size-4 md:size-5"
+                    style={{ ["--icon-url"]: 'url("/images/tag.png")' }}
+                    aria-hidden="true"
+                  />
+                  <span className="text-sm md:text-base font-semibold">
+                    Tech Stack
+                  </span>
+                </div>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {featured[1].techStack.map((t) => (
+                    <span
+                      key={`${featured[1].id}-${t}`}
+                      className="text-xs md:text-sm px-3 py-1 rounded-full bg-[#415A77] text-white-50 border border-white/20"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-
-            {/* Project In-Progress
-            <div className="project" ref={libraryRef}>
-              <div className="image-wrapper bg-[#dec0f1]">
-                <img 
-                  src={asset("images/working.png")}
-                  alt="YC Directory App" />
-              </div>
-              <div className="showcase-text-with-cta text-white-100">
-                <h2>In progress</h2>
-                
-                <p className="text-white-50 md:text-lg">
-                  {truncateText("Coming soon", 140)}
-                </p>
-                <a href="" className="showcase-cta learn-more-fill">
-                  LEARN MORE
-                </a>
-              </div>
-            </div> */}
-
-            
           </div>
         </div>
+
+        {activeProject && (
+          <div
+            className="project-modal-overlay"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${activeProject.title} details`}
+            onClick={() => setActiveProject(null)}
+          >
+            <div className="project-modal" onClick={(e) => e.stopPropagation()}>
+              <button
+                type="button"
+                className="project-modal-close"
+                aria-label="Close project details"
+                onClick={() => setActiveProject(null)}
+              >
+                <span
+                  className="icon-mask size-5 md:size-6"
+                  style={{ ["--icon-url"]: 'url("/images/close.png")' }}
+                  aria-hidden="true"
+                />
+              </button>
+
+              <div className="project-modal-header">
+                <h2 className="text-white-100 text-2xl md:text-3xl font-bold">
+                  {activeProject.title}
+                </h2>
+              </div>
+
+              <div
+                className={`project-modal-image image-wrapper ${activeProject.imgBgClass} xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl xl:px-5 2xl:px-12 py-0`}
+              >
+                <img
+                  src={activeProject.imgPath}
+                  alt={activeProject.imgAlt || activeProject.title}
+                  className="w-full h-full object-contain rounded-xl p-10"
+                />
+              </div>
+
+              <p className="text-white-50 md:text-lg mt-5">
+                {activeProject.description || ""}
+              </p>
+
+              {Array.isArray(activeProject.techStack) &&
+                activeProject.techStack.length > 0 && (
+                  <>
+                    <div className="mt-6 flex items-center gap-2 text-white-50/80">
+                      <span
+                        className="icon-mask size-4 md:size-5"
+                        style={{ ["--icon-url"]: 'url("/images/tag.png")' }}
+                        aria-hidden="true"
+                      />
+                      <span className="text-sm md:text-base font-semibold">
+                        Tech Stack
+                      </span>
+                    </div>
+
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {activeProject.techStack.map((t) => (
+                        <span
+                          key={`${activeProject.id}-modal-${t}`}
+                          className="text-xs md:text-sm px-3 py-1 rounded-full bg-[#415A77] text-white-50 border border-white/20"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+              <div className="mt-6 flex gap-4">
+                <a
+                  href={activeProject.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="showcase-cta learn-more-fill"
+                >
+                  View Repo
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
