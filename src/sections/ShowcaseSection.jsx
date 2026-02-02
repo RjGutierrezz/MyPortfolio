@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -66,12 +67,9 @@ const ShowcaseSection = () => {
             </h3>
           </div>
 
-          <a
-            href="#work" 
-            className="showcase-cta learn-more-fill"
-          >
+          <Link to="/project" className="showcase-cta learn-more-fill">
             View all
-          </a>
+          </Link>
         </div>
 
         <div className="showcaselayout">
@@ -135,7 +133,7 @@ const ShowcaseSection = () => {
               </div>
             </div>
 
-            {/* Project In-Progress */}
+            {/* Project In-Progress
             <div className="project" ref={libraryRef}>
               <div className="image-wrapper bg-[#dec0f1]">
                 <img 
@@ -152,7 +150,7 @@ const ShowcaseSection = () => {
                   LEARN MORE
                 </a>
               </div>
-            </div>
+            </div> */}
 
             
           </div>

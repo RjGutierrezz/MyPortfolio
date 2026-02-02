@@ -1,22 +1,29 @@
 const ASSET_BASE = import.meta.env.BASE_URL; // e.g. "/" locally, "/3D_Portfolio/" on GitHub Pages
 const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
 
+// helper: make in-app hash links always target the homepage
+const homeHash = (hash) => asset(String(hash).replace(/^\/+/, ""));
+
 const navLinks = [
+    // {
+    //   name: "Projects",
+    //   link: "/projects",
+    // },
     {
       name: "Personal Projects",
-      link: "#work",
+      link: homeHash("/projects"), // changed
     },
     {
       name: "Collaborated Projects",
-      link: "#experience",
+      link: homeHash("#experience"), // changed
     },
     {
       name: "Skills",
-      link: "#skills",
+      link: homeHash("#skills"), // changed
     },
     {
       name: "Tech Stack",
-      link: "#techstack",
+      link: homeHash("#techstack"), // changed
     },
     {
       name: "GitHub",
@@ -37,7 +44,7 @@ const navLinks = [
   
   const counterItems = [
     { value: 5, suffix: "+", label: "Years of Coding Experience" },
-    { value: 5, suffix: "+", label: "Completed Team Based Projects" },
+    { value: 5, suffix: "+", label: "Team Based Projects" },
     { value: 10, suffix: "+", label: "Completed Projects" },
     { value: 100, suffix: "%", label: "On-Time Project Delivery" },
   ];

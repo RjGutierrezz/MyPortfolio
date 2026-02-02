@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import {navLinks} from '../constants/index.js'
+import { navLinks } from '../constants/index.js';
+
+// added: BASE_URL-safe helper (same idea used in constants)
+const ASSET_BASE = import.meta.env.BASE_URL;
+const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
+const isExternal = (url) => /^https?:\/\//i.test(url);
 
 const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -46,31 +51,37 @@ const NavBar = () => {
   return (
     <header className={`navbar ${scrolled ? 'scrolled' : 'not-scrolled'}`}>
       <div className="inner">
-        <a className="logo" href="#hero">
+        {/* changed: behaves like navLinks (works from /project(s) too) */}
+        <a className="logo" href={asset("#hero")}>
           Rover Gutierrez
         </a>
-        
+
         <nav className="desktop">
           <ul>
-            {navLinks.map(({link, name}) => (
+            {navLinks.map(({ link, name }) => (
               <li key={name} className="group">
-                <a href={link}>
+                <a
+                  href={link}
+                  target={isExternal(link) ? "_blank" : undefined}
+                  rel={isExternal(link) ? "noopener noreferrer" : undefined}
+                >
                   <span>{name}</span>
-                  <span className="underline"/>
+                  <span className="underline" />
                 </a>
               </li>
             ))}
           </ul>
         </nav>
 
-        <a href="#contact" className="contact-btn group">
+        {/* optional: make contact consistent too (works from /project(s)) */}
+        <a href={asset("#contact")} className="contact-btn group">
           <div className="inner">
             <span>Contact me</span>
           </div>
         </a>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default NavBar
+export default NavBar;

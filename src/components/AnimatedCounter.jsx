@@ -2,11 +2,10 @@ import React, { useRef, useState } from "react";
 import { counterItems } from "../constants/index.js";
 import CountUp from "react-countup";
 import { useGSAP } from "@gsap/react";
-import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // Register plugins once at module scope
-gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger;
 
 const AnimatedCounter = () => {
   const rootRef = useRef(null);
@@ -14,24 +13,6 @@ const AnimatedCounter = () => {
 
   useGSAP(
     () => {
-      gsap.fromTo(
-        ".counter-card",
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power2.inOut",
-          stagger: 0.2,
-          scrollTrigger: {
-            trigger: rootRef.current,
-            start: "top center",
-            toggleActions: "play none none reverse",
-            once: false,
-          },
-        }
-      );
-
       // Start CountUp when this section enters view
       ScrollTrigger.create({
         trigger: rootRef.current,
