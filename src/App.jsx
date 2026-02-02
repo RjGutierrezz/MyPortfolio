@@ -35,9 +35,20 @@ const ScrollToHash = () => {
   return null;
 };
 
+// added: sanitize Vite BASE_URL so it never becomes "/./"
+const getBasename = () => {
+  const raw = import.meta.env.BASE_URL || "/";
+  // Normalize weird values like "/./" or "./"
+  const cleaned = raw.replace(/^\.\//, "/").replace(/\/\.\//g, "/").replace(/\/{2,}/g, "/");
+  // Ensure leading + trailing slash
+  const withLeading = cleaned.startsWith("/") ? cleaned : `/${cleaned}`;
+  const withTrailing = withLeading.endsWith("/") ? withLeading : `${withLeading}/`;
+  return withTrailing;
+};
+
 const App = () => {
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <BrowserRouter basename={getBasename()}>
       <ScrollToHash />
       <Routes>
         <Route
