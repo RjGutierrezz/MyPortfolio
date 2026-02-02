@@ -96,7 +96,7 @@ const ShowcaseSection = () => {
 
             {/* StudyBreak-Bite */}
             <div className="project" ref={studyBreakRef}>
-              <div className="image-wrapper bg-[#dec0f1]">
+              <div className="image-wrapper bg-[#E0E1DD]">
                 <img
                   src={asset("images/appmockup.png")}
                   alt="StudyBreak-Bite"
@@ -116,7 +116,7 @@ const ShowcaseSection = () => {
 
             {/* Pottery WebApp*/}
             <div className="project" ref={potteryRef}>
-              <div className="image-wrapper bg-[#dec0f1]">
+              <div className="image-wrapper bg-[#E0E1DD]">
                 <img 
                   src={asset("images/project1.png")}
                   alt="Pottery WebApp" />

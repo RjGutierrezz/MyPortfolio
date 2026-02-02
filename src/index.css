@@ -5,7 +5,7 @@
   --gradient: radial-gradient(circle, #e5e5e5 0%, #fff 100%);
 
   /* keep timeline in-sync with page bg */
-  --timeline-bg-color: #7161ef;
+  --timeline-bg-color: #1B263B;
   --timeline-bg-image: none;
 }
 
@@ -14,7 +14,7 @@ body {
   width: 100dvw;
   overflow-x: hidden;
 
-  background: #7161ef;
+  background: #1B263B;
 
   color: #f2e9e4;
   scroll-behavior: smooth;
@@ -51,6 +51,15 @@ section {
     mask: var(--icon-url) no-repeat center / contain;
     display: inline-block;
     flex: none;
+  }
+
+  /* added: hide scrollbar visuals but keep scrolling */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
   }
 }
 
@@ -111,7 +120,7 @@ section {
   }
 
   .hero-badge {
-    @apply bg-[#2c016d] py-2 px-4 rounded-full w-fit text-sm md:text-base text-nowrap;
+    @apply bg-[#0D1B2A] py-2 px-4 rounded-full w-fit text-sm md:text-base text-nowrap;
   }
 
   .hero-3d-layout {
@@ -125,13 +134,13 @@ section {
       @apply top-0;
       backdrop-filter: blur(10px); /* Apply the blur effect */
       -webkit-backdrop-filter: blur(10px); /* Add support for Safari */
-      background-color: rgba(113, 97, 239, 0.5);
+      background-color: #0D1B2A;
     }
 
     &.not-scrolled {
       @apply md:top-10 top-0;
       backdrop-filter: blur(10px); /* Apply the blur effect */
-      background-color: #7161ef;
+      background-color: #0D1B2A;
     }
 
     .inner {
@@ -166,7 +175,7 @@ section {
       @apply flex;
 
       .inner {
-        @apply px-5 py-2 rounded-lg bg-[#f2e9e4] text-black group-hover:bg-[#7161ef] transition-colors duration-300;
+        @apply px-5 py-2 rounded-lg bg-[#f2e9e4] text-black group-hover:bg-[#1B263B] transition-colors duration-300;
 
         span {
           @apply group-hover:text-white transition-colors duration-300;
@@ -226,11 +235,12 @@ section {
       .project {
         @apply border border-[#8f8f94] rounded-lg p-5 flex flex-col transition-colors duration-300 ease-in-out;
         position: relative; /* added */
+        border-color: rgba(98, 98, 98, 0.65); /* changed: pick any color */
       }
 
       .project:hover {
-        border-color: #ffffff;
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        border-color: #999999; /* changed: hover border color */
+        box-shadow: none;      /* changed: was creating the glow effect */
       }
 
       .project .image-wrapper img {
@@ -285,7 +295,7 @@ section {
   }
 
   .learn-more-fill:hover {
-    color: #7161ef; 
+    color: #1B263B; 
   }
 
   .learn-more-fill:hover::after {
@@ -297,7 +307,7 @@ section {
   }
 
   .cta-button {
-    @apply px-4 py-4 rounded-lg bg-[#7161ef] flex justify-center items-center relative cursor-pointer overflow-hidden;
+    @apply px-4 py-4 rounded-lg bg-[#1B263B] flex justify-center items-center relative cursor-pointer overflow-hidden;
 
     .bg-circle {
       @apply absolute -right-10 origin-center top-1/2 -translate-y-1/2 
@@ -345,7 +355,7 @@ section {
   }
 
   .timeline-logo {
-    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border border-[#7161ef] bg-[#7161ef];
+    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border border-[#1B263B] bg-[#1B263B];
   }
 
   .exp-card-wrapper {
@@ -356,13 +366,13 @@ section {
     @apply w-36 h-full absolute bottom-0 z-20;
     background: linear-gradient(
       90deg,
-      #7161ef 0%,
+      #1B263B 0%,
       rgba(95, 34, 217, 0) 100%
     ); /* Gradient with #5f22d9 */
   }
 
   .tech-card-animated-bg {
-    @apply absolute left-0 bottom-[-100%] w-full h-full bg-[#2c016d] group-hover:bottom-0 transition-all duration-700;
+    @apply absolute left-0 bottom-[-100%] w-full h-full bg-[#0D1B2A] group-hover:bottom-0 transition-all duration-700;
   }
 
   .tech-card-content {
@@ -388,7 +398,7 @@ section {
 
     input,
     textarea {
-      @apply w-full px-4 py-4 md:text-base text-sm placeholder:text-blue-50 bg-[#2c016d] rounded-md;
+      @apply w-full px-4 py-4 md:text-base text-sm placeholder:text-blue-50 bg-[#0D1B2A] rounded-md;
     }
 
     a {
@@ -415,7 +425,7 @@ section {
       @apply flex items-center justify-center gap-5 ;
 
       .icon {
-        @apply border border-[#7161ef] bg-[#2c016d] flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-500 hover:bg-[#7161ef];
+        @apply border border-[#1B263B] bg-[#0D1B2A] flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-500 hover:bg-[#1B263B];
       }
 
       img {
@@ -426,8 +436,8 @@ section {
 
   /* added: global project hover effects (same as ShowcaseSection) */
   .project:hover {
-    border-color: #ffffff;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    border-color: #999999; /* changed: hover border color */
+    box-shadow: none;      /* changed: was creating the glow effect */
   }
 
   .project .image-wrapper img {
@@ -442,13 +452,115 @@ section {
   .project {
     border-width: 1px;
     border-style: solid;
-    border-color: rgba(242, 233, 228, 0.6); /* visible on purple bg; tweak as desired */
+    border-color: rgba(98, 98, 98, 0.65); /* changed: pick any color */
     border-radius: 0.5rem;
     padding: 1.25rem;
     display: flex;
     flex-direction: column;
     transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
     position: relative; /* added */
+  }
+
+  /* changed: keep ONE animation definition for the project modal (remove duplicates elsewhere) */
+  .project-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+
+    /* animation */
+    animation: projectModalOverlayIn 180ms ease-out both;
+
+    overflow: auto;                 /* added: allows scrolling if modal taller than viewport */
+    -webkit-overflow-scrolling: touch; /* added: smooth scroll on iOS */
+
+    /* changed: hide scrollbar visuals (no @apply) */
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .project-modal-overlay::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  .project-modal {
+    width: min(600px, 100%); 
+    max-height: min(85vh, 900px);
+    overflow: auto;
+    border-radius: 16px;
+    border: 1px solid rgba(98, 98, 98, 0.65); /* changed: modal border color */
+    background: #1B263B;
+    box-shadow: 0 0 26px rgba(255, 255, 255, 0.15);
+    padding: 1.25rem;
+    position: relative;
+
+    /* animation */
+    transform-origin: center;
+    animation: projectModalIn 220ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+
+    overflow: auto;                 /* keep: scroll inside the modal */
+    -webkit-overflow-scrolling: touch; /* added: smooth scroll on iOS */
+
+    /* changed: hide scrollbar visuals (no @apply) */
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .project-modal::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  /* added/changed: ensure modal close button is top-right */
+  .project-modal-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    left: auto; 
+    z-index: 10;
+    color: #f2e9e4;          /* added: icon-mask uses currentColor */
+    background: transparent; /* added */
+    border: 0;               /* added (optional) */
+    padding: 0;              /* added (optional) */
+    display: inline-flex;    /* added */
+    align-items: center;     /* added */
+    justify-content: center; /* added */
+    cursor: pointer;         /* added */
+  }
+
+  /* added: more space under the modal title when viewing project details */
+  .project-modal-header {
+    margin-bottom: 1.25rem; /* tweak: 1rem / 1.5rem / 2rem */
+  }
+
+  @keyframes projectModalOverlayIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes projectModalIn {
+    from {
+      opacity: 0;
+      transform: translateY(24px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-modal-overlay,
+    .project-modal {
+      animation: none !important;
+    }
   }
 }
 

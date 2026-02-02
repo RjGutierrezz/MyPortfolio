@@ -317,30 +317,33 @@ const navLinks = [
       title: "StudyBreak-Bite",
       imgPath: asset("images/appmockup.png"),
       imgAlt: "StudyBreak-Bite",
-      imgBgClass: "bg-[#dec0f1]",
+      imgBgClass: "bg-[#E0E1DD]",
       description:
         "A mobile food discovery and delivery app built for university students, focused on saving time and minimizing interruptions during busy academic schedules.",
       href: "https://github.com/RjGutierrezz/StudyBreak-Bite.git",
+      techStack: ["React Native", "JavaScript", "Expo"],
     },
     {
       id: "pottery-webapp",
       title: "Pottery WebApp",
       imgPath: asset("images/project1.png"),
       imgAlt: "Pottery WebApp",
-      imgBgClass: "bg-[#dec0f1]",
+      imgBgClass: "bg-[#E0E1DD]",
       description:
         "A full-stack web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.",
       href: "https://github.com/jjmendez819/sales-app/tree/main",
+      techStack: ["Next.js", "TypeScript", "Supabase"],
     },
     {
       id: "in-progress",
       title: "In progress",
       imgPath: asset("images/working.png"),
       imgAlt: "Project in progress",
-      imgBgClass: "bg-[#dec0f1]",
+      imgBgClass: "bg-[#E0E1DD]",
       description: "Coming soon",
       href: "",
       disabled: true,
+      techStack: ["Coming soon"],
     },
   ];
   
