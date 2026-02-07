@@ -317,7 +317,8 @@ const projects = [
     description:
       "A mobile food discovery and delivery app built for university students, focused on saving time and minimizing interruptions during busy academic schedules.",
     href: "https://github.com/RjGutierrezz/StudyBreak-Bite.git",
-    techStack: ["React Native", "JavaScript", "Expo"],
+    techStack: ["React Native", "JavaScript", "TypeScript", "Expo",
+      "Expo Router", "Tailwind CSS"],
   },
   {
     id: "pottery-webapp",
@@ -328,18 +329,17 @@ const projects = [
     description:
       "A full-stack web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.",
     href: "https://github.com/jjmendez819/sales-app/tree/main",
-    techStack: ["Next.js", "TypeScript", "Supabase"],
+    techStack: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
   },
   {
-    id: "in-progress",
-    title: "In progress",
-    imgPath: asset("images/working.png"),
-    imgAlt: "Project in progress",
+    id: "bill-splitter",
+    title: "Bill Splitter",
+    imgPath: asset("images/tip-splitter.png"),
+    imgAlt: "Bill Splitter",
     imgBgClass: "bg-[#E0E1DD]",
-    description: "Coming soon",
-    href: "",
-    disabled: true,
-    techStack: ["Coming soon"],
+    description: "This is a small webApp I created to practice my JavaScript skills and also avoid those awkward moment of not knowing how much to tip when going out with friends.",
+    href: "https://rj-billsplitter.vercel.app/",
+    techStack: ["JavaScript", "Html", "CSS"],
   },
 ];
 

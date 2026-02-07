@@ -458,7 +458,8 @@ section {
     display: flex;
     flex-direction: column;
     transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
-    position: relative; /* added */
+    position: relative;
+    cursor: pointer;
   }
 
   /* changed: keep ONE animation definition for the project modal (remove duplicates elsewhere) */
