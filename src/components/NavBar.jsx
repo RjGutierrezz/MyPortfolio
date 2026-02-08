@@ -2,9 +2,13 @@ import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom"; // added
 import { navLinks } from '../constants/index.js';
 
-// added: BASE_URL-safe helper (same idea used in constants)
-const ASSET_BASE = import.meta.env.BASE_URL;
-const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
+// changed: ensure BASE_URL always works as an absolute path and joins correctly
+const ASSET_BASE = import.meta.env.BASE_URL || "/";
+const asset = (p) => {
+  const base = ASSET_BASE.startsWith("/") ? ASSET_BASE : `/${ASSET_BASE}`;
+  const normalizedBase = base.endsWith("/") ? base : `${base}/`;
+  return `${normalizedBase}${String(p).replace(/^\/+/, "")}`;
+};
 const isExternal = (url) => /^https?:\/\//i.test(url);
 const isRoutePath = (url) => typeof url === "string" && url.startsWith("/"); // added
 

@@ -6,8 +6,13 @@ import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ASSET_BASE = import.meta.env.BASE_URL;
-const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
+// changed: ensure BASE_URL always works as an absolute path and joins correctly
+const ASSET_BASE = import.meta.env.BASE_URL || "/";
+const asset = (p) => {
+  const base = ASSET_BASE.startsWith("/") ? ASSET_BASE : `/${ASSET_BASE}`;
+  const normalizedBase = base.endsWith("/") ? base : `${base}/`;
+  return `${normalizedBase}${String(p).replace(/^\/+/, "")}`;
+};
 
 const truncateText = (text, maxLength) => {
   return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
