@@ -60,20 +60,50 @@ const NavBar = () => {
 
         <nav className="desktop">
           <ul>
-            {navLinks.map(({ link, name }) => (
+            {navLinks.map(({ link, name, icon }) => ( // changed: include icon
               <li key={name} className="group">
                 {isExternal(link) ? (
-                  <a href={link} target="_blank" rel="noopener noreferrer">
+                  <a href={link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2"> {/* changed */}
+                    {icon ? (
+                      <span
+                        className="icon-mask size-4"
+                        style={{
+                          color: "currentColor",
+                          ["--icon-url"]: `url(${asset(icon)})`,
+                        }}
+                        aria-hidden="true"
+                      />
+                    ) : null}
                     <span>{name}</span>
                     <span className="underline" />
                   </a>
                 ) : isRoutePath(link) ? (
-                  <Link to={link}>
+                  <Link to={link} className="inline-flex items-center gap-2"> {/* changed */}
+                    {icon ? (
+                      <span
+                        className="icon-mask size-4"
+                        style={{
+                          color: "currentColor",
+                          ["--icon-url"]: `url(${asset(icon)})`,
+                        }}
+                        aria-hidden="true"
+                      />
+                    ) : null}
                     <span>{name}</span>
                     <span className="underline" />
                   </Link>
                 ) : (
-                  <a href={link}>
+                  <a href={link} className="inline-flex items-center gap-2"> {/* changed */}
+                    {icon ? (
+                      <span
+                        className="icon-mask size-4"
+                        style={{
+                          color: "currentColor",
+                          ["--icon-url"]: `url(${asset(icon)})`,
+                        }}
+                        aria-hidden="true"
+                      />
+                    ) : null}
                     <span>{name}</span>
                     <span className="underline" />
                   </a>

@@ -101,7 +101,7 @@ const ShowcaseSection = () => {
             <span
               className="icon-mask size-6 md:size-7"
               style={{
-                color: "#f2e9e4",
+                color: "#ffffff",
                 ["--icon-url"]: 'url("/images/starlogo.png")',
               }}
               aria-hidden="true"
@@ -115,7 +115,7 @@ const ShowcaseSection = () => {
         </div>
 
         <div className="showcaselayout">
-          <div className="project-list-wrapper overflow-hidden">
+          <div className="project-list-wrapper overflow-visible">
             <div
               className="project"
               ref={studyBreakRef}
@@ -134,7 +134,7 @@ const ShowcaseSection = () => {
               </div>
 
               <div className="showcase-text-with-cta text-white-100">
-                <h2>{featured[0].title}</h2>
+                <h2 className="mb-3">{featured[0].title}</h2>
 
                 <p className="text-white-50 md:text-lg">
                   {truncateText(featured[0].description, 140)}
@@ -155,7 +155,7 @@ const ShowcaseSection = () => {
                   {featured[0].techStack.map((t) => (
                     <span
                       key={`${featured[0].id}-${t}`}
-                      className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#0D1B2A] text-white-50 border border-transparent"
+                      className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent"
                     >
                       {t}
                     </span>
@@ -182,7 +182,7 @@ const ShowcaseSection = () => {
               </div>
 
               <div className="showcase-text-with-cta text-white-100">
-                <h2>{featured[1].title}</h2>
+                <h2 className="mb-3">{featured[1].title}</h2>
 
                 <p className="text-white-50 md:text-lg">
                   {truncateText(featured[1].description, 140)}
@@ -203,7 +203,7 @@ const ShowcaseSection = () => {
                   {featured[1].techStack.map((t) => (
                     <span
                       key={`${featured[1].id}-${t}`}
-                       className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#0D1B2A] text-white-50 border border-transparent">
+                       className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent">
                       {t}
                     </span>
                   ))}
@@ -236,7 +236,7 @@ const ShowcaseSection = () => {
               </button>
 
               <div className="project-modal-header">
-                <h2 className="text-white-100 text-2xl md:text-3xl font-bold">
+                <h2 className="text-[#3d5a80] text-2xl md:text-3xl font-bold">
                   {activeProject.title}
                 </h2>
               </div>
@@ -273,7 +273,7 @@ const ShowcaseSection = () => {
                       {activeProject.techStack.map((t) => (
                         <span
                           key={`${activeProject.id}-modal-${t}`}
-                      className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#0D1B2A] text-white-50 border border-transparent"
+                      className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent"
                         >
                           {t}
                         </span>

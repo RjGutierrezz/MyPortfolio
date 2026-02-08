@@ -7,13 +7,22 @@ const Footer = () => {
   return (
     <div className='footer'>
       <div className='footer-container'>
-        <div className='flex flex-col justify-center'> 
+        <div className='flex flex-col justify-center'>
           <a
             href={asset("resume.pdf")}
             target="_blank"
             rel="noopener noreferrer"
+            className="inline-flex items-center gap-2"
           >
-            View my Resume
+            <span
+              className="icon-mask w-5 h-5"
+              style={{
+                color: "#ffffff",
+                ["--icon-url"]: `url(${asset("images/order.png")})`,
+              }}
+              aria-hidden="true"
+            />
+            <span>Resume</span>
           </a>
         </div>
         <div className='socials'>
@@ -32,8 +41,8 @@ const Footer = () => {
             ))}
         </div>
 
-        <div className='flex flex-col justify-center items-center'>
-          <p className='text-center md:text-end'>
+        <div className="flex items-center justify-center md:justify-end w-full">
+          <p className="text-center md:text-right">
             © {new Date().getFullYear()} Rover Gutierrez. All rights reserved.
           </p>
         </div>

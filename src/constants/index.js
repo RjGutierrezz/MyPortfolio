@@ -24,6 +24,7 @@ const navLinks = [
   {
     name: "GitHub",
     link: "https://github.com/RjGutierrezz",
+    icon: "images/github.png", // added
   },
 ];
 

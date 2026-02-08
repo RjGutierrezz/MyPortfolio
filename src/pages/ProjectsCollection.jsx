@@ -40,7 +40,7 @@ const ProjectsCollection = () => {
             style={{ ["--icon-url"]: 'url("/images/projectlogo.png")' }}
             aria-hidden="true"
           />
-          <h3 className="text-xl text-white md:text-3xl font-bold">
+          <h3 className="text-xl text-white-50 md:text-3xl font-bold">
               Projects
           </h3>
         </div>
@@ -69,8 +69,8 @@ const ProjectsCollection = () => {
                   />
                 </div>
 
-                <div className="showcase-text-with-cta text-[#e0fbfc]">
-                  <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mt-5">
+                <div className="showcase-text-with-cta text-white-100">
+                  <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mt-5 mb-3">
                     {p.title}
                   </h2>
 
@@ -95,7 +95,7 @@ const ProjectsCollection = () => {
                         {p.techStack.map((t) => (
                           <span
                             key={`${p.id}-${t}`}
-                            className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#0D1B2A] text-white-50 border border-transparent"
+                            className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent"
                           >
                             {t}
                           </span>
@@ -135,7 +135,7 @@ const ProjectsCollection = () => {
               </button>
 
               <div className="project-modal-header">
-                <h2 className="text-[#e0fbfc] text-2xl md:text-3xl font-bold">
+                <h2 className="text-[#3d5a80] text-2xl md:text-3xl font-bold">
                   {activeProject.title}
                 </h2>
               </div>
@@ -170,7 +170,7 @@ const ProjectsCollection = () => {
                       {activeProject.techStack.map((t) => (
                         <span
                           key={`${activeProject.id}-modal-${t}`}
-                          className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#0D1B2A] text-white-50 border border-transparent"
+                          className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent"
                         >
                           {t}
                         </span>

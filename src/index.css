@@ -61,6 +61,14 @@ section {
   .no-scrollbar::-webkit-scrollbar {
     display: none; /* Chrome/Safari */
   }
+
+  /* added: keep padding except on the left for contact section to make it look symmetric*/
+  .prb-10-pl-0 {
+    padding-top: 2.5rem;
+    padding-right: 2.5rem;
+    padding-bottom: 2.5rem;
+    padding-left: 0;
+  }
 }
 
 @layer components {
@@ -185,7 +193,7 @@ section {
   }
 
   .app-showcase {
-    @apply w-full mt-20 px-5 md:px-20 py-10 md:py-20 flex items-center justify-center;
+    @apply w-full px-5 md:px-20 py-10 md:py-20 flex items-center justify-center;
 
     .showcaselayout {
       @apply flex xl:flex-row flex-col gap-10 justify-between;
@@ -231,24 +239,17 @@ section {
         @apply text-lg md:text-xl lg:text-2xl font-semibold mt-5;
       }
 
-      /* changed: allow project cards to have a pinned CTA area */
       .project {
         @apply border border-[#3d5a80] rounded-lg p-5 flex flex-col transition-colors duration-300 ease-in-out;
         position: relative; /* added */
         border-color: rgba(98, 98, 98, 0.65); /* changed: pick any color */
+        box-shadow: 12px 12px 2px 1px rgba(13, 27, 42, 0.18);/* changed: don't override the global .project shadow */
+        transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out; /* ensure shadow animates */
       }
 
       .project:hover {
         border-color: #e0fbfc; /* changed: hover border color */
-        box-shadow: none;      /* changed: was creating the glow effect */
-      }
-
-      .project .image-wrapper img {
-        @apply transition-transform duration-300 ease-in-out;
-      }
-
-      .project:hover .image-wrapper img {
-        transform: scale(1.1);
+        box-shadow: none; /* changed: don't override the global hover shadow */
       }
     }
   }
@@ -415,29 +416,35 @@ section {
 
     .footer-container {
       @apply  p-3 bg-[#3d5a80] rounded-sm grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-0 w-full;
+      align-items: center; /* added: vertical centering across grid cells */
     }
 
     p {
-      @apply text-center md:text-start cursor-pointer;
+      @apply cursor-pointer;
     }
 
     .socials {
       @apply flex items-center justify-center gap-5 ;
 
       .icon {
-        @apply border border-[#98c1d9] bg-[#3d5a80] flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-500 hover:bg-[#1B263B];
+        @apply border border-[#98c1d9] bg-[#3d5a80] flex justify-center items-center rounded-xl size-8 md:size-9 cursor-pointer transition-all duration-500 hover:bg-[#1B263B];
       }
 
       img {
-        @apply inline-block;
+        width: 1.05rem;
+        height: 1.05rem;
       }
+    }
+
+    .footer-container > :last-child {
+      @apply md:items-end md:text-right;
     }
   }
 
   /* added: global project hover effects (same as ShowcaseSection) */
   .project:hover {
     border-color: #e0fbfc; /* changed: hover border color */
-    box-shadow: none;      /* changed: was creating the glow effect */
+    box-shadow: 0 14px 36px rgba(13, 27, 42, 0.24);
   }
 
   .project .image-wrapper img {
@@ -460,6 +467,7 @@ section {
     transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
     position: relative;
     cursor: pointer;
+    box-shadow: 12px 12px 2px 1px rgba(13, 27, 42, 0.18);
   }
 
   /* changed: keep ONE animation definition for the project modal (remove duplicates elsewhere) */
@@ -522,19 +530,34 @@ section {
     right: 0.75rem;
     left: auto; 
     z-index: 10;
-    color: #f2e9e4;          /* added: icon-mask uses currentColor */
-    background: transparent; /* added */
-    border: 0;               /* added (optional) */
-    padding: 0;              /* added (optional) */
-    display: inline-flex;    /* added */
-    align-items: center;     /* added */
-    justify-content: center; /* added */
-    cursor: pointer;         /* added */
+    color: #f2e9e4;        
+    background: transparent; 
+    border: 0;              
+    padding: 0;             
+    display: inline-flex;  
+    align-items: center;    
+    justify-content: center; 
+    cursor: pointer;        
+    transition: color 200ms ease-in-out; 
+  }
+
+  .project-modal-close:hover {
+    color: #3d5a80; 
   }
 
   /* added: more space under the modal title when viewing project details */
   .project-modal-header {
     margin-bottom: 1.25rem; /* tweak: 1rem / 1.5rem / 2rem */
+  }
+
+  /* added: change project card title color on hover (applies to ShowcaseSection + ProjectsCollection) */
+  .project:hover h2 {
+    color: #3d5a80;
+  }
+
+  /* added: smooth ease-in-out for project title color changes */
+  .project h2 {
+    transition: color 250ms ease-in-out;
   }
 
   @keyframes projectModalOverlayIn {
