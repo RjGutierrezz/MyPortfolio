@@ -102,7 +102,7 @@ const ShowcaseSection = () => {
               className="icon-mask size-6 md:size-7"
               style={{
                 color: "#ffffff",
-                ["--icon-url"]: 'url("/images/starlogo.png")',
+                ["--icon-url"]: `url(${asset("images/starlogo.png")})`,
               }}
               aria-hidden="true"
             />
@@ -143,7 +143,7 @@ const ShowcaseSection = () => {
                 <div className="mt-6 flex items-center gap-2 text-white-50/80">
                   <span
                     className="icon-mask size-4 md:size-5"
-                    style={{ ["--icon-url"]: 'url("/images/tag.png")' }}
+                    style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
                     aria-hidden="true"
                   />
                   <span className="text-sm md:text-base font-semibold">
@@ -191,7 +191,7 @@ const ShowcaseSection = () => {
                 <div className="mt-6 flex items-center gap-2 text-white-50/80">
                   <span
                     className="icon-mask size-4 md:size-5"
-                    style={{ ["--icon-url"]: 'url("/images/tag.png")' }}
+                    style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
                     aria-hidden="true"
                   />
                   <span className="text-sm md:text-base font-semibold">
@@ -230,7 +230,7 @@ const ShowcaseSection = () => {
               >
                 <span
                   className="icon-mask size-5 md:size-6"
-                  style={{ ["--icon-url"]: 'url("/images/close.png")' }}
+                  style={{ ["--icon-url"]: `url(${asset("images/close.png")})` }}
                   aria-hidden="true"
                 />
               </button>
@@ -261,7 +261,7 @@ const ShowcaseSection = () => {
                     <div className="mt-6 flex items-center gap-2 text-white-50/80">
                       <span
                         className="icon-mask size-4 md:size-5"
-                        style={{ ["--icon-url"]: 'url("/images/tag.png")' }}
+                        style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
                         aria-hidden="true"
                       />
                       <span className="text-sm md:text-base font-semibold">
