@@ -155,7 +155,7 @@ const ShowcaseSection = () => {
                   {featured[0].techStack.map((t) => (
                     <span
                       key={`${featured[0].id}-${t}`}
-                      className="text-xs md:text-sm px-3 py-1 rounded-full bg-[#415A77] text-white-50 border border-white/20"
+                      className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#0D1B2A] text-white-50 border border-transparent"
                     >
                       {t}
                     </span>
@@ -203,8 +203,7 @@ const ShowcaseSection = () => {
                   {featured[1].techStack.map((t) => (
                     <span
                       key={`${featured[1].id}-${t}`}
-                      className="text-xs md:text-sm px-3 py-1 rounded-full bg-[#415A77] text-white-50 border border-white/20"
-                    >
+                       className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#0D1B2A] text-white-50 border border-transparent">
                       {t}
                     </span>
                   ))}
@@ -274,7 +273,7 @@ const ShowcaseSection = () => {
                       {activeProject.techStack.map((t) => (
                         <span
                           key={`${activeProject.id}-modal-${t}`}
-                          className="text-xs md:text-sm px-3 py-1 rounded-full bg-[#415A77] text-white-50 border border-white/20"
+                      className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#0D1B2A] text-white-50 border border-transparent"
                         >
                           {t}
                         </span>

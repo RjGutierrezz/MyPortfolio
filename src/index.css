@@ -5,7 +5,7 @@
   --gradient: radial-gradient(circle, #e5e5e5 0%, #fff 100%);
 
   /* keep timeline in-sync with page bg */
-  --timeline-bg-color: #1B263B;
+  --timeline-bg-color: #98c1d9;
   --timeline-bg-image: none;
 }
 
@@ -14,9 +14,9 @@ body {
   width: 100dvw;
   overflow-x: hidden;
 
-  background: #1B263B;
+  background: #98c1d9;
 
-  color: #f1dac4;
+  color: #e0fbfc;
   scroll-behavior: smooth;
   font-family: "Mona Sans", sans-serif;
 }
@@ -27,7 +27,7 @@ section {
 
 @theme {
   --font-sans: "Mona Sans", sans-serif;
-  --color-white-50: #f1dac4;
+  --color-white-50: white;
   --color-white-100: white;
   --color-black-50: #1c1c21;
   --color-black-100: #0e0e10;
@@ -118,9 +118,9 @@ section {
       @apply absolute pt-0 px-2 md:px-5 py-[30px] h-[48px] md:h-[78px] md:translate-y-1 translate-y-0 overflow-hidden;
     }
   }
-
+ 
   .hero-badge {
-    @apply bg-[#0D1B2A] py-2 px-4 rounded-full w-fit text-sm md:text-base text-nowrap;
+    @apply bg-[#3d5a80] text-[#e0fbfc] py-2 px-4 rounded-full w-fit text-sm md:text-base text-nowrap;
   }
 
   .hero-3d-layout {
@@ -175,7 +175,7 @@ section {
       @apply flex;
 
       .inner {
-        @apply px-5 py-2 rounded-lg bg-[#f2e9e4] text-black group-hover:bg-[#1B263B] transition-colors duration-300;
+        @apply px-5 py-2 rounded-lg bg-[#f2e9e4] text-black group-hover:bg-[#3d5a80] transition-colors duration-300;
 
         span {
           @apply group-hover:text-white transition-colors duration-300;
@@ -233,13 +233,13 @@ section {
 
       /* changed: allow project cards to have a pinned CTA area */
       .project {
-        @apply border border-[#8f8f94] rounded-lg p-5 flex flex-col transition-colors duration-300 ease-in-out;
+        @apply border border-[#3d5a80] rounded-lg p-5 flex flex-col transition-colors duration-300 ease-in-out;
         position: relative; /* added */
         border-color: rgba(98, 98, 98, 0.65); /* changed: pick any color */
       }
 
       .project:hover {
-        border-color: #999999; /* changed: hover border color */
+        border-color: #e0fbfc; /* changed: hover border color */
         box-shadow: none;      /* changed: was creating the glow effect */
       }
 
@@ -295,7 +295,7 @@ section {
   }
 
   .learn-more-fill:hover {
-    color: #1B263B; 
+    color: #98c1d9; 
   }
 
   .learn-more-fill:hover::after {
@@ -307,7 +307,7 @@ section {
   }
 
   .cta-button {
-    @apply px-4 py-4 rounded-lg bg-[#1B263B] flex justify-center items-center relative cursor-pointer overflow-hidden;
+    @apply px-4 py-4 rounded-lg bg-[#98c1d9] flex justify-center items-center relative cursor-pointer overflow-hidden;
 
     .bg-circle {
       @apply absolute -right-10 origin-center top-1/2 -translate-y-1/2 
@@ -355,7 +355,7 @@ section {
   }
 
   .timeline-logo {
-    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border border-[#1B263B] bg-[#1B263B];
+    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border border-[#98c1d9] bg-[#98c1d9];
   }
 
   .exp-card-wrapper {
@@ -368,7 +368,7 @@ section {
       90deg,
       #1B263B 0%,
       rgba(95, 34, 217, 0) 100%
-    ); /* Gradient with #5f22d9 */
+    ); 
   }
 
   .tech-card-animated-bg {
@@ -414,7 +414,7 @@ section {
     @apply my-10 md:mt-20 mt-10 text-white-50 px-5 md:px-20 xl:px-20 flex items-center justify-center;
 
     .footer-container {
-      @apply grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-0 w-full;
+      @apply  p-3 bg-[#3d5a80] rounded-sm grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-0 w-full;
     }
 
     p {
@@ -425,7 +425,7 @@ section {
       @apply flex items-center justify-center gap-5 ;
 
       .icon {
-        @apply border border-[#1B263B] bg-[#0D1B2A] flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-500 hover:bg-[#1B263B];
+        @apply border border-[#98c1d9] bg-[#3d5a80] flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-500 hover:bg-[#1B263B];
       }
 
       img {
@@ -436,7 +436,7 @@ section {
 
   /* added: global project hover effects (same as ShowcaseSection) */
   .project:hover {
-    border-color: #999999; /* changed: hover border color */
+    border-color: #e0fbfc; /* changed: hover border color */
     box-shadow: none;      /* changed: was creating the glow effect */
   }
 
@@ -495,7 +495,7 @@ section {
     overflow: auto;
     border-radius: 16px;
     border: 1px solid rgba(98, 98, 98, 0.65); /* changed: modal border color */
-    background: #1B263B;
+    background: #98c1d9;
     box-shadow: 0 0 26px rgba(255, 255, 255, 0.15);
     padding: 1.25rem;
     position: relative;
