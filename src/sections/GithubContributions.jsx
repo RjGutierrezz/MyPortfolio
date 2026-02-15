@@ -11,8 +11,10 @@ const THEME = {
 const THEME_VERSION = "v2-blue-palette"; // added
 
 const USERNAME = "RjGutierrezz";
-const MAX_EVENTS = 40;
-const MAX_COMMITS = 8;
+const MAX_COMMITS = 2;
+
+// added: look back a bit so "today" commits are included even with timezone differences
+const COMMITS_LOOKBACK_DAYS = 14;
 
 // added: show only ~11 months worth of weeks by constraining visible width
 const CAL_BLOCK_SIZE = 14;
@@ -27,16 +29,28 @@ const GithubContributions = () => {
   React.useEffect(() => {
     let cancelled = false;
 
+    const isoDateDaysAgo = (days) => {
+      const d = new Date();
+      d.setDate(d.getDate() - days);
+      return d.toISOString().slice(0, 10); // YYYY-MM-DD
+    };
+
     const load = async () => {
       try {
         setLoadingCommits(true);
         setCommitsError("");
 
+        const since = isoDateDaysAgo(COMMITS_LOOKBACK_DAYS);
+
+        // Use GitHub Search Commits API (more reliable than events)
         const res = await fetch(
-          `https://api.github.com/users/${USERNAME}/events/public?per_page=${MAX_EVENTS}`,
+          `https://api.github.com/search/commits?q=author:${USERNAME}+committer-date:>=${since}&sort=committer-date&order=desc&per_page=${MAX_COMMITS}`,
           {
             headers: {
               Accept: "application/vnd.github+json",
+              // required preview header for commit search
+              "X-GitHub-Api-Version": "2022-11-28",
+              Accept: "application/vnd.github.cloak-preview+json",
             },
           }
         );
@@ -45,29 +59,23 @@ const GithubContributions = () => {
           throw new Error(`GitHub API error (${res.status})`);
         }
 
-        const events = await res.json();
+        const data = await res.json();
+        const items = Array.isArray(data?.items) ? data.items : [];
 
-        const pushEvents = Array.isArray(events)
-          ? events.filter((e) => e?.type === "PushEvent")
-          : [];
+        const recent = items.map((item) => {
+          const repoFullName = item?.repository?.full_name || "";
+          const htmlUrl = item?.html_url || "";
+          const sha = (item?.sha || "").slice(0, 7);
+          const message = item?.commit?.message || "";
 
-        const flattened = pushEvents.flatMap((e) => {
-          const repoName = e?.repo?.name || "";
-          const commits = e?.payload?.commits || [];
-          const createdAt = e?.created_at || "";
-
-          return commits.map((c) => ({
-            repoName,
-            createdAt,
-            message: c?.message || "",
-            url: c?.url ? c.url.replace("api.", "").replace("/repos/", "/").replace("/commits/", "/commit/") : "",
-            sha: (c?.sha || "").slice(0, 7),
-          }));
+          return {
+            repoName: repoFullName,
+            createdAt: item?.commit?.committer?.date || "",
+            message,
+            url: htmlUrl,
+            sha,
+          };
         });
-
-        const recent = flattened
-          .filter((c) => c.message && c.url)
-          .slice(0, MAX_COMMITS);
 
         if (!cancelled) setCommits(recent);
       } catch (err) {
