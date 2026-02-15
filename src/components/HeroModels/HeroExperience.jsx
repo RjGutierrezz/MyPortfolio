@@ -14,7 +14,7 @@ const HeroExperience = () => {
 
   return (
     <div
-      className="mx-auto rounded-2xl border border-[#3d5a80] bg-[#1b263b]/60 overflow-hidden"
+      className="mx-auto rounded-2xl border border-[#3d5a80] bg-[#1b263b] overflow-hidden"
       style={{
         width: squareSize,
         aspectRatio: "1 / 1",

@@ -64,12 +64,16 @@ section {
     display: none; /* Chrome/Safari */
   }
 
-  /* added: keep padding except on the left for contact section to make it look symmetric*/
+  /* changed: responsive padding so contact form doesn't have extra right space on mobile */
   .prb-10-pl-0 {
-    padding-top: 2.5rem;
-    padding-right: 2.5rem;
     padding-bottom: 2.5rem;
     padding-left: 0;
+  }
+
+  @media (min-width: 768px) {
+    .prb-10-pl-0 {
+      padding-right: 2.5rem;  /* keep original on md+ */
+    }
   }
 }
 
@@ -630,9 +634,9 @@ section {
   }
 
   .hero-3d-layout {
-    /* added: more breathing room when stacked under the hero text */
-    padding-top: 3rem;
-    margin-top: 1rem;
+    /* changed: when stacked under text, give it a little breathing room */
+    padding-top: 1.25rem; /* was 1rem */
+    margin-top: 0.5rem;   /* was 0.2rem */
   }
 }
 
