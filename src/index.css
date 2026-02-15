@@ -559,6 +559,17 @@ section {
     transition: color 250ms ease-in-out;
   }
 
+  /* added: make react-github-calendar match site theme */
+  .github-contributions,
+  .github-contributions text {
+    fill: #e0fbfc;
+    color: #e0fbfc;
+  }
+
+  .github-contributions a {
+    color: #e0fbfc;
+  }
+
   @keyframes projectModalOverlayIn {
     from {
       opacity: 0;
