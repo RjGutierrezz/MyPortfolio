@@ -47,10 +47,9 @@ const GithubContributions = () => {
           `https://api.github.com/search/commits?q=author:${USERNAME}+committer-date:>=${since}&sort=committer-date&order=desc&per_page=${MAX_COMMITS}`,
           {
             headers: {
-              Accept: "application/vnd.github+json",
-              // required preview header for commit search
-              "X-GitHub-Api-Version": "2022-11-28",
+              // changed: commit search requires this preview Accept; don't duplicate the key
               Accept: "application/vnd.github.cloak-preview+json",
+              "X-GitHub-Api-Version": "2022-11-28",
             },
           }
         );
