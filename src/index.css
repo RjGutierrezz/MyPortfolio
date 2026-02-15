@@ -117,7 +117,9 @@ section {
   }
 
   .hero-layout {
-    @apply relative z-10 xl:mt-20 mt-32 md:h-dvh h-[80vh] flex xl:items-center items-start justify-center;
+    /* changed: grid layout keeps hero text and 3D in separate columns (no overlap) */
+    @apply relative z-10 xl:mt-20 mt-32 grid grid-cols-1 md:grid-cols-2 gap-10 items-center;
+    min-height: 80vh; /* stable hero height without forcing absolute positioning */
   }
 
   .hero-text {
@@ -135,7 +137,12 @@ section {
   }
 
   .hero-3d-layout {
-    @apply xl:w-[70%] w-full h-full min-h-[50vh] absolute xl:-top-20 top-24 xl:-right-20 right-0;
+    /* changed: remove absolute/top offsets that made it touch the top */
+    @apply w-full relative flex justify-center;
+    align-items: flex-start; /* keep it from drifting upward with stretching */
+    padding-top: 2.5rem;     /* main "lower it" control */
+    margin-top: 0.5rem;      /* small extra separation from the header area */
+    min-height: 320px;
   }
 
   .navbar {
@@ -620,6 +627,12 @@ section {
 
   .project-modal .project-modal-image img {
     padding: 1.25rem; /* less padding so image doesn't look cramped */
+  }
+
+  .hero-3d-layout {
+    /* added: more breathing room when stacked under the hero text */
+    padding-top: 3rem;
+    margin-top: 1rem;
   }
 }
 

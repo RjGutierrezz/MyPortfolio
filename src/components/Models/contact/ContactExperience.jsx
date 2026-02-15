@@ -7,7 +7,7 @@ import { Island } from "./Island";
 const ContactExperience = () => {
   return (
     <Canvas shadows camera={{ position: [-5, 6, 16], fov: 35 }}>
-      <color attach="background" args={["#1E1B4B"]} />
+      <color attach="background" args={["#1b263b"]} />
       <ambientLight intensity={0.8} color="#fff4e6" />
 
       <directionalLight position={[5, 9, 3]} intensity={5} color="#fff4e6" />

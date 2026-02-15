@@ -8,11 +8,19 @@ import Particles from './Particles'
 const HeroExperience = () => {
     const isTablet = useMediaQuery({query: '(max-width: 1024px)'});
     const isMobile = useMediaQuery({query: '(max-width: 768px)'});
-  return (
-    <Canvas camera={{position: [0, 0, 15], fov: 45}}>
-        {/* <ambientLight intensity ={0.2} color="#1a1a40"/>
-        <directionalLight position={[5, 5, 5]} intensity={2}/> */}
 
+    // changed: tiny bit smaller than previous
+    const squareSize = isMobile ? "min(90vw, 420px)" : isTablet ? "500px" : "600px";
+
+  return (
+    <div
+      className="mx-auto rounded-2xl border border-[#3d5a80] bg-[#1b263b]/60 overflow-hidden"
+      style={{
+        width: squareSize,
+        aspectRatio: "1 / 1",
+      }}
+    >
+      <Canvas camera={{position: [0, 0, 13], fov: 40}}>
         <OrbitControls
             enablePan={false}
             enableZoom={!isTablet}
@@ -24,10 +32,15 @@ const HeroExperience = () => {
 
         <Particles count={100}/>
         <group
-        scale={isMobile? 0.7 : 1} position={[0, 3.8, 0]} rotation={[0, -Math.PI / 40, 0.0]}>
+          // changed: tiny scale reduction to match the slightly smaller card
+          scale={isMobile ? 0.72 : 0.95}
+          position={[0, 3.6, 0]}
+          rotation={[0, -Math.PI / 40, 0.0]}
+        >
           <Tokyo2/>
         </group>
-    </Canvas>
+      </Canvas>
+    </div>
   )
 }
 
