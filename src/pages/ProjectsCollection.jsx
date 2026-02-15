@@ -15,6 +15,7 @@ const asset = (p) => {
 
 const ProjectsCollection = () => {
   const [activeProject, setActiveProject] = useState(null);
+  const [activeImageIndex, setActiveImageIndex] = useState(0); // added
 
   useEffect(() => {
     const onKeyDown = (e) => {
@@ -34,6 +35,11 @@ const ProjectsCollection = () => {
     return () => {
       document.body.style.overflow = prevOverflow;
     };
+  }, [activeProject]);
+
+  // added: reset image index whenever a new project is opened
+  useEffect(() => {
+    setActiveImageIndex(0);
   }, [activeProject]);
 
   return (
@@ -145,13 +151,60 @@ const ProjectsCollection = () => {
                 </h2>
               </div>
 
-              <div className={`project-modal-image image-wrapper ${activeProject.imgBgClass} xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl xl:px-5 2xl:px-12 py-0`}>
-                <img
-                  src={activeProject.imgPath}
-                  alt={activeProject.imgAlt || activeProject.title}
-                  className="w-full h-full object-contain rounded-xl p-10"
-                />
-              </div>
+              {/* changed: modal image becomes a gallery switcher (falls back to imgPath) */}
+              {(() => {
+                const gallery = Array.isArray(activeProject.gallery) && activeProject.gallery.length
+                  ? activeProject.gallery
+                  : [activeProject.imgPath];
+
+                const canPaginate = gallery.length > 1;
+                const imgSrc = gallery[Math.min(activeImageIndex, gallery.length - 1)];
+
+                const prev = () =>
+                  setActiveImageIndex((i) => (i - 1 + gallery.length) % gallery.length);
+                const next = () =>
+                  setActiveImageIndex((i) => (i + 1) % gallery.length);
+
+                return (
+                  <div className="relative">
+                    <div
+                      className={`project-modal-image image-wrapper ${activeProject.imgBgClass} xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl xl:px-5 2xl:px-12 py-0`}
+                    >
+                      <img
+                        src={imgSrc}
+                        alt={activeProject.imgAlt || activeProject.title}
+                        className="w-full h-full object-contain rounded-xl p-10"
+                      />
+
+                      {/* added: clickable left/right halves for prev/next */}
+                      {canPaginate ? (
+                        <div className="absolute inset-0 grid grid-cols-2">
+                          <button
+                            type="button"
+                            aria-label="Previous image"
+                            className="cursor-w-resize bg-transparent"
+                            onClick={prev}
+                          />
+                          <button
+                            type="button"
+                            aria-label="Next image"
+                            className="cursor-e-resize bg-transparent"
+                            onClick={next}
+                          />
+                        </div>
+                      ) : null}
+                    </div>
+
+                    {canPaginate ? (
+                      <div className="mt-3 flex items-center justify-center">
+                        <span className="text-white-50 text-sm">
+                          {activeImageIndex + 1} / {gallery.length}
+                        </span>
+                      </div>
+                    ) : null}
+                  </div>
+                );
+              })()}
 
               <p className="text-white-50 md:text-lg mt-5">
                 {activeProject.description || ""}
@@ -184,7 +237,7 @@ const ProjectsCollection = () => {
                   </>
                 )}
 
-              <div className="mt-6 flex gap-4">
+              <div className="mt-6 flex items-center justify-between gap-4">
                 <a
                   href={activeProject.disabled ? undefined : activeProject.href}
                   target={activeProject.disabled ? undefined : "_blank"}
@@ -197,6 +250,17 @@ const ProjectsCollection = () => {
                 >
                   View Repo
                 </a>
+
+                {activeProject.liveHref ? (
+                  <a
+                    href={activeProject.liveHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="showcase-cta learn-more-fill"
+                  >
+                    Live App
+                  </a>
+                ) : null}
               </div>
             </div>
           </div>

@@ -242,14 +242,14 @@ section {
       .project {
         @apply border border-[#3d5a80] rounded-lg p-5 flex flex-col transition-colors duration-300 ease-in-out;
         position: relative; /* added */
-        border-color: rgba(98, 98, 98, 0.65); /* changed: pick any color */
-        box-shadow: 12px 12px 2px 1px rgba(13, 27, 42, 0.18);/* changed: don't override the global .project shadow */
-        transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out; /* ensure shadow animates */
+        border-color: #3d5a80; 
+        box-shadow: 12px 12px rgba(61, 90, 128, 0.8);
+        transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out; 
       }
 
       .project:hover {
-        border-color: #e0fbfc; /* changed: hover border color */
-        box-shadow: none; /* changed: don't override the global hover shadow */
+        border-color: #e0fbfc; 
+        box-shadow: 0 14px 36px rgba(13, 27, 42, 0.24); 
       }
     }
   }
@@ -459,7 +459,7 @@ section {
   .project {
     border-width: 1px;
     border-style: solid;
-    border-color: rgba(98, 98, 98, 0.65); /* changed: pick any color */
+    border-color: #3d5a80; /* changed: pick any color */
     border-radius: 0.5rem;
     padding: 1.25rem;
     display: flex;
@@ -467,7 +467,7 @@ section {
     transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
     position: relative;
     cursor: pointer;
-    box-shadow: 12px 12px 2px 1px rgba(13, 27, 42, 0.18);
+    box-shadow: 12px 12px rgba(61, 90, 128, 0.8);
   }
 
   /* changed: keep ONE animation definition for the project modal (remove duplicates elsewhere) */
@@ -545,9 +545,8 @@ section {
     color: #3d5a80; 
   }
 
-  /* added: more space under the modal title when viewing project details */
   .project-modal-header {
-    margin-bottom: 1.25rem; /* tweak: 1rem / 1.5rem / 2rem */
+    margin-bottom: 1.25rem; 
   }
 
   /* added: change project card title color on hover (applies to ShowcaseSection + ProjectsCollection) */

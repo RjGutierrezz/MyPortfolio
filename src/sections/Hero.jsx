@@ -29,9 +29,9 @@ const Hero = () => {
 
   return (
     <section id="hero" className="relative overflow-hidden">
-        <div className="absolute top-0 left-0 z-10">
+        {/* <div className="absolute top-0 left-0 z-10">
             <img src={asset("images/starrynight.png")}/>
-        </div>
+        </div> */}
 
         <div className="hero-layout">
             <header className="order-2 md:order-1 flex flex-col justify-center md:w-full w-screen md:px-20 px-5">

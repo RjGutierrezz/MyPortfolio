@@ -325,6 +325,10 @@ const projects = [
     href: "https://github.com/RjGutierrezz/StudyBreak-Bite.git",
     techStack: ["React Native", "JavaScript", "TypeScript", "Expo",
       "Expo Router", "Tailwind CSS"],
+    gallery: [
+      asset("images/appmockup.png"),
+      // asset("images/appmockup-2.png"),
+    ],
   },
   {
     id: "pottery-webapp",
@@ -336,6 +340,27 @@ const projects = [
       "A full-stack web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.",
     href: "https://github.com/jjmendez819/sales-app/tree/main",
     techStack: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
+    gallery: [
+      asset("images/project1.png"),
+      // asset("images/project1-2.png"),
+    ],
+  },
+  {
+    id: "todo-app",
+    title: "Tiny Wins Matter",
+    imgPath: asset("images/lightmode.png"),
+    imgAlt: "Tiny Wins Matter",
+    imgBgClass: "bg-[#E0E1DD]",
+    description: `This is a responsive, retro-inspired Todo app built with vanilla JavaScript using Vite. I created it to strengthen my understanding of object-oriented programming, state management, and dynamic DOM rendering without relying on a frontend framework.
+                  Instead of building just another basic task tracker, I focused on structuring the app cleanly by separating the data model, persistence layer, and UI logic into dedicated classes. This helped me better understand how real-world frontend applications manage state and updates behind the scenes.
+                  The app includes light and dark mode with saved theme preference, along with motivational quotes to make the experience feel more personal and encouraging. My goal was to combine solid engineering fundamentals with thoughtful design and usability.`,
+    href: "https://github.com/RjGutierrezz/ToDo-Quotes",
+    liveHref: "https://tiny-wins-matter.vercel.app/",
+    techStack: ["JavaScript", "HTML", "CSS", "Vite"],
+    gallery: [
+      asset("images/lightmode.png"),
+      asset("images/darkmode.png"),
+    ],
   },
   {
     id: "bill-splitter",
@@ -344,8 +369,13 @@ const projects = [
     imgAlt: "Bill Splitter",
     imgBgClass: "bg-[#E0E1DD]",
     description: "This is a small webApp I created to practice my JavaScript skills and also avoid those awkward moment of not knowing how much to tip when going out with friends.",
-    href: "https://rj-billsplitter.vercel.app/",
-    techStack: ["JavaScript", "Html", "CSS"],
+    href: "https://github.com/RjGutierrezz/Tip-Calculator",
+    liveHref: "https://rj-billsplitter.vercel.app/https://rj-billsplitter.vercel.app/", 
+    techStack: ["JavaScript", "HTML", "CSS"],
+    gallery: [
+      asset("images/tip-splitter.png"),
+      // asset("images/tip-splitter-2.png"),
+    ],
   },
 ];
 
