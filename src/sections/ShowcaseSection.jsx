@@ -120,7 +120,8 @@ const ShowcaseSection = () => {
         </div>
 
         <div className="showcaselayout">
-          <div className="project-list-wrapper overflow-visible">
+          {/* changed: force 1 col on mobile; keep 2 col on md+ */}
+          <div className="project-list-wrapper overflow-visible grid grid-cols-1 md:grid-cols-2 gap-8">
             <div
               className="project"
               ref={studyBreakRef}

@@ -3,7 +3,7 @@ import { GitHubCalendar } from "react-github-calendar";
 
 // changed: define BOTH themes so whichever mode the lib uses, your palette applies
 const THEME = {
-  light: ["#caf0f8", "#0096c7", "#0077b6", "#023e8a", "#03045e"],
+  light: ["#e0fbfc", "#90e0ef", "#00b4d8", "#0077b6", "#023e8a"],
   dark: ["#e0fbfc", "#90e0ef", "#00b4d8", "#0077b6", "#023e8a"],
 };
 
@@ -106,16 +106,16 @@ const GithubContributions = () => {
             <div className="xl:col-span-8 overflow-x-auto no-scrollbar">
               {/* changed: constrain the visible width to ~11 months */}
               <div
-                className="min-w-[720px]"
+                className="md:min-w-[720px] w-full"
                 style={{
                   maxWidth: WEEKS_11_MONTHS * (CAL_BLOCK_SIZE + CAL_BLOCK_MARGIN),
                 }}
               >
                 <GitHubCalendar
-                  key={`${USERNAME}-${THEME_VERSION}`} // added: forces remount so new colors show
+                  key={`${USERNAME}-${THEME_VERSION}`} 
                   username={USERNAME}
-                  blockSize={CAL_BLOCK_SIZE} // changed: use constants
-                  blockMargin={CAL_BLOCK_MARGIN} // changed: use constants
+                  blockSize={CAL_BLOCK_SIZE}
+                  blockMargin={CAL_BLOCK_MARGIN}
                   fontSize={14}
                   theme={THEME}
                 />
