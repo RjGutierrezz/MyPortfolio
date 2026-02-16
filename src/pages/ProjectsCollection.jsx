@@ -146,7 +146,7 @@ const ProjectsCollection = () => {
               </button>
 
               <div className="project-modal-header">
-                <h2 className="text-[#3d5a80] text-2xl md:text-3xl font-bold">
+                <h2 className="text-[#faf0ca] text-2xl md:text-3xl font-bold">
                   {activeProject.title}
                 </h2>
               </div>

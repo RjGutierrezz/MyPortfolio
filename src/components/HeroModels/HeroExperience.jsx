@@ -14,12 +14,18 @@ const HeroExperience = () => {
 
   return (
     <div
-      className="mx-auto rounded-2xl border border-[#3d5a80] bg-[#1b263b] overflow-hidden"
+      className="relative mx-auto rounded-2xl border border-[#3d5a80] bg-[#1b263b] overflow-hidden"
       style={{
         width: squareSize,
         aspectRatio: "1 / 1",
       }}
     >
+      {/* added: inset shadow overlay */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl shadow-[inset_0_0_40px_rgba(0,0,0,0.45),inset_0_0_10px_rgba(224,251,252,0.08)]"
+        aria-hidden="true"
+      />
+
       <Canvas camera={{position: [0, 0, 13], fov: 40}}>
         <OrbitControls
             enablePan={false}

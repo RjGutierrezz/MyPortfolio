@@ -5,7 +5,7 @@
   --gradient: radial-gradient(circle, #e5e5e5 0%, #fff 100%);
 
   /* keep timeline in-sync with page bg */
-  --timeline-bg-color: #98c1d9;
+  --timeline-bg-color: #0d3b66;
   --timeline-bg-image: none;
 }
 
@@ -15,7 +15,7 @@ body {
   width: 100%;
   overflow-x: hidden;
 
-  background: #98c1d9;
+  background: #0d3b66;
 
   color: #e0fbfc;
   scroll-behavior: smooth;
@@ -132,7 +132,7 @@ section {
       @apply size-8 md:size-10 object-contain;
     }
     .slide {
-      @apply absolute pt-0 px-2 md:px-5 py-[30px] h-[48px] md:h-[78px] md:translate-y-1 translate-y-0 overflow-hidden;
+      @apply absolute pt-0 px-2 md:px-5 py-[30px] h-[60px] md:h-[78px] md:translate-y-1 translate-y-0 overflow-hidden;
     }
   }
  
@@ -254,15 +254,14 @@ section {
       }
 
       .project {
-        @apply border border-[#3d5a80] rounded-lg p-5 flex flex-col transition-colors duration-300 ease-in-out;
+        @apply border border-[#07294a] bg-[#07294a] rounded-lg p-5 flex flex-col transition-colors duration-300 ease-in-out;
         position: relative; /* added */
-        border-color: #3d5a80; 
-        box-shadow: 12px 12px rgba(61, 90, 128, 0.8);
+        box-shadow: 12px 12px rgba(250,240,202, 0.8);
         transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out; 
       }
 
       .project:hover {
-        border-color: #e0fbfc; 
+        border-color: #faf0ca; 
         box-shadow: 0 14px 36px rgba(13, 27, 42, 0.24); 
       }
     }
@@ -310,7 +309,7 @@ section {
   }
 
   .learn-more-fill:hover {
-    color: #98c1d9; 
+    color: #0d3b66; 
   }
 
   .learn-more-fill:hover::after {
@@ -322,7 +321,7 @@ section {
   }
 
   .cta-button {
-    @apply px-4 py-4 rounded-lg bg-[#98c1d9] flex justify-center items-center relative cursor-pointer overflow-hidden;
+    @apply px-4 py-4 rounded-lg bg-[#0d3b66] flex justify-center items-center relative cursor-pointer overflow-hidden;
 
     .bg-circle {
       @apply absolute -right-10 origin-center top-1/2 -translate-y-1/2 
@@ -370,7 +369,7 @@ section {
   }
 
   .timeline-logo {
-    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border border-[#98c1d9] bg-[#98c1d9];
+    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border border-[#0d3b66] bg-[#0d3b66];
   }
 
   .exp-card-wrapper {
@@ -441,7 +440,7 @@ section {
       @apply flex items-center justify-center gap-5 ;
 
       .icon {
-        @apply border border-[#98c1d9] bg-[#3d5a80] flex justify-center items-center rounded-xl size-8 md:size-9 cursor-pointer transition-all duration-500 hover:bg-[#1B263B];
+        @apply border border-[#0d3b66] bg-[#3d5a80] flex justify-center items-center rounded-xl size-8 md:size-9 cursor-pointer transition-all duration-500 hover:bg-[#1B263B];
       }
 
       img {
@@ -457,7 +456,7 @@ section {
 
   /* added: global project hover effects (same as ShowcaseSection) */
   .project:hover {
-    border-color: #e0fbfc; /* changed: hover border color */
+    border-color: #faf0ca;
     box-shadow: 0 14px 36px rgba(13, 27, 42, 0.24);
   }
 
@@ -471,9 +470,10 @@ section {
 
   /* added: global project base border (Showcase currently has this nested, ProjectsCollection needs it too) */
   .project {
+    background-color: #07294a;
     border-width: 1px;
     border-style: solid;
-    border-color: #3d5a80; /* changed: pick any color */
+    border-color: #0d3b66; /* changed: pick any color */
     border-radius: 0.5rem;
     padding: 1.25rem;
     display: flex;
@@ -481,7 +481,7 @@ section {
     transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
     position: relative;
     cursor: pointer;
-    box-shadow: 12px 12px rgba(61, 90, 128, 0.8);
+    box-shadow: 12px 12px rgba(250,240,202, 0.8);
   }
 
   /* changed: keep ONE animation definition for the project modal (remove duplicates elsewhere) */
@@ -517,7 +517,7 @@ section {
     overflow: auto;
     border-radius: 16px;
     border: 1px solid rgba(98, 98, 98, 0.65); /* changed: modal border color */
-    background: #98c1d9;
+    background: #0d3b66;
     box-shadow: 0 0 26px rgba(255, 255, 255, 0.15);
     padding: 1rem; /* slightly smaller padding for mobile */
     position: relative;
@@ -556,7 +556,7 @@ section {
   }
 
   .project-modal-close:hover {
-    color: #3d5a80; 
+    color: #07294a; 
   }
 
   .project-modal-header {
@@ -565,7 +565,7 @@ section {
 
   /* added: change project card title color on hover (applies to ShowcaseSection + ProjectsCollection) */
   .project:hover h2 {
-    color: #3d5a80;
+    color: #faf0ca;
   }
 
   /* added: smooth ease-in-out for project title color changes */

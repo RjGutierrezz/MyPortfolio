@@ -35,11 +35,11 @@ const navLinks = [
 
 const words = [
   { text: "Ideas", imgPath: asset("images/ideas.svg") },
-  { text: "Concepts", imgPath: asset("images/concepts.svg") },
+  { text: "Visions", imgPath: asset("images/concepts.svg") },
   { text: "Designs", imgPath: asset("images/designs.svg") },
   { text: "Code", imgPath: asset("images/code.svg") },
   { text: "Ideas", imgPath: asset("images/ideas.svg") },
-  { text: "Concepts", imgPath: asset("images/concepts.svg") },
+  { text: "Visions", imgPath: asset("images/concepts.svg") },
   { text: "Designs", imgPath: asset("images/designs.svg") },
   { text: "Code", imgPath: asset("images/code.svg") },
 ];

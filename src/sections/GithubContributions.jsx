@@ -3,8 +3,8 @@ import { GitHubCalendar } from "react-github-calendar";
 
 // changed: define BOTH themes so whichever mode the lib uses, your palette applies
 const THEME = {
-  light: ["#e0fbfc", "#90e0ef", "#00b4d8", "#0077b6", "#023e8a"],
-  dark: ["#e0fbfc", "#90e0ef", "#00b4d8", "#0077b6", "#023e8a"],
+  light: ["#fcf6df", "#90e0ef", "#00b4d8", "#0077b6", "#023e8a"],
+  dark: ["#2b415d", "#90e0ef", "#00b4d8", "#0077b6", "#023e8a"],
 };
 
 // added: bump this string anytime you want to force a visible change / remount

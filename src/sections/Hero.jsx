@@ -37,7 +37,7 @@ const Hero = () => {
             <header className="order-1 md:order-1 flex flex-col justify-center md:w-full w-screen md:px-20 px-5 pt-10 md:pt-16">
                 <div className="flex flex-col gap-7">
                     <div className='hero-text'>
-                        <h1>Creating
+                        <h1>Turning
                             <span className='slide'>
                                 <span className='wrapper'>
                                     {words.map((word, idx) => (
