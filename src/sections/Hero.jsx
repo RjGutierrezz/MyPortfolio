@@ -55,7 +55,8 @@ const Hero = () => {
                     </div>
                 <p className='text-white-50 md:text-xl relative z-10 pointer-events-none'>
                   Hello! My name is Rover Gutierrez,<br /> a full stack developer based in Sacramento CA. <br />
-                  I'm a full-stack developer who enjoys building web <br /> and mobile applications that matter.
+                  I'm a full-stack developer who enjoys building web <br /> and mobile applications that matter. <br />
+                  If you're looking for someone hungry to learn and build — let's connect.
                 </p>
                 <Button className="md:w-80 md-16 w-60 h-12 mb-20" id="button" text="See my work"/>
                 </div>

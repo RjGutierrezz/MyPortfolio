@@ -1,25 +1,19 @@
 import React from "react";
 import { GitHubCalendar } from "react-github-calendar";
 
-// changed: define BOTH themes so whichever mode the lib uses, your palette applies
+// changed: this lib version expects arrays of exactly 5 colors for light/dark
 const THEME = {
   light: ["#2b415d", "#386fa4", "#59a5d8", "#84d2f6", "#cff2f9"],
   dark: ["#2b415d", "#386fa4", "#59a5d8", "#84d2f6", "#d9f5fa"],
 };
 
-// added: bump this string anytime you want to force a visible change / remount
-const THEME_VERSION = "v2-blue-palette"; // added
+// changed: bump key so the calendar remounts with the corrected theme shape
+const THEME_VERSION = "v4-blue-arrays-utc";
 
 const USERNAME = "RjGutierrezz";
 const MAX_COMMITS = 2;
 
-// added: look back a bit so "today" commits are included even with timezone differences
 const COMMITS_LOOKBACK_DAYS = 14;
-
-// added: show only ~11 months worth of weeks by constraining visible width
-const CAL_BLOCK_SIZE = 14;
-const CAL_BLOCK_MARGIN = 4;
-const WEEKS_11_MONTHS = 48; // ~ (365 * 11/12) / 7
 
 const GithubContributions = () => {
   const [commits, setCommits] = React.useState([]);
@@ -42,12 +36,10 @@ const GithubContributions = () => {
 
         const since = isoDateDaysAgo(COMMITS_LOOKBACK_DAYS);
 
-        // Use GitHub Search Commits API (more reliable than events)
         const res = await fetch(
           `https://api.github.com/search/commits?q=author:${USERNAME}+committer-date:>=${since}&sort=committer-date&order=desc&per_page=${MAX_COMMITS}`,
           {
             headers: {
-              // changed: commit search requires this preview Accept; don't duplicate the key
               Accept: "application/vnd.github.cloak-preview+json",
               "X-GitHub-Api-Version": "2022-11-28",
             },
@@ -90,6 +82,19 @@ const GithubContributions = () => {
     };
   }, []);
 
+  // added: normalize dates to a stable UTC YYYY-MM-DD to avoid timezone day-shift mismatches
+  const normalizeCalendarData = React.useCallback((data) => {
+    if (!Array.isArray(data)) return data;
+
+    return data.map((d) => {
+      // react-github-calendar provides d.date as "YYYY-MM-DD"
+      // Force it through a UTC-normalization roundtrip so it doesn't shift in different locales.
+      const utc = new Date(`${d.date}T00:00:00Z`);
+      const date = utc.toISOString().slice(0, 10);
+      return { ...d, date };
+    });
+  }, []);
+
   return (
     <section>
       <div className="w-full h-full xl:px-20 md:px-20 px-5">
@@ -101,23 +106,17 @@ const GithubContributions = () => {
             Recent activity from my GitHub profile.
           </p>
 
-          {/* changed: calendar + recent commits layout */}
           <div className="mt-6 grid grid-cols-1 xl:grid-cols-12 gap-6">
             <div className="xl:col-span-8 overflow-x-auto no-scrollbar">
-              {/* changed: constrain the visible width to ~11 months */}
-              <div
-                className="md:min-w-[720px] w-full"
-                style={{
-                  maxWidth: WEEKS_11_MONTHS * (CAL_BLOCK_SIZE + CAL_BLOCK_MARGIN),
-                }}
-              >
+              <div className="md:min-w-[720px] w-full">
                 <GitHubCalendar
-                  key={`${USERNAME}-${THEME_VERSION}`} 
+                  key={`${USERNAME}-${THEME_VERSION}`}
                   username={USERNAME}
-                  blockSize={CAL_BLOCK_SIZE}
-                  blockMargin={CAL_BLOCK_MARGIN}
+                  blockSize={14}
+                  blockMargin={4}
                   fontSize={14}
                   theme={THEME}
+                  transformData={normalizeCalendarData}
                 />
               </div>
             </div>
