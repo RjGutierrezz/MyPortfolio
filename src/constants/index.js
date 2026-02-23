@@ -352,8 +352,9 @@ const projects = [
     imgAlt: "Tiny Wins Matter",
     imgBgClass: "bg-[#E0E1DD]",
     description: `This is a responsive, retro-inspired Todo app built with vanilla JavaScript using Vite. I created it to strengthen my understanding of object-oriented programming, state management, and dynamic DOM rendering without relying on a frontend framework.
-                  Instead of building just another basic task tracker, I focused on structuring the app cleanly by separating the data model, persistence layer, and UI logic into dedicated classes. This helped me better understand how real-world frontend applications manage state and updates behind the scenes.
-                  The app includes light and dark mode with saved theme preference, along with motivational quotes to make the experience feel more personal and encouraging. My goal was to combine solid engineering fundamentals with thoughtful design and usability.`,
+                  The app includes light and dark mode, along with motivational quotes to make the experience feel more personal and encouraging. It uses localStorage to persist tasks and theme preferences, allowing the user experience to remain consistent across sessions.
+                  Instead of building just another basic task tracker, I focused on structuring the app cleanly by separating the data model, persistence layer, and UI logic into dedicated classes. 
+                  This helped me better understand how real-world frontend applications manage state and updates behind the scenes. My goal was to combine solid engineering fundamentals with thoughtful design and usability.`,
     href: "https://github.com/RjGutierrezz/ToDo-Quotes",
     liveHref: "https://tiny-wins-matter.vercel.app/",
     techStack: ["JavaScript", "HTML", "CSS", "Vite"],
