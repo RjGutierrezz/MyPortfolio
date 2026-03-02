@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import TitleHeader from "../components/TitleHeader";
 import { projects } from "../constants/index.js";
 
 const truncateText = (text, maxLength) =>
   text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
 
-// changed: ensure BASE_URL always works as an absolute path and joins correctly
 const ASSET_BASE = import.meta.env.BASE_URL || "/";
 const asset = (p) => {
   const base = ASSET_BASE.startsWith("/") ? ASSET_BASE : `/${ASSET_BASE}`;
@@ -14,33 +13,83 @@ const asset = (p) => {
 };
 
 const ProjectsCollection = () => {
-  const [activeProject, setActiveProject] = useState(null);
-  const [activeImageIndex, setActiveImageIndex] = useState(0); // added
+  const [activeProjectId, setActiveProjectId] = useState(null);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  useEffect(() => {
-    const onKeyDown = (e) => {
-      if (e.key === "Escape") setActiveProject(null);
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
+  const expandedTopRef = useRef(null);
 
-  // added: prevent background page scroll when modal is open
-  useEffect(() => {
-    if (!activeProject) return;
+  // added: store the last clicked card's bounding rect for FLIP animation
+  const lastCardRectRef = useRef(null);
 
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+  const activeProject = useMemo(
+    () => projects.find((p) => p.id === activeProjectId) || null,
+    [activeProjectId]
+  );
 
-    return () => {
-      document.body.style.overflow = prevOverflow;
-    };
-  }, [activeProject]);
-
-  // added: reset image index whenever a new project is opened
+  // changed: animate the top panel from the clicked card position -> top panel position
   useEffect(() => {
     setActiveImageIndex(0);
-  }, [activeProject]);
+    if (!activeProjectId) return;
+
+    const reduceMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+    requestAnimationFrame(() => {
+      const panel = expandedTopRef.current;
+
+      // changed: scroll with explicit offset so the panel isn't hidden under the fixed navbar
+      if (panel) {
+        const navbar = document.querySelector(".navbar");
+        const navH = navbar?.getBoundingClientRect?.().height ?? 0;
+
+        // extra breathing room below navbar
+        const offset = navH + 16;
+
+        const y = panel.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+      }
+
+      if (reduceMotion) return;
+
+      const fromRect = lastCardRectRef.current;
+      if (!panel || !fromRect) return;
+
+      // Let layout settle after scroll starts, then FLIP
+      requestAnimationFrame(() => {
+        const toRect = panel.getBoundingClientRect();
+
+        const dx = fromRect.left - toRect.left;
+        const dy = fromRect.top - toRect.top;
+        const sx = fromRect.width / Math.max(toRect.width, 1);
+        const sy = fromRect.height / Math.max(toRect.height, 1);
+
+        panel.animate(
+          [
+            {
+              transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`,
+              opacity: 0.35,
+            },
+            { transform: "translate(0px, 0px) scale(1, 1)", opacity: 1 },
+          ],
+          {
+            duration: 520,
+            easing: "cubic-bezier(0.2, 0.9, 0.2, 1)",
+            fill: "both",
+          }
+        );
+
+        // one-shot: only use the rect for the immediate transition
+        lastCardRectRef.current = null;
+      });
+    });
+  }, [activeProjectId]);
+
+  // added: capture clicked card position before activating
+  const openProjectFromCard = (id, el) => {
+    if (el?.getBoundingClientRect) lastCardRectRef.current = el.getBoundingClientRect();
+    setActiveProjectId(id);
+  };
 
   return (
     <section id="projects" className="flex-center section-padding">
@@ -56,41 +105,89 @@ const ProjectsCollection = () => {
           </h3>
         </div>
 
-        <div id="techstack" className="mt-5">
-          <div className="mx-auto grid-3-cols p-2 md:p-4 overflow-visible">
-            {projects.map((p) => (
-              <div
-                key={p.id}
-                // changed: remove floaty class (prevents duplicate/synced animation)
-                className="project"
-                role="button"
-                tabIndex={0}
-                onClick={() => setActiveProject(p)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setActiveProject(p);
-                  }
-                }}
+        {activeProject ? (
+          <div ref={expandedTopRef} className="mt-6 project-expand-panel">
+            <div className="relative rounded-xl border border-[#3d5a80] bg-[#0D1B2A]/30 p-4 md:p-6">
+              <button
+                type="button"
+                className="project-modal-close"
+                aria-label="Close project details"
+                onClick={() => setActiveProjectId(null)}
               >
-                <div className={`image-wrapper ${p.imgBgClass} xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl xl:px-5 2xl:px-12 py-0`}>
-                  <img
-                    src={p.imgPath}
-                    alt={p.imgAlt || p.title}
-                    className="w-full h-full object-contain rounded-xl p-10 transition-transform duration-300 ease-in-out"
-                  />
-                </div>
+                <span
+                  className="icon-mask size-5 md:size-6"
+                  style={{ ["--icon-url"]: `url(${asset("images/close.png")})` }}
+                  aria-hidden="true"
+                />
+              </button>
 
-                <div className="showcase-text-with-cta text-white-100">
-                  <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mt-5 mb-3">
-                    {p.title}
-                  </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                {(() => {
+                  const gallery =
+                    Array.isArray(activeProject.gallery) && activeProject.gallery.length
+                      ? activeProject.gallery
+                      : [activeProject.imgPath];
 
-                  <p className="text-white-50 md:text-lg">
-                    {truncateText(p.description || "", 140)}
+                  const canPaginate = gallery.length > 1;
+                  const imgSrc = gallery[Math.min(activeImageIndex, gallery.length - 1)];
+
+                  const prev = () =>
+                    setActiveImageIndex((i) => (i - 1 + gallery.length) % gallery.length);
+                  const next = () =>
+                    setActiveImageIndex((i) => (i + 1) % gallery.length);
+
+                  return (
+                    <div className="relative">
+                      <div
+                        className={`image-wrapper ${activeProject.imgBgClass} md:h-96 h-72 relative rounded-xl overflow-hidden`}
+                      >
+                        <img
+                          src={imgSrc}
+                          alt={activeProject.imgAlt || activeProject.title}
+                          className="w-full h-full object-contain"
+                        />
+
+                        {canPaginate ? (
+                          <div className="absolute inset-0 grid grid-cols-2">
+                            <button
+                              type="button"
+                              aria-label="Previous image"
+                              className="cursor-w-resize bg-transparent"
+                              onClick={prev}
+                            />
+                            <button
+                              type="button"
+                              aria-label="Next image"
+                              className="cursor-e-resize bg-transparent"
+                              onClick={next}
+                            />
+                          </div>
+                        ) : null}
+                      </div>
+
+                      {canPaginate ? (
+                        <div className="mt-2 flex items-center justify-center">
+                          <span className="text-white-50 text-sm">
+                            {activeImageIndex + 1} / {gallery.length}
+                          </span>
+                        </div>
+                      ) : null}
+                    </div>
+                  );
+                })()}
+
+                <div className="flex flex-col min-h-full">
+                  <div className="flex items-start justify-between gap-4">
+                    <h2 className="text-[#faf0ca] text-2xl md:text-3xl font-bold">
+                      {activeProject.title}
+                    </h2>
+                  </div>
+
+                  <p className="text-white-50 md:text-lg mt-4">
+                    {activeProject.description || ""}
                   </p>
 
-                  {Array.isArray(p.techStack) && p.techStack.length > 0 && (
+                  {Array.isArray(activeProject.techStack) && activeProject.techStack.length > 0 ? (
                     <>
                       <div className="mt-6 flex items-center gap-2 text-white-50/80">
                         <span
@@ -104,9 +201,9 @@ const ProjectsCollection = () => {
                       </div>
 
                       <div className="mt-3 flex flex-wrap gap-2">
-                        {p.techStack.map((t) => (
+                        {activeProject.techStack.map((t) => (
                           <span
-                            key={`${p.id}-${t}`}
+                            key={`${activeProject.id}-top-${t}`}
                             className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent"
                           >
                             {t}
@@ -114,158 +211,110 @@ const ProjectsCollection = () => {
                         ))}
                       </div>
                     </>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+                  ) : null}
 
-        {activeProject && (
-          <div
-            className="project-modal-overlay"
-            role="dialog"
-            aria-modal="true"
-            aria-label={`${activeProject.title} details`}
-            onClick={() => setActiveProject(null)}
-          >
-            <div
-              className="project-modal"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                type="button"
-                className="project-modal-close"
-                aria-label="Close project details"
-                onClick={() => setActiveProject(null)}
-              >
-                <span
-                  className="icon-mask size-5 md:size-6"
-                  style={{ ["--icon-url"]: `url(${asset("images/close.png")})` }}
-                  aria-hidden="true"
-                />
-              </button>
-
-              <div className="project-modal-header">
-                <h2 className="text-[#faf0ca] text-2xl md:text-3xl font-bold">
-                  {activeProject.title}
-                </h2>
-              </div>
-
-              {/* changed: modal image becomes a gallery switcher (falls back to imgPath) */}
-              {(() => {
-                const gallery = Array.isArray(activeProject.gallery) && activeProject.gallery.length
-                  ? activeProject.gallery
-                  : [activeProject.imgPath];
-
-                const canPaginate = gallery.length > 1;
-                const imgSrc = gallery[Math.min(activeImageIndex, gallery.length - 1)];
-
-                const prev = () =>
-                  setActiveImageIndex((i) => (i - 1 + gallery.length) % gallery.length);
-                const next = () =>
-                  setActiveImageIndex((i) => (i + 1) % gallery.length);
-
-                return (
-                  <div className="relative">
-                    <div
-                      className={`project-modal-image image-wrapper ${activeProject.imgBgClass} xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl xl:px-5 2xl:px-12 py-0`}
+                  <div className="mt-auto pt-6 flex items-center justify-between gap-4">
+                    <a
+                      href={activeProject.disabled ? undefined : activeProject.href}
+                      target={activeProject.disabled ? undefined : "_blank"}
+                      rel={activeProject.disabled ? undefined : "noopener noreferrer"}
+                      className="showcase-cta learn-more-fill"
+                      aria-disabled={activeProject.disabled ? "true" : undefined}
+                      onClick={(e) => {
+                        if (activeProject.disabled) e.preventDefault();
+                      }}
                     >
-                      <img
-                        src={imgSrc}
-                        alt={activeProject.imgAlt || activeProject.title}
-                        className="w-full h-full object-contain rounded-xl p-10"
-                      />
+                      View Repo
+                    </a>
 
-                      {/* added: clickable left/right halves for prev/next */}
-                      {canPaginate ? (
-                        <div className="absolute inset-0 grid grid-cols-2">
-                          <button
-                            type="button"
-                            aria-label="Previous image"
-                            className="cursor-w-resize bg-transparent"
-                            onClick={prev}
-                          />
-                          <button
-                            type="button"
-                            aria-label="Next image"
-                            className="cursor-e-resize bg-transparent"
-                            onClick={next}
-                          />
-                        </div>
-                      ) : null}
-                    </div>
-
-                    {canPaginate ? (
-                      <div className="mt-3 flex items-center justify-center">
-                        <span className="text-white-50 text-sm">
-                          {activeImageIndex + 1} / {gallery.length}
-                        </span>
-                      </div>
-                    ) : null}
+                    {activeProject.liveHref ? (
+                      <a
+                        href={activeProject.liveHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="showcase-cta learn-more-fill"
+                      >
+                        Live App
+                      </a>
+                    ) : (
+                      <span aria-hidden="true" />
+                    )}
                   </div>
-                );
-              })()}
-
-              <p className="text-white-50 md:text-lg mt-5">
-                {activeProject.description || ""}
-              </p>
-
-              {Array.isArray(activeProject.techStack) &&
-                activeProject.techStack.length > 0 && (
-                  <>
-                    <div className="mt-6 flex items-center gap-2 text-white-50/80">
-                      <span
-                        className="icon-mask size-4 md:size-5"
-                        style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
-                        aria-hidden="true"
-                      />
-                      <span className="text-sm md:text-base font-semibold">
-                        Tech Stack
-                      </span>
-                    </div>
-
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {activeProject.techStack.map((t) => (
-                        <span
-                          key={`${activeProject.id}-modal-${t}`}
-                          className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </>
-                )}
-
-              <div className="mt-6 flex items-center justify-between gap-4">
-                <a
-                  href={activeProject.disabled ? undefined : activeProject.href}
-                  target={activeProject.disabled ? undefined : "_blank"}
-                  rel={activeProject.disabled ? undefined : "noopener noreferrer"}
-                  className="showcase-cta learn-more-fill"
-                  aria-disabled={activeProject.disabled ? "true" : undefined}
-                  onClick={(e) => {
-                    if (activeProject.disabled) e.preventDefault();
-                  }}
-                >
-                  View Repo
-                </a>
-
-                {activeProject.liveHref ? (
-                  <a
-                    href={activeProject.liveHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="showcase-cta learn-more-fill"
-                  >
-                    Live App
-                  </a>
-                ) : null}
+                </div>
               </div>
             </div>
           </div>
-        )}
+        ) : null}
+
+        <div id="techstack" className="mt-5">
+          <div className="mx-auto grid-3-cols p-2 md:p-4 overflow-visible">
+            {projects.map((p) => {
+              const isActive = activeProjectId === p.id;
+
+              return (
+                <div
+                  key={p.id}
+                  className={`project ${isActive ? "ring-2 ring-[#faf0ca]" : ""}`}
+                  role="button"
+                  tabIndex={0}
+                  onClick={(e) => openProjectFromCard(isActive ? null : p.id, e.currentTarget)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      openProjectFromCard(isActive ? null : p.id, e.currentTarget);
+                    }
+                  }}
+                >
+                  <div
+                    className={`image-wrapper ${p.imgBgClass} xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl xl:px-5 2xl:px-12 py-0`}
+                  >
+                    <img
+                      src={p.imgPath}
+                      alt={p.imgAlt || p.title}
+                      className="w-full h-full object-contain rounded-xl p-10 transition-transform duration-300 ease-in-out"
+                    />
+                  </div>
+
+                  <div className="showcase-text-with-cta text-white-100">
+                    <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mt-5 mb-3">
+                      {p.title}
+                    </h2>
+
+                    <p className="text-white-50 md:text-lg">
+                      {truncateText(p.description || "", 140)}
+                    </p>
+
+                    {Array.isArray(p.techStack) && p.techStack.length > 0 && (
+                      <>
+                        <div className="mt-6 flex items-center gap-2 text-white-50/80">
+                          <span
+                            className="icon-mask size-4 md:size-5"
+                            style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
+                            aria-hidden="true"
+                          />
+                          <span className="text-sm md:text-base font-semibold">
+                            Tech Stack
+                          </span>
+                        </div>
+
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {p.techStack.map((t) => (
+                            <span
+                              key={`${p.id}-${t}`}
+                              className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent"
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </section>
   );

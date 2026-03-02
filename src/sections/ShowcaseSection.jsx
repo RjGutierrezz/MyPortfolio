@@ -1,8 +1,8 @@
-import { useRef, useState, useEffect } from "react";
-import { gsap } from "gsap";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,16 +14,21 @@ const asset = (p) => {
   return `${normalizedBase}${String(p).replace(/^\/+/, "")}`;
 };
 
-const truncateText = (text, maxLength) => {
-  return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
-};
+const truncateText = (text, maxLength) =>
+  text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
 
 const ShowcaseSection = () => {
   const sectionRef = useRef(null);
   const studyBreakRef = useRef(null);
   const potteryRef = useRef(null);
 
-  const [activeProject, setActiveProject] = useState(null);
+  // changed: match ProjectsCollection state shape
+  const [activeProjectId, setActiveProjectId] = useState(null);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  // added: match ProjectsCollection refs for scroll + FLIP
+  const expandedTopRef = useRef(null);
+  const lastCardRectRef = useRef(null);
 
   const featured = [
     {
@@ -36,6 +41,10 @@ const ShowcaseSection = () => {
         "A mobile food discovery and delivery app built for university students, focused on saving time and minimizing interruptions during busy academic schedules.",
       href: "https://github.com/RjGutierrezz/StudyBreak-Bite.git",
       techStack: ["React Native", "JavaScript", "Expo"],
+      // optional parity fields
+      gallery: null,
+      liveHref: null,
+      disabled: false,
     },
     {
       id: "pottery-webapp",
@@ -47,26 +56,76 @@ const ShowcaseSection = () => {
         "A full-stack web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.",
       href: "https://github.com/jjmendez819/sales-app/tree/main",
       techStack: ["Next.js", "TypeScript", "Supabase"],
+      gallery: null,
+      liveHref: null,
+      disabled: false,
     },
   ];
 
-  useEffect(() => {
-    const onKeyDown = (e) => {
-      if (e.key === "Escape") setActiveProject(null);
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
+  const activeProject = useMemo(
+    () => featured.find((p) => p.id === activeProjectId) || null,
+    [activeProjectId]
+  );
 
-  useEffect(() => {
-    if (!activeProject) return;
+  // added: same as ProjectsCollection (capture rect before activating)
+  const openProjectFromCard = (id, el) => {
+    if (el?.getBoundingClientRect) lastCardRectRef.current = el.getBoundingClientRect();
+    setActiveProjectId(id);
+  };
 
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prevOverflow;
-    };
-  }, [activeProject]);
+  // added: same as ProjectsCollection (navbar-offset scroll + FLIP)
+  useEffect(() => {
+    setActiveImageIndex(0);
+    if (!activeProjectId) return;
+
+    const reduceMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+    requestAnimationFrame(() => {
+      const panel = expandedTopRef.current;
+
+      if (panel) {
+        const navbar = document.querySelector(".navbar");
+        const navH = navbar?.getBoundingClientRect?.().height ?? 0;
+        const offset = navH + 16;
+
+        const y = panel.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+      }
+
+      if (reduceMotion) return;
+
+      const fromRect = lastCardRectRef.current;
+      if (!panel || !fromRect) return;
+
+      requestAnimationFrame(() => {
+        const toRect = panel.getBoundingClientRect();
+
+        const dx = fromRect.left - toRect.left;
+        const dy = fromRect.top - toRect.top;
+        const sx = fromRect.width / Math.max(toRect.width, 1);
+        const sy = fromRect.height / Math.max(toRect.height, 1);
+
+        panel.animate(
+          [
+            {
+              transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`,
+              opacity: 0.35,
+            },
+            { transform: "translate(0px, 0px) scale(1, 1)", opacity: 1 },
+          ],
+          {
+            duration: 520,
+            easing: "cubic-bezier(0.2, 0.9, 0.2, 1)",
+            fill: "both",
+          }
+        );
+
+        lastCardRectRef.current = null;
+      });
+    });
+  }, [activeProjectId]);
 
   useGSAP(() => {
     gsap.fromTo(
@@ -119,20 +178,171 @@ const ShowcaseSection = () => {
           </Link>
         </div>
 
+        {/* added: top expanded panel (same structure/class as ProjectsCollection) */}
+        {activeProject ? (
+
+          <div ref={expandedTopRef} className="mt-6 mb-10 md:mb-14 project-expand-panel">
+            <div className="relative rounded-xl border border-[#3d5a80] bg-[#0D1B2A]/30 p-4 md:p-6">
+              <button
+                type="button"
+                className="project-modal-close"
+                aria-label="Close project details"
+                onClick={() => setActiveProjectId(null)}
+              >
+                <span
+                  className="icon-mask size-5 md:size-6"
+                  style={{ ["--icon-url"]: `url(${asset("images/close.png")})` }}
+                  aria-hidden="true"
+                />
+              </button>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                {(() => {
+                  const gallery =
+                    Array.isArray(activeProject.gallery) && activeProject.gallery?.length
+                      ? activeProject.gallery
+                      : [activeProject.imgPath];
+
+                  const canPaginate = gallery.length > 1;
+                  const imgSrc = gallery[Math.min(activeImageIndex, gallery.length - 1)];
+
+                  const prev = () =>
+                    setActiveImageIndex((i) => (i - 1 + gallery.length) % gallery.length);
+                  const next = () =>
+                    setActiveImageIndex((i) => (i + 1) % gallery.length);
+
+                  return (
+                    <div className="relative">
+                      <div
+                        className={`image-wrapper ${activeProject.imgBgClass} md:h-96 h-72 relative rounded-xl overflow-hidden`}
+                      >
+                        <img
+                          src={imgSrc}
+                          alt={activeProject.imgAlt || activeProject.title}
+                          className="w-full h-full object-contain"
+                        />
+
+                        {canPaginate ? (
+                          <div className="absolute inset-0 grid grid-cols-2">
+                            <button
+                              type="button"
+                              aria-label="Previous image"
+                              className="cursor-w-resize bg-transparent"
+                              onClick={prev}
+                            />
+                            <button
+                              type="button"
+                              aria-label="Next image"
+                              className="cursor-e-resize bg-transparent"
+                              onClick={next}
+                            />
+                          </div>
+                        ) : null}
+                      </div>
+
+                      {canPaginate ? (
+                        <div className="mt-2 flex items-center justify-center">
+                          <span className="text-white-50 text-sm">
+                            {activeImageIndex + 1} / {gallery.length}
+                          </span>
+                        </div>
+                      ) : null}
+                    </div>
+                  );
+                })()}
+
+                <div className="flex flex-col min-h-full">
+                  <div className="flex items-start justify-between gap-4">
+                    <h2 className="text-[#faf0ca] text-2xl md:text-3xl font-bold">
+                      {activeProject.title}
+                    </h2>
+                  </div>
+
+                  <p className="text-white-50 md:text-lg mt-4">
+                    {activeProject.description || ""}
+                  </p>
+
+                  {Array.isArray(activeProject.techStack) && activeProject.techStack.length > 0 ? (
+                    <>
+                      <div className="mt-6 flex items-center gap-2 text-white-50/80">
+                        <span
+                          className="icon-mask size-4 md:size-5"
+                          style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
+                          aria-hidden="true"
+                        />
+                        <span className="text-sm md:text-base font-semibold">
+                          Tech Stack
+                        </span>
+                      </div>
+
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {activeProject.techStack.map((t) => (
+                          <span
+                            key={`${activeProject.id}-top-${t}`}
+                            className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </>
+                  ) : null}
+
+                  <div className="mt-auto pt-6 flex items-center justify-between gap-4">
+                    <a
+                      href={activeProject.disabled ? undefined : activeProject.href}
+                      target={activeProject.disabled ? undefined : "_blank"}
+                      rel={activeProject.disabled ? undefined : "noopener noreferrer"}
+                      className="showcase-cta learn-more-fill"
+                      aria-disabled={activeProject.disabled ? "true" : undefined}
+                      onClick={(e) => {
+                        if (activeProject.disabled) e.preventDefault();
+                      }}
+                    >
+                      View Repo
+                    </a>
+
+                    {activeProject.liveHref ? (
+                      <a
+                        href={activeProject.liveHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="showcase-cta learn-more-fill"
+                      >
+                        Live App
+                      </a>
+                    ) : (
+                      <span aria-hidden="true" />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : null}
+
         <div className="showcaselayout">
-          {/* changed: force 1 col on mobile; keep 2 col on md+ */}
           <div className="project-list-wrapper overflow-visible grid grid-cols-1 md:grid-cols-2 gap-8">
             <div
-              // changed: add float hook for showcase cards
-              className="project showcase-float"
+              className={`project showcase-float ${
+                activeProjectId === featured[0].id ? "ring-2 ring-[#faf0ca]" : ""
+              }`}
               ref={studyBreakRef}
               role="button"
               tabIndex={0}
-              onClick={() => setActiveProject(featured[0])}
+              onClick={(e) =>
+                openProjectFromCard(
+                  activeProjectId === featured[0].id ? null : featured[0].id,
+                  e.currentTarget
+                )
+              }
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  setActiveProject(featured[0]);
+                  openProjectFromCard(
+                    activeProjectId === featured[0].id ? null : featured[0].id,
+                    e.currentTarget
+                  );
                 }
               }}
             >
@@ -172,16 +382,25 @@ const ShowcaseSection = () => {
             </div>
 
             <div
-              // changed: add float hook for showcase cards
-              className="project showcase-float"
+              className={`project showcase-float ${
+                activeProjectId === featured[1].id ? "ring-2 ring-[#faf0ca]" : ""
+              }`}
               ref={potteryRef}
               role="button"
               tabIndex={0}
-              onClick={() => setActiveProject(featured[1])}
+              onClick={(e) =>
+                openProjectFromCard(
+                  activeProjectId === featured[1].id ? null : featured[1].id,
+                  e.currentTarget
+                )
+              }
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  setActiveProject(featured[1]);
+                  openProjectFromCard(
+                    activeProjectId === featured[1].id ? null : featured[1].id,
+                    e.currentTarget
+                  );
                 }
               }}
             >
@@ -211,7 +430,8 @@ const ShowcaseSection = () => {
                   {featured[1].techStack.map((t) => (
                     <span
                       key={`${featured[1].id}-${t}`}
-                       className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent">
+                      className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent"
+                    >
                       {t}
                     </span>
                   ))}
@@ -220,89 +440,6 @@ const ShowcaseSection = () => {
             </div>
           </div>
         </div>
-
-        {activeProject && (
-          <div
-            className="project-modal-overlay"
-            role="dialog"
-            aria-modal="true"
-            aria-label={`${activeProject.title} details`}
-            onClick={() => setActiveProject(null)}
-          >
-            <div className="project-modal" onClick={(e) => e.stopPropagation()}>
-              <button
-                type="button"
-                className="project-modal-close"
-                aria-label="Close project details"
-                onClick={() => setActiveProject(null)}
-              >
-                <span
-                  className="icon-mask size-5 md:size-6"
-                  style={{ ["--icon-url"]: `url(${asset("images/close.png")})` }}
-                  aria-hidden="true"
-                />
-              </button>
-
-              <div className="project-modal-header">
-                <h2 className="text-[#faf0ca] text-2xl md:text-3xl font-bold">
-                  {activeProject.title}
-                </h2>
-              </div>
-
-              <div
-                className={`project-modal-image image-wrapper ${activeProject.imgBgClass} xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl xl:px-5 2xl:px-12 py-0`}
-              >
-                <img
-                  src={activeProject.imgPath}
-                  alt={activeProject.imgAlt || activeProject.title}
-                  className="w-full h-full object-contain rounded-xl p-10"
-                />
-              </div>
-
-              <p className="text-white-50 md:text-lg mt-5">
-                {activeProject.description || ""}
-              </p>
-
-              {Array.isArray(activeProject.techStack) &&
-                activeProject.techStack.length > 0 && (
-                  <>
-                    <div className="mt-6 flex items-center gap-2 text-white-50/80">
-                      <span
-                        className="icon-mask size-4 md:size-5"
-                        style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
-                        aria-hidden="true"
-                      />
-                      <span className="text-sm md:text-base font-semibold">
-                        Tech Stack
-                      </span>
-                    </div>
-
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {activeProject.techStack.map((t) => (
-                        <span
-                          key={`${activeProject.id}-modal-${t}`}
-                      className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </>
-                )}
-
-              <div className="mt-6 flex gap-4">
-                <a
-                  href={activeProject.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="showcase-cta learn-more-fill"
-                >
-                  View Repo
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
