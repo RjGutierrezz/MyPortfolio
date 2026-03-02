@@ -139,7 +139,7 @@ const ProjectsCollection = () => {
                   return (
                     <div className="relative">
                       <div
-                        className={`image-wrapper ${activeProject.imgBgClass} md:h-96 h-72 relative rounded-xl overflow-hidden`}
+                        className="image-wrapper md:h-96 h-72 relative rounded-xl overflow-hidden"
                       >
                         <img
                           src={imgSrc}
