@@ -499,7 +499,7 @@ section {
     background-color: #07294a;
     border-width: 1px;
     border-style: solid;
-    border-color: #0d3b66; /* changed: pick any color */
+    border-color: #07294a; /* changed: pick any color */
     border-radius: 0.5rem;
     padding: 1.25rem;
     display: flex;
@@ -543,7 +543,7 @@ section {
     overflow: auto;
     border-radius: 16px;
     border: 1px solid rgba(98, 98, 98, 0.65); /* changed: modal border color */
-    background: #0d3b66;
+    background: #07294a;
     box-shadow: 0 0 26px rgba(255, 255, 255, 0.15);
     padding: 1rem; /* slightly smaller padding for mobile */
     position: relative;
@@ -582,7 +582,7 @@ section {
   }
 
   .project-modal-close:hover {
-    color: #07294a; 
+    color: #000000; 
   }
 
   .project-modal-header {
