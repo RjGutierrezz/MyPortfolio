@@ -284,11 +284,13 @@ section {
         position: relative; /* added */
         box-shadow: 12px 12px rgba(250,240,202, 0.8);
         transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out; 
+        background-color: rgba(7, 41, 74, 0.55); /* tweak alpha: 0.35–0.75 */
       }
 
       .project:hover {
         border-color: #faf0ca; 
         box-shadow: 0 14px 36px rgba(13, 27, 42, 0.24); 
+        background-color: rgba(7, 41, 74, 0.7);
       }
     }
   }
@@ -496,10 +498,10 @@ section {
 
   /* added: global project base border (Showcase currently has this nested, ProjectsCollection needs it too) */
   .project {
-    background-color: #07294a;
+    background: rgba(0, 0, 0, 0.55);
     border-width: 1px;
     border-style: solid;
-    border-color: #07294a; /* changed: pick any color */
+    border-color: #07294a; 
     border-radius: 0.5rem;
     padding: 1.25rem;
     display: flex;
@@ -508,9 +510,55 @@ section {
     position: relative;
     cursor: pointer;
     box-shadow: 12px 12px rgba(250,240,202, 0.8);
+    background-color: rgba(7, 41, 74, 0.70); 
   }
 
-  /* changed: keep ONE animation definition for the project modal (remove duplicates elsewhere) */
+  .project-bubble {
+    border-radius: 1.25rem; /* more "bubble" than default rounded-lg */
+    background: rgba(13, 27, 42, 0.55);
+    border: 1px solid rgba(224, 251, 252, 0.14);
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease,
+      background-color 220ms ease;
+  }
+
+  .project-bubble:hover {
+    border-color: rgba(250, 240, 202, 0.6);
+    background: rgba(13, 27, 42, 0.35);
+    box-shadow:
+      0 14px 36px rgba(0, 0, 0, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-bubble {
+      transition: none !important;
+    }
+  }
+
+  #work .project-list-wrapper .project.project-bubble {
+    background: rgba(13, 27, 42, 0.55);
+    border: 1px solid rgba(224, 251, 252, 0.14);
+    border-radius: 1.25rem;
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  #work .project-list-wrapper .project.project-bubble:hover {
+    background: rgba(13, 27, 42, 0.68);
+    border-color: rgba(250, 240, 202, 0.6);
+    box-shadow:
+      0 14px 36px rgba(0, 0, 0, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
   .project-modal-overlay {
     position: fixed;
     inset: 0;

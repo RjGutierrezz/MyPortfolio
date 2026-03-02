@@ -107,7 +107,9 @@ const ProjectsCollection = () => {
 
         {activeProject ? (
           <div ref={expandedTopRef} className="mt-6 project-expand-panel">
-            <div className="relative rounded-xl border border-[#3d5a80] bg-[#0D1B2A]/30 p-4 md:p-6">
+            <div
+              className="relative rounded-xl border border-[#3d5a80] bg-[#0D1B2A]/55 backdrop-blur-[6px] p-4 md:p-6"
+            >
               <button
                 type="button"
                 className="project-modal-close"
@@ -254,7 +256,7 @@ const ProjectsCollection = () => {
               return (
                 <div
                   key={p.id}
-                  className={`project ${isActive ? "ring-2 ring-[#faf0ca]" : ""}`}
+                  className={`project project-bubble ${isActive ? "ring-2 ring-[#faf0ca]" : ""}`}
                   role="button"
                   tabIndex={0}
                   onClick={(e) => openProjectFromCard(isActive ? null : p.id, e.currentTarget)}
