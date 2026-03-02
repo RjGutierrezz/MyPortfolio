@@ -123,7 +123,8 @@ const ShowcaseSection = () => {
           {/* changed: force 1 col on mobile; keep 2 col on md+ */}
           <div className="project-list-wrapper overflow-visible grid grid-cols-1 md:grid-cols-2 gap-8">
             <div
-              className="project"
+              // changed: add float hook for showcase cards
+              className="project showcase-float"
               ref={studyBreakRef}
               role="button"
               tabIndex={0}
@@ -171,7 +172,8 @@ const ShowcaseSection = () => {
             </div>
 
             <div
-              className="project"
+              // changed: add float hook for showcase cards
+              className="project showcase-float"
               ref={potteryRef}
               role="button"
               tabIndex={0}

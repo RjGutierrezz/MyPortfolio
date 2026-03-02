@@ -61,6 +61,7 @@ const ProjectsCollection = () => {
             {projects.map((p) => (
               <div
                 key={p.id}
+                // changed: remove floaty class (prevents duplicate/synced animation)
                 className="project"
                 role="button"
                 tabIndex={0}

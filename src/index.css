@@ -75,6 +75,32 @@ section {
       padding-right: 2.5rem;  /* keep original on md+ */
     }
   }
+
+  /* added: subtle floating animation for project cards */
+  .floaty {
+    animation: floaty 5.5s ease-in-out infinite;
+    will-change: transform;
+  }
+  .floaty-slow {
+    animation-duration: 7.5s;
+  }
+
+  @keyframes floaty {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .floaty,
+    .floaty-slow {
+      animation: none !important;
+    }
+  }
 }
 
 @layer components {
@@ -607,6 +633,54 @@ section {
   @media (prefers-reduced-motion: reduce) {
     .project-modal-overlay,
     .project-modal {
+      animation: none !important;
+    }
+  }
+
+  /* changed: better stagger float on ProjectsCollection cards (avoid sync) */
+  #projects .grid-3-cols .project {
+    animation-name: floaty;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    will-change: transform;
+  }
+
+  /* 8-step cycle: mixes delay + duration so cards don't drift together */
+  #projects .grid-3-cols .project:nth-child(8n + 1) { animation-delay: 0s;   animation-duration: 6.2s; }
+  #projects .grid-3-cols .project:nth-child(8n + 2) { animation-delay: 0.7s; animation-duration: 7.1s; }
+  #projects .grid-3-cols .project:nth-child(8n + 3) { animation-delay: 1.4s; animation-duration: 6.6s; }
+  #projects .grid-3-cols .project:nth-child(8n + 4) { animation-delay: 2.1s; animation-duration: 7.8s; }
+  #projects .grid-3-cols .project:nth-child(8n + 5) { animation-delay: 2.8s; animation-duration: 6.9s; }
+  #projects .grid-3-cols .project:nth-child(8n + 6) { animation-delay: 3.5s; animation-duration: 7.4s; }
+  #projects .grid-3-cols .project:nth-child(8n + 7) { animation-delay: 4.2s; animation-duration: 6.4s; }
+  #projects .grid-3-cols .project:nth-child(8n)     { animation-delay: 4.9s; animation-duration: 8.2s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #projects .grid-3-cols .project {
+      animation: none !important;
+    }
+  }
+
+  /* added: floating animation for ShowcaseSection projects (staggered, not in sync) */
+  #work .project-list-wrapper .project.showcase-float {
+    animation-name: floaty;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    will-change: transform;
+  }
+
+  #work .project-list-wrapper .project.showcase-float:nth-child(1) {
+    animation-delay: 0.25s;
+    animation-duration: 7.3s;
+  }
+
+  #work .project-list-wrapper .project.showcase-float:nth-child(2) {
+    animation-delay: 1.15s;
+    animation-duration: 6.4s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #work .project-list-wrapper .project.showcase-float {
       animation: none !important;
     }
   }
