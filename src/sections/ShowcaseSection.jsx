@@ -17,6 +17,21 @@ const asset = (p) => {
 const truncateText = (text, maxLength) =>
   text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
 
+// for tech stack color
+const TECH_BADGE_COLORS = ["#ffadad", "#ffd6a5", "#fdffb6", "#caffbf", "#9bf6ff", "#a0c4ff", "#bdb2ff", "#ffc6ff", "#ff9ed7"];
+
+// added: deterministic "random" color picker (stable per label)
+const pickTechColor = (label) => {
+  const s = String(label ?? "");
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  const idx = Math.abs(h) % TECH_BADGE_COLORS.length;
+  return TECH_BADGE_COLORS[idx];
+};
+
 const ShowcaseSection = () => {
   const sectionRef = useRef(null);
   const studyBreakRef = useRef(null);
@@ -281,7 +296,9 @@ const ShowcaseSection = () => {
                         {activeProject.techStack.map((t) => (
                           <span
                             key={`${activeProject.id}-top-${t}`}
-                            className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent"
+                            // changed: dynamic text color + bold
+                            className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold"
+                            style={{ color: pickTechColor(t) }}
                           >
                             {t}
                           </span>
@@ -373,8 +390,9 @@ const ShowcaseSection = () => {
                 <div className="mt-3 flex flex-wrap gap-2">
                   {featured[0].techStack.map((t) => (
                     <span
-                      key={`${featured[0].id}-${t}`}
-                      className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent"
+                      key={`${featured[0].id}-card-${t}`}
+                      className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold"
+                      style={{ color: pickTechColor(t) }}
                     >
                       {t}
                     </span>
@@ -431,8 +449,9 @@ const ShowcaseSection = () => {
                 <div className="mt-3 flex flex-wrap gap-2">
                   {featured[1].techStack.map((t) => (
                     <span
-                      key={`${featured[1].id}-${t}`}
-                      className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent"
+                      key={`${featured[1].id}-card-${t}`}
+                      className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold"
+                      style={{ color: pickTechColor(t) }}
                     >
                       {t}
                     </span>

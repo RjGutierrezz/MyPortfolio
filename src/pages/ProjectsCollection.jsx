@@ -12,6 +12,20 @@ const asset = (p) => {
   return `${normalizedBase}${String(p).replace(/^\/+/, "")}`;
 };
 
+const TECH_BADGE_COLORS = ["#ffadad", "#ffd6a5", "#fdffb6", "#caffbf", "#9bf6ff", "#a0c4ff", "#bdb2ff", "#ff9ed7"];
+
+// added: deterministic "random" color picker (stable per label)
+const pickTechColor = (label) => {
+  const s = String(label ?? "");
+  let h = 2166136261; // FNV-1a-ish
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  const idx = Math.abs(h) % TECH_BADGE_COLORS.length;
+  return TECH_BADGE_COLORS[idx];
+};
+
 const ProjectsCollection = () => {
   const [activeProjectId, setActiveProjectId] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -206,7 +220,9 @@ const ProjectsCollection = () => {
                         {activeProject.techStack.map((t) => (
                           <span
                             key={`${activeProject.id}-top-${t}`}
-                            className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent"
+                            // changed: dynamic text color + bold
+                            className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold"
+                            style={{ color: pickTechColor(t) }}
                           >
                             {t}
                           </span>
@@ -303,7 +319,8 @@ const ProjectsCollection = () => {
                           {p.techStack.map((t) => (
                             <span
                               key={`${p.id}-${t}`}
-                              className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent"
+                              className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent font-bold"
+                              style={{ color: pickTechColor(t) }}
                             >
                               {t}
                             </span>
