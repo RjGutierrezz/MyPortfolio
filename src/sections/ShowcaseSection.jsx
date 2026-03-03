@@ -40,7 +40,8 @@ const ShowcaseSection = () => {
       description:
         "A mobile food discovery and delivery app built for university students, focused on saving time and minimizing interruptions during busy academic schedules.",
       href: "https://github.com/RjGutierrezz/StudyBreak-Bite.git",
-      techStack: ["React Native", "JavaScript", "Expo"],
+      techStack: ["React Native", "JavaScript", "TypeScript", "Expo",
+        "Expo Router", "Tailwind CSS"],
       // optional parity fields
       gallery: null,
       liveHref: null,
@@ -55,7 +56,7 @@ const ShowcaseSection = () => {
       description:
         "A full-stack web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.",
       href: "https://github.com/jjmendez819/sales-app/tree/main",
-      techStack: ["Next.js", "TypeScript", "Supabase"],
+      techStack: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
       gallery: null,
       liveHref: null,
       disabled: false,
