@@ -182,15 +182,25 @@ section {
 
     &.scrolled {
       @apply top-0;
-      backdrop-filter: blur(10px); /* Apply the blur effect */
-      -webkit-backdrop-filter: blur(10px); /* Add support for Safari */
-      background-color: #0D1B2A;
+
+      /* changed: bubble/glass navbar */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(13, 27, 42, 0.55);
+      border-bottom: 1px solid rgba(224, 251, 252, 0.14);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
     }
 
     &.not-scrolled {
       @apply md:top-10 top-0;
-      backdrop-filter: blur(10px); /* Apply the blur effect */
-      background-color: #0D1B2A;
+
+      /* changed: slightly lighter when at top, still transparent */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(13, 27, 42, 0.35);
+      border: 1px solid rgba(224, 251, 252, 0.12);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+      border-radius: 0.75rem; /* gives it a floating bubble feel when not-scrolled */
     }
 
     .inner {
@@ -225,7 +235,7 @@ section {
       @apply flex;
 
       .inner {
-        @apply px-5 py-2 rounded-lg bg-[#f2e9e4] text-black group-hover:bg-[#3d5a80] transition-colors duration-300;
+        @apply px-5 py-2 rounded-lg bg-[#f2e9e4] text-black group-hover:bg-transparent transition-colors duration-300;
 
         span {
           @apply group-hover:text-white transition-colors duration-300;
@@ -399,7 +409,14 @@ section {
   }
 
   .timeline-logo {
-    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border border-[#0d3b66] bg-[#0d3b66];
+    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(13, 27, 42, 0.42);                  /* overrides bg-[#0d3b66] */
+    border-color: rgba(224, 251, 252, 0.16);             /* overrides border-[#0d3b66] */
+    box-shadow:
+      0 10px 22px rgba(0, 0, 0, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
   .exp-card-wrapper {
@@ -454,12 +471,45 @@ section {
     }
   }
 
+  #contact form input,
+  #contact form textarea {
+    /* inline the same "glass" properties instead */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(13, 27, 42, 0.35);
+    border: 1px solid rgba(224, 251, 252, 0.12);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+
+    /* keep your existing sizing/padding (these come from your `form input, textarea` block) */
+    color: #e0fbfc;
+    outline: none;
+  }
+
+  #contact form input::placeholder,
+  #contact form textarea::placeholder {
+    color: rgba(224, 251, 252, 0.55);
+  }
+
+  #contact form input:focus,
+  #contact form textarea:focus {
+    border-color: rgba(250, 240, 202, 0.65);
+    box-shadow: 0 0 0 3px rgba(250, 240, 202, 0.14);
+  }
+
   .footer {
     @apply my-10 md:mt-20 mt-10 text-white-50 px-5 md:px-20 xl:px-20 flex items-center justify-center;
 
     .footer-container {
-      @apply  p-3 bg-[#3d5a80] rounded-sm grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-0 w-full;
+      @apply p-3 grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-0 w-full;
       align-items: center; /* added: vertical centering across grid cells */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(13, 27, 42, 0.45);                 /* overrides bg-[#3d5a80] */
+      border: 1px solid rgba(224, 251, 252, 0.12);
+      box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
     }
 
     p {
@@ -470,7 +520,7 @@ section {
       @apply flex items-center justify-center gap-5 ;
 
       .icon {
-        @apply border border-[#0d3b66] bg-[#3d5a80] flex justify-center items-center rounded-xl size-8 md:size-9 cursor-pointer transition-all duration-500 hover:bg-[#1B263B];
+        @apply border border-[#0d3b66] bg-transparent flex justify-center items-center rounded-xl size-8 md:size-9 cursor-pointer transition-all duration-500 hover:bg-[#1B263B];
       }
 
       img {
@@ -762,6 +812,15 @@ section {
     .project-expand-panel {
       animation: none !important;
     }
+  }
+
+  /* added: glass/bubble styling for TitleHeader "sub" badge */
+  .title-sub-glass {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(13, 27, 42, 0.35);
+    border: 1px solid rgba(224, 251, 252, 0.12);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
   }
 }
 
