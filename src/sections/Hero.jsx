@@ -5,8 +5,6 @@ import HeroExperience from '../components/HeroModels/HeroExperience.jsx'
 import { useGSAP} from '@gsap/react'
 import gsap from 'gsap';
 import AnimatedCounter from '../components/AnimatedCounter.jsx'
-import Grainient from '../components/HeroModels/Grainient.jsx'
-
 
 const ASSET_BASE = import.meta.env.BASE_URL;
 const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
@@ -32,36 +30,6 @@ const Hero = () => {
   return (
     // ensure the section is tall enough and establishes a predictable stacking context
     <section id="hero" className="relative overflow-hidden min-h-[85vh]">
-        {/* keep background at z-0 (not negative), and pin it */}
-        <div
-          className="absolute inset-0 z-0 pointer-events-none"
-          aria-hidden="true"
-        >
-          <Grainient
-            color1="#0e2a45"
-            color2="#095195"
-            color3="#daf5fa"
-            timeSpeed={0.25}
-            colorBalance={0}
-            warpStrength={1}
-            warpFrequency={5}
-            warpSpeed={2}
-            warpAmplitude={50}
-            blendAngle={0}
-            blendSoftness={0.05}
-            rotationAmount={500}
-            noiseScale={2}
-            grainAmount={0.1}
-            grainScale={2}
-            grainAnimated={false}
-            contrast={1.5}
-            gamma={1}
-            saturation={1}
-            centerX={0}
-            centerY={0}
-            zoom={0.9}
-          />
-        </div>
 
         {/* ensure all hero content is above the background */}
         <div className="relative z-10 hero-layout">

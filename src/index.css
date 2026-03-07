@@ -15,7 +15,9 @@ body {
   width: 100%;
   overflow-x: hidden;
 
-  background: #0d3b66;
+  /* changed: allow Grainient (fixed in AppLayout) to be visible globally */
+  background-color: transparent;
+  background-image: none;
 
   color: #e0fbfc;
   scroll-behavior: smooth;
