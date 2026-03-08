@@ -1,23 +1,22 @@
 import { Center, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
-
 import { Island } from "./Island";
 
 const ContactExperience = () => {
   return (
-    <Canvas shadows camera={{ position: [-5, 6, 16], fov: 35 }}>
-      <color attach="background" args={["#1b263b"]} />
+    <Canvas
+      shadows
+      camera={{ position: [-5, 6, 16], fov: 35 }}
+      gl={{ alpha: true, antialias: true }}
+      onCreated={({ gl }) => {
+        // transparent clear so parent container/background shows through
+        gl.setClearColor(0x000000, 0);
+      }}
+    >
       <ambientLight intensity={0.8} color="#fff4e6" />
 
       <directionalLight position={[5, 9, 3]} intensity={5} color="#fff4e6" />
-
-      {/* <directionalLight
-        position={[5, 9, 1]}
-        castShadow
-        intensity={2.5}
-        color="#ffd9b3"
-      /> */}
 
       <OrbitControls
         minPolarAngle={Math.PI / 5}
@@ -27,8 +26,6 @@ const ContactExperience = () => {
       <group scale={[1, 1, 1]}>
       </group>
 
-
-      {/* <Computer /> */}
       <Center>
         <Island/>
       </Center>
