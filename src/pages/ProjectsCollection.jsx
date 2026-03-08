@@ -44,7 +44,7 @@ const ProjectsCollection = () => {
   const renderMarkedText = (text) => {
     const TONE_CLASS = {
       // tech: "text-[#9bf6ff] font-semibold",
-      accent: "text-[#aaffb8] font-semibold",
+      accent: "text-[#aaffb8] font-medium",
       // warn: "text-[#ffadad] font-semibold",
     };
 

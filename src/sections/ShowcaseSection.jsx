@@ -191,7 +191,7 @@ const ShowcaseSection = () => {
     return parts.map((p, i) => {
       if (p.type === "text") return <React.Fragment key={i}>{p.value}</React.Fragment>;
       return (
-        <span key={i} className="text-[#aaffb8] font-semibold">
+        <span key={i} className="text-[#aaffb8] font-medium">
           {p.value}
         </span>
       );
