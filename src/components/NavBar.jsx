@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link } from "react-router-dom"; // added
+import { Link } from "react-router-dom";
 import { navLinks } from '../constants/index.js';
+import GlassSurface from './HeroModels/GlassSurface.jsx'; // added
 
 // changed: ensure BASE_URL always works as an absolute path and joins correctly
 const ASSET_BASE = import.meta.env.BASE_URL || "/";
@@ -56,74 +57,85 @@ const NavBar = () => {
 
   return (
     <header className={`navbar ${scrolled ? 'scrolled' : 'not-scrolled'}`}>
-      <div className="inner">
-        {/* changed: behaves like navLinks (works from /project(s) too) */}
-        <a className="logo" href={asset("#hero")}>
-          Rover Gutierrez
-        </a>
+      <GlassSurface
+        width="100%"
+        height="auto"
+        borderRadius={40}
+        className="w-full max-w-[1280px] mx-auto"
+        style={{
+          height: "auto",
+          minHeight: scrolled ? 72 : 78,
+        }}
+      >
+        {/* changed: remove py-3 so vertical centering is controlled by CSS */}
+        <div className="inner">
+          <a className="logo" href={asset("#hero")}>
+            Rover Gutierrez
+          </a>
 
-        <nav className="desktop">
-          <ul>
-            {navLinks.map(({ link, name, icon }) => ( // changed: include icon
-              <li key={name} className="group">
-                {isExternal(link) ? (
-                  <a href={link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2"> {/* changed */}
-                    {icon ? (
-                      <span
-                        className="icon-mask size-4"
-                        style={{
-                          color: "currentColor",
-                          ["--icon-url"]: `url(${asset(icon)})`,
-                        }}
-                        aria-hidden="true"
-                      />
-                    ) : null}
-                    <span>{name}</span>
-                    <span className="underline" />
-                  </a>
-                ) : isRoutePath(link) ? (
-                  <Link to={link} className="inline-flex items-center gap-2"> {/* changed */}
-                    {icon ? (
-                      <span
-                        className="icon-mask size-4"
-                        style={{
-                          color: "currentColor",
-                          ["--icon-url"]: `url(${asset(icon)})`,
-                        }}
-                        aria-hidden="true"
-                      />
-                    ) : null}
-                    <span>{name}</span>
-                    <span className="underline" />
-                  </Link>
-                ) : (
-                  <a href={link} className="inline-flex items-center gap-2"> {/* changed */}
-                    {icon ? (
-                      <span
-                        className="icon-mask size-4"
-                        style={{
-                          color: "currentColor",
-                          ["--icon-url"]: `url(${asset(icon)})`,
-                        }}
-                        aria-hidden="true"
-                      />
-                    ) : null}
-                    <span>{name}</span>
-                    <span className="underline" />
-                  </a>
-                )}
-              </li>
-            ))}
-          </ul>
-        </nav>
+          <nav className="desktop">
+            <ul>
+              {navLinks.map(({ link, name, icon }) => ( // changed: include icon
+                <li key={name} className="group">
+                  {isExternal(link) ? (
+                    <a href={link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2"> {/* changed */}
+                      {icon ? (
+                        <span
+                          className="icon-mask size-4"
+                          style={{
+                            color: "currentColor",
+                            ["--icon-url"]: `url(${asset(icon)})`,
+                          }}
+                          aria-hidden="true"
+                        />
+                      ) : null}
+                      <span>{name}</span>
+                      <span className="underline" />
+                    </a>
+                  ) : isRoutePath(link) ? (
+                    <Link to={link} className="inline-flex items-center gap-2"> {/* changed */}
+                      {icon ? (
+                        <span
+                          className="icon-mask size-4"
+                          style={{
+                            color: "currentColor",
+                            ["--icon-url"]: `url(${asset(icon)})`,
+                          }}
+                          aria-hidden="true"
+                        />
+                      ) : null}
+                      <span>{name}</span>
+                      <span className="underline" />
+                    </Link>
+                  ) : (
+                    <a href={link} className="inline-flex items-center gap-2"> {/* changed */}
+                      {icon ? (
+                        <span
+                          className="icon-mask size-4"
+                          style={{
+                            color: "currentColor",
+                            ["--icon-url"]: `url(${asset(icon)})`,
+                          }}
+                          aria-hidden="true"
+                        />
+                      ) : null}
+                      <span>{name}</span>
+                      <span className="underline" />
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-        {/* optional: make contact consistent too (works from /project(s)) */}
-        <a href={asset("#contact")} className="contact-btn group">
-          <div className="inner">
-            <span>Contact me</span>
-          </div>
-        </a>
-      </div>
+          <a href={asset("#contact")} className="contact-btn group">
+            {/* changed: renamed from "inner" to "contact-pill" to avoid inheriting navbar row min-height */}
+            <div className="contact-pill">
+              <span>Contact me</span>
+            </div>
+          </a>
+        </div>
+      </GlassSurface>
     </header>
   );
 };
