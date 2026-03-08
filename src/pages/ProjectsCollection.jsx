@@ -40,6 +40,40 @@ const ProjectsCollection = () => {
     [activeProjectId]
   );
 
+  // added: render [[text|tone]] markers from constants with your chosen colors
+  const renderMarkedText = (text) => {
+    const TONE_CLASS = {
+      // tech: "text-[#9bf6ff] font-semibold",
+      accent: "text-[#aaffb8] font-semibold",
+      // warn: "text-[#ffadad] font-semibold",
+    };
+
+    const s = String(text ?? "");
+    const parts = [];
+    const re = /\[\[([\s\S]+?)\|([a-zA-Z0-9_-]+)\]\]/g;
+
+    let last = 0;
+    let m;
+    while ((m = re.exec(s)) !== null) {
+      if (m.index > last) parts.push({ type: "text", value: s.slice(last, m.index) });
+      parts.push({ type: "mark", value: m[1], tone: m[2] });
+      last = m.index + m[0].length;
+    }
+    if (last < s.length) parts.push({ type: "text", value: s.slice(last) });
+
+    return parts.map((p, i) => {
+      if (p.type === "text") return <React.Fragment key={i}>{p.value}</React.Fragment>;
+      return (
+        <span key={i} className={TONE_CLASS[p.tone] ?? TONE_CLASS.accent}>
+          {p.value}
+        </span>
+      );
+    });
+  };
+
+  // changed: truncate for plain text (strip the markup so snippets don’t show [[...|...]])
+  const stripMarks = (text) => String(text ?? "").replace(/\[\[([\s\S]+?)\|([a-zA-Z0-9_-]+)\]\]/g, "$1");
+
   // changed: animate the top panel from the clicked card position -> top panel position
   useEffect(() => {
     setActiveImageIndex(0);
@@ -199,8 +233,9 @@ const ProjectsCollection = () => {
                     </h2>
                   </div>
 
-                  <p className="text-white-50 md:text-lg mt-4">
-                    {activeProject.description || ""}
+                  {/* changed: marked/colored project description */}
+                  <p className="text-white-50 md:text-lg mt-4 whitespace-pre-line">
+                    {renderMarkedText(activeProject.description || "")}
                   </p>
 
                   {Array.isArray(activeProject.techStack) && activeProject.techStack.length > 0 ? (
@@ -298,8 +333,9 @@ const ProjectsCollection = () => {
                       {p.title}
                     </h2>
 
+                    {/* changed: snippet keeps truncation, but still renders colored marks */}
                     <p className="text-white-50 md:text-lg">
-                      {truncateText(p.description || "", 140)}
+                      {renderMarkedText(truncateText(stripMarks(p.description || ""), 140))}
                     </p>
 
                     {Array.isArray(p.techStack) && p.techStack.length > 0 && (

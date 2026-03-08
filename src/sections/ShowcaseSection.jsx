@@ -53,7 +53,7 @@ const ShowcaseSection = () => {
       imgAlt: "StudyBreak-Bite",
       imgBgClass: "bg-[#E0E1DD]",
       description:
-        "A mobile food discovery and delivery app built for university students, focused on saving time and minimizing interruptions during busy academic schedules.",
+        "A [[mobile |accent]] food discovery and delivery app built for university students, focused on saving time and minimizing interruptions during busy academic schedules.",
       href: "https://github.com/RjGutierrezz/StudyBreak-Bite.git",
       techStack: ["React Native", "JavaScript", "TypeScript", "Expo",
         "Expo Router", "Tailwind CSS"],
@@ -69,7 +69,7 @@ const ShowcaseSection = () => {
       imgAlt: "Pottery WebApp",
       imgBgClass: "bg-[#E0E1DD]",
       description:
-        "A full-stack web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.",
+        "A [[full-stack|accent]] web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.",
       href: "https://github.com/jjmendez819/sales-app/tree/main",
       techStack: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
       gallery: null,
@@ -173,6 +173,34 @@ const ShowcaseSection = () => {
     });
   }, []);
 
+  // added: accent-only renderer for [[text|accent]] markers
+  const renderMarkedText = (text) => {
+    const s = String(text ?? "");
+    const parts = [];
+    const re = /\[\[([\s\S]+?)\|accent\]\]/g;
+
+    let last = 0;
+    let m;
+    while ((m = re.exec(s)) !== null) {
+      if (m.index > last) parts.push({ type: "text", value: s.slice(last, m.index) });
+      parts.push({ type: "mark", value: m[1] });
+      last = m.index + m[0].length;
+    }
+    if (last < s.length) parts.push({ type: "text", value: s.slice(last) });
+
+    return parts.map((p, i) => {
+      if (p.type === "text") return <React.Fragment key={i}>{p.value}</React.Fragment>;
+      return (
+        <span key={i} className="text-[#aaffb8] font-semibold">
+          {p.value}
+        </span>
+      );
+    });
+  };
+
+  // added: remove markers before truncating snippets
+  const stripMarks = (text) => String(text ?? "").replace(/\[\[([\s\S]+?)\|accent\]\]/g, "$1");
+
   return (
     <div id="work" ref={sectionRef} className="app-showcase">
       <div className="w-full">
@@ -275,8 +303,9 @@ const ShowcaseSection = () => {
                     </h2>
                   </div>
 
-                  <p className="text-white-50 md:text-lg mt-4">
-                    {activeProject.description || ""}
+                  {/* changed: marked/colored project description */}
+                  <p className="text-white-50 md:text-lg mt-4 whitespace-pre-line">
+                    {renderMarkedText(activeProject.description || "")}
                   </p>
 
                   {Array.isArray(activeProject.techStack) && activeProject.techStack.length > 0 ? (
@@ -372,8 +401,9 @@ const ShowcaseSection = () => {
               <div className="showcase-text-with-cta text-white-100">
                 <h2 className="mb-3">{featured[0].title}</h2>
 
+                {/* changed: snippet = strip markers -> truncate -> render (accent only) */}
                 <p className="text-white-50 md:text-lg">
-                  {truncateText(featured[0].description, 140)}
+                  {renderMarkedText(truncateText(stripMarks(featured[0].description || ""), 140))}
                 </p>
 
                 <div className="mt-6 flex items-center gap-2 text-white-50/80">
@@ -431,8 +461,9 @@ const ShowcaseSection = () => {
               <div className="showcase-text-with-cta text-white-100">
                 <h2 className="mb-3">{featured[1].title}</h2>
 
+                {/* changed: snippet = strip markers -> truncate -> render (accent only) */}
                 <p className="text-white-50 md:text-lg">
-                  {truncateText(featured[1].description, 140)}
+                  {renderMarkedText(truncateText(stripMarks(featured[1].description || ""), 140))}
                 </p>
 
                 <div className="mt-6 flex items-center gap-2 text-white-50/80">

@@ -321,7 +321,7 @@ const projects = [
     imgAlt: "StudyBreak-Bite",
     imgBgClass: "bg-[#E0E1DD]",
     description:
-      "A mobile food discovery and delivery app built for university students, focused on saving time and minimizing interruptions during busy academic schedules.",
+      "A [[mobile|accent]] food discovery and delivery app built for [[university students|accent]], focused on saving time and minimizing interruptions during busy academic schedules.",
     href: "https://github.com/RjGutierrezz/StudyBreak-Bite.git",
     techStack: ["React Native", "JavaScript", "TypeScript", "Expo",
       "Expo Router", "Tailwind CSS"],
@@ -337,7 +337,7 @@ const projects = [
     imgAlt: "Pottery WebApp",
     imgBgClass: "bg-[#E0E1DD]",
     description:
-      "A full-stack web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.",
+      "A [[full-stack|accent]] web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.",
     href: "https://github.com/jjmendez819/sales-app/tree/main",
     techStack: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
     gallery: [
@@ -351,8 +351,8 @@ const projects = [
     imgPath: asset("images/lightmode.png"),
     imgAlt: "Tiny Wins Matter",
     imgBgClass: "bg-[#E0E1DD]",
-    description: `This is a responsive, retro-inspired Todo app built with vanilla JavaScript using Vite. I created it to strengthen my understanding of object-oriented programming, state management, and dynamic DOM rendering without relying on a frontend framework.
-                  The app includes light and dark mode, along with motivational quotes to make the experience feel more personal and encouraging. It uses localStorage to persist tasks and theme preferences, allowing the user experience to remain consistent across sessions.
+    description: `This is a responsive, retro-inspired Todo app built with vanilla JavaScript using Vite. I created it to strengthen my understanding of [[object-oriented programming|accent]], state management, and dynamic DOM rendering without relying on a frontend framework.
+                  The app includes [[light and dark mode|accent]], along with [[motivational quotes|accent]] to make the experience feel more personal and encouraging. It uses [[localStorage|tech]] to persist tasks and theme preferences, allowing the user experience to remain consistent across sessions.
                   Instead of building just another basic task tracker, I focused on structuring the app cleanly by separating the data model, persistence layer, and UI logic into dedicated classes. 
                   This helped me better understand how real-world frontend applications manage state and updates behind the scenes. My goal was to combine solid engineering fundamentals with thoughtful design and usability.`,
     href: "https://github.com/RjGutierrezz/ToDo-Quotes",
@@ -369,9 +369,10 @@ const projects = [
     imgPath: asset("images/tip-splitter.png"),
     imgAlt: "Bill Splitter",
     imgBgClass: "bg-[#E0E1DD]",
-    description: "This is a small webApp I created to practice my JavaScript skills and also avoid those awkward moment of not knowing how much to tip when going out with friends.",
+    description:
+      "This is a small [[webApp|accent]] I created to practice my [[JavaScript|accent]] skills and also avoid those awkward moment of not knowing how much to tip when going out with friends.",
     href: "https://github.com/RjGutierrezz/Tip-Calculator",
-    liveHref: "https://rj-billsplitter.vercel.app/https://rj-billsplitter.vercel.app/", 
+    liveHref: "https://rj-billsplitter.vercel.app/", 
     techStack: ["JavaScript", "HTML", "CSS"],
     gallery: [
       asset("images/tip-splitter.png"),
