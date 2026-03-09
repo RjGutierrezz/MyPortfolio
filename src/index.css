@@ -178,7 +178,7 @@ section {
     /* changed: pull model toward the left of its column */
     justify-content: flex-start;
     padding-left: 0;
-    margin-left: -3rem;
+    margin-left: -4rem;
   }
 
   .navbar {
@@ -262,7 +262,7 @@ section {
 
       /* changed: target .contact-pill instead of .inner */
       .contact-pill {
-        @apply px-5 py-2 rounded-lg bg-[#f2e9e4] text-black group-hover:bg-transparent transition-colors duration-300;
+        @apply px-5 py-2 rounded-full bg-[#f2e9e4] text-black group-hover:bg-transparent transition-colors duration-300;
 
         span {
           @apply group-hover:text-white transition-colors duration-300;
@@ -439,14 +439,8 @@ section {
   }
 
   .timeline-logo {
-    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(13, 27, 42, 0.42);                  /* overrides bg-[#0d3b66] */
-    border-color: rgba(224, 251, 252, 0.16);             /* overrides border-[#0d3b66] */
-    box-shadow:
-      0 10px 22px rgba(0, 0, 0, 0.18),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border-transparent;
+
   }
 
   .exp-card-wrapper {
@@ -467,7 +461,7 @@ section {
   }
 
   .tech-card-content {
-    @apply flex flex-col md:justify-center items-center xl:gap-5 xl:h-[50vh] overflow-hidden relative z-10 group-hover:cursor-grab;
+    @apply flex flex-col md:justify-center items-center xl:gap-5 xl:h-[40vh] overflow-hidden relative z-10 group-hover:cursor-grab;
 
     & p {
       @apply text-lg 2xl:text-2xl pb-5 xl:pb-0 font-semibold text-white-50 text-center;
@@ -479,7 +473,8 @@ section {
   }
 
   .tech-icon-wrapper {
-    @apply flex justify-center items-center w-52 h-60 relative;
+    /* changed: reduced from w-52 h-60 */
+    @apply flex justify-center items-center w-36 h-44 relative;
   }
 
   form {
@@ -504,11 +499,14 @@ section {
   #contact form input,
   #contact form textarea {
     /* inline the same "glass" properties instead */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(13, 27, 42, 0.35);
-    border: 1px solid rgba(224, 251, 252, 0.12);
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+
+    backdrop-filter: blur(12px) saturate(1.6);
+    -webkit-backdrop-filter: blur(12px) saturate(1.6);
+    background: rgba(13, 27, 42, 0.45);
+    border: 1px solid rgba(224, 251, 252, 0.14);
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
 
     /* keep your existing sizing/padding (these come from your `form input, textarea` block) */
     color: #e0fbfc;
