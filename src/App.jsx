@@ -87,12 +87,6 @@ const getBasename = () => {
 };
 
 const App = () => {
-  // changed: tag <html> with is-chrome so CSS can boost glass values only for Chrome
-  React.useEffect(() => {
-    const isChrome = /Chrome/.test(navigator.userAgent) && !/Edg|OPR/.test(navigator.userAgent);
-    if (isChrome) document.documentElement.classList.add('is-chrome');
-  }, []);
-
   return (
     <BrowserRouter basename={getBasename()}>
       <ScrollToHash />

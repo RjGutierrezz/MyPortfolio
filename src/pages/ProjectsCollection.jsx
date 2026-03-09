@@ -322,8 +322,8 @@ const ProjectsCollection = () => {
                     <img
                       src={p.imgPath}
                       alt={p.imgAlt || p.title}
-                      className="w-full h-full object-contain rounded-xl p-6 transition-transform duration-300 ease-in-out"
-                      style={{ transformOrigin: "center" }}
+                      // changed: remove inline transition classes — CSS handles it via .glass-card:hover .image-wrapper img
+                      className="w-full h-full object-contain rounded-xl p-6"
                     />
                   </div>
 

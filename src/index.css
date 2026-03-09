@@ -735,13 +735,14 @@ section {
   /* added: lightweight CSS-only glass card — no SVG filters, no JS, GPU-friendly */
   .glass-card {
     border-radius: 1.25rem;
-    backdrop-filter: blur(20px) saturate(2.5) brightness(1.2);
-    -webkit-backdrop-filter: blur(20px) saturate(2.5) brightness(1.2);
-    background: rgba(11, 89, 163, 0.15);
-    border: 1px solid rgba(154, 217, 245, 0.28);
+    /* changed: single set of values — middle ground between Safari and Chrome rendering */
+    backdrop-filter: blur(20px) saturate(3) brightness(1.3);
+    -webkit-backdrop-filter: blur(20px) saturate(3) brightness(1.3);
+    background: rgba(11, 89, 163, 0.22);
+    border: 1px solid rgba(154, 217, 245, 0.30);
     box-shadow:
       0 10px 28px rgba(0, 0, 0, 0.35),
-      inset 0 1px 0 rgba(154, 217, 245, 0.22);
+      inset 0 1px 0 rgba(154, 217, 245, 0.25);
     transition: border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
     cursor: pointer;
     will-change: transform;
@@ -750,46 +751,52 @@ section {
 
   .glass-card:hover {
     border-color: rgba(250, 240, 202, 0.6);
-    background: rgba(11, 89, 163, 0.25);
+    background: rgba(11, 89, 163, 0.38);
     box-shadow:
-      0 14px 36px rgba(0, 0, 0, 0.42),
-      inset 0 1px 0 rgba(154, 217, 245, 0.32);
+      0 14px 36px rgba(0, 0, 0, 0.52),
+      inset 0 1px 0 rgba(154, 217, 245, 0.38),
+      inset 0 0 0 1px rgba(154, 217, 245, 0.12);
   }
 
   .glass-card--static {
     border-radius: 1.25rem;
-    backdrop-filter: blur(20px) saturate(2.5) brightness(1.2);
-    -webkit-backdrop-filter: blur(20px) saturate(2.5) brightness(1.2);
-    background: rgba(11, 89, 163, 0.15);
-    border: 1px solid rgba(154, 217, 245, 0.28);
+    backdrop-filter: blur(20px) saturate(3) brightness(1.3);
+    -webkit-backdrop-filter: blur(20px) saturate(3) brightness(1.3);
+    background: rgba(11, 89, 163, 0.22);
+    border: 1px solid rgba(154, 217, 245, 0.30);
     box-shadow:
       0 10px 28px rgba(0, 0, 0, 0.35),
-      inset 0 1px 0 rgba(154, 217, 245, 0.22);
+      inset 0 1px 0 rgba(154, 217, 245, 0.25);
     cursor: default;
     pointer-events: auto;
   }
 
   .glass-card--static:hover {
-    border-color: rgba(154, 217, 245, 0.28);
-    background: rgba(11, 89, 163, 0.15);
+    border-color: rgba(154, 217, 245, 0.30);
+    background: rgba(11, 89, 163, 0.22);
     box-shadow:
       0 10px 28px rgba(0, 0, 0, 0.35),
-      inset 0 1px 0 rgba(154, 217, 245, 0.22);
+      inset 0 1px 0 rgba(154, 217, 245, 0.25);
   }
 
-  /* changed: Chrome-only glass boost to match Safari rendering */
-  html.is-chrome .glass-card {
-    backdrop-filter: blur(24px) saturate(4) brightness(1.5) hue-rotate(-8deg);
-    -webkit-backdrop-filter: blur(24px) saturate(4) brightness(1.5) hue-rotate(-8deg);
-    background: rgba(11, 89, 163, 0.18);
-    border-color: rgba(154, 217, 245, 0.30);
+  /* changed: remove Chrome-only overrides — no longer needed */
+  html.is-chrome .glass-card,
+  html.is-chrome .glass-card--static,
+  html.is-chrome .glass-card:hover {
+    all: unset;
   }
 
-  html.is-chrome .glass-card--static {
-    backdrop-filter: blur(24px) saturate(4) brightness(1.5) hue-rotate(-8deg);
-    -webkit-backdrop-filter: blur(24px) saturate(4) brightness(1.5) hue-rotate(-8deg);
-    background: rgba(11, 89, 163, 0.18);
-    border-color: rgba(154, 217, 245, 0.30);
+  /* added: zoom the card image on glass-card hover (not in expanded panel) */
+  .glass-card .image-wrapper {
+    overflow: hidden;
+  }
+
+  .glass-card .image-wrapper img {
+    transition: transform 350ms ease-in-out;
+  }
+
+  .glass-card:hover .image-wrapper img {
+    transform: scale(1.08);
   }
 
   /* added: title color change on glass-card hover (ProjectsCollection cards) */
