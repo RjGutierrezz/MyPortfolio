@@ -15,7 +15,7 @@ const HeroExperience = () => {
   return (
     <div
       // changed: make card background translucent instead of solid
-      className="relative mx-auto rounded-2xl border border-[#3d5a80] bg-[#1b263b]/35 backdrop-blur-[10px] overflow-hidden"
+      className="relative mx-auto rounded-2xl glass-card--static overflow-hidden"
       style={{
         width: squareSize,
         aspectRatio: "1 / 1",

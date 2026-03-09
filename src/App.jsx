@@ -15,7 +15,7 @@ import Grainient from "./components/HeroModels/Grainient.jsx"; // added
 
 const AppLayout = ({ children }) => (
   <>
-    {/* added: global animated background for all pages */}
+    {/* global animated background */}
     <div
       className="fixed inset-0 z-0 pointer-events-none"
       style={{ width: "100vw", height: "100vh" }}
@@ -47,10 +47,13 @@ const AppLayout = ({ children }) => (
       />
     </div>
 
-    {/* changed: lift site content above the background */}
-    <div className="relative z-10">
+    {/* changed: no overflow or transform on this wrapper — keeps fixed bg visible */}
+    <div className="relative z-10 min-h-screen">
       <NavBar />
-      {children}
+      {/* changed: constrain only the scrollable content, not the whole layout */}
+      <main className="mx-auto w-full max-w-[1400px] px-4 md:px-8 xl:px-12">
+        {children}
+      </main>
       <Footer />
     </div>
   </>

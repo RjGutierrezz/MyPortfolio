@@ -6,7 +6,6 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// changed: ensure BASE_URL always works as an absolute path and joins correctly
 const ASSET_BASE = import.meta.env.BASE_URL || "/";
 const asset = (p) => {
   const base = ASSET_BASE.startsWith("/") ? ASSET_BASE : `/${ASSET_BASE}`;
@@ -17,10 +16,8 @@ const asset = (p) => {
 const truncateText = (text, maxLength) =>
   text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
 
-// for tech stack color
 const TECH_BADGE_COLORS = ["#ffadad", "#ffd6a5", "#fdffb6", "#caffbf", "#9bf6ff", "#a0c4ff", "#bdb2ff", "#ffc6ff", "#ff9ed7"];
 
-// added: deterministic "random" color picker (stable per label)
 const pickTechColor = (label) => {
   const s = String(label ?? "");
   let h = 2166136261;
@@ -37,11 +34,9 @@ const ShowcaseSection = () => {
   const studyBreakRef = useRef(null);
   const potteryRef = useRef(null);
 
-  // changed: match ProjectsCollection state shape
   const [activeProjectId, setActiveProjectId] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  // added: match ProjectsCollection refs for scroll + FLIP
   const expandedTopRef = useRef(null);
   const lastCardRectRef = useRef(null);
 
@@ -57,7 +52,6 @@ const ShowcaseSection = () => {
       href: "https://github.com/RjGutierrezz/StudyBreak-Bite.git",
       techStack: ["React Native", "JavaScript", "TypeScript", "Expo",
         "Expo Router", "Tailwind CSS"],
-      // optional parity fields
       gallery: null,
       liveHref: null,
       disabled: false,
@@ -83,13 +77,11 @@ const ShowcaseSection = () => {
     [activeProjectId]
   );
 
-  // added: same as ProjectsCollection (capture rect before activating)
   const openProjectFromCard = (id, el) => {
     if (el?.getBoundingClientRect) lastCardRectRef.current = el.getBoundingClientRect();
     setActiveProjectId(id);
   };
 
-  // added: same as ProjectsCollection (navbar-offset scroll + FLIP)
   useEffect(() => {
     setActiveImageIndex(0);
     if (!activeProjectId) return;
@@ -173,7 +165,6 @@ const ShowcaseSection = () => {
     });
   }, []);
 
-  // added: accent-only renderer for [[text|accent]] markers
   const renderMarkedText = (text) => {
     const s = String(text ?? "");
     const parts = [];
@@ -198,7 +189,6 @@ const ShowcaseSection = () => {
     });
   };
 
-  // added: remove markers before truncating snippets
   const stripMarks = (text) => String(text ?? "").replace(/\[\[([\s\S]+?)\|accent\]\]/g, "$1");
 
   return (
@@ -222,12 +212,9 @@ const ShowcaseSection = () => {
           </Link>
         </div>
 
-        {/* added: top expanded panel (same structure/class as ProjectsCollection) */}
         {activeProject ? (
           <div ref={expandedTopRef} className="mt-6 mb-10 md:mb-14 project-expand-panel">
-            <div
-              className="relative rounded-xl border border-[#3d5a80] bg-[#0D1B2A]/55 backdrop-blur-[6px] p-4 md:p-6"
-            >
+            <div className="glass-card--static relative p-4 md:p-6">
               <button
                 type="button"
                 className="project-modal-close"
@@ -303,7 +290,6 @@ const ShowcaseSection = () => {
                     </h2>
                   </div>
 
-                  {/* changed: marked/colored project description */}
                   <p className="text-white-50 md:text-lg mt-4 whitespace-pre-line">
                     {renderMarkedText(activeProject.description || "")}
                   </p>
@@ -325,7 +311,6 @@ const ShowcaseSection = () => {
                         {activeProject.techStack.map((t) => (
                           <span
                             key={`${activeProject.id}-top-${t}`}
-                            // changed: dynamic text color + bold
                             className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold"
                             style={{ color: pickTechColor(t) }}
                           >
@@ -371,125 +356,97 @@ const ShowcaseSection = () => {
 
         <div className="showcaselayout">
           <div className="project-list-wrapper overflow-visible grid grid-cols-1 md:grid-cols-2 gap-8">
+
             <div
-              className={`project project-bubble showcase-float ${
-                activeProjectId === featured[0].id ? "ring-2 ring-[#faf0ca]" : ""
-              }`}
-              ref={studyBreakRef}
-              role="button"
-              tabIndex={0}
-              onClick={(e) =>
-                openProjectFromCard(
-                  activeProjectId === featured[0].id ? null : featured[0].id,
-                  e.currentTarget
-                )
-              }
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
+              className={`glass-card showcase-float ${activeProjectId === featured[0].id ? "ring-2 ring-[#faf0ca]" : ""}`}
+            >
+              <div
+                className="project w-full h-full"
+                ref={studyBreakRef}
+                role="button"
+                tabIndex={0}
+                onClick={(e) =>
                   openProjectFromCard(
                     activeProjectId === featured[0].id ? null : featured[0].id,
                     e.currentTarget
-                  );
+                  )
                 }
-              }}
-            >
-              <div className={`image-wrapper ${featured[0].imgBgClass}`}>
-                <img src={featured[0].imgPath} alt={featured[0].imgAlt} />
-              </div>
-
-              <div className="showcase-text-with-cta text-white-100">
-                <h2 className="mb-3">{featured[0].title}</h2>
-
-                {/* changed: snippet = strip markers -> truncate -> render (accent only) */}
-                <p className="text-white-50 md:text-lg">
-                  {renderMarkedText(truncateText(stripMarks(featured[0].description || ""), 140))}
-                </p>
-
-                <div className="mt-6 flex items-center gap-2 text-white-50/80">
-                  <span
-                    className="icon-mask size-4 md:size-5"
-                    style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
-                    aria-hidden="true"
-                  />
-                  <span className="text-sm md:text-base font-semibold">
-                    Tech Stack
-                  </span>
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    openProjectFromCard(
+                      activeProjectId === featured[0].id ? null : featured[0].id,
+                      e.currentTarget
+                    );
+                  }
+                }}
+              >
+                <div className={`image-wrapper ${featured[0].imgBgClass}`}>
+                  <img src={featured[0].imgPath} alt={featured[0].imgAlt} />
                 </div>
-
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {featured[0].techStack.map((t) => (
-                    <span
-                      key={`${featured[0].id}-card-${t}`}
-                      className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold"
-                      style={{ color: pickTechColor(t) }}
-                    >
-                      {t}
-                    </span>
-                  ))}
+                <div className="showcase-text-with-cta text-white-100">
+                  <h2 className="mb-3">{featured[0].title}</h2>
+                  <p className="text-white-50 md:text-lg">
+                    {renderMarkedText(truncateText(stripMarks(featured[0].description || ""), 140))}
+                  </p>
+                  <div className="mt-6 flex items-center gap-2 text-white-50/80">
+                    <span className="icon-mask size-4 md:size-5" style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }} aria-hidden="true" />
+                    <span className="text-sm md:text-base font-semibold">Tech Stack</span>
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {featured[0].techStack.map((t) => (
+                      <span key={`${featured[0].id}-card-${t}`} className="text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold" style={{ color: pickTechColor(t) }}>{t}</span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
 
             <div
-              className={`project project-bubble showcase-float ${
-                activeProjectId === featured[1].id ? "ring-2 ring-[#faf0ca]" : ""
-              }`}
-              ref={potteryRef}
-              role="button"
-              tabIndex={0}
-              onClick={(e) =>
-                openProjectFromCard(
-                  activeProjectId === featured[1].id ? null : featured[1].id,
-                  e.currentTarget
-                )
-              }
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
+              className={`glass-card showcase-float ${activeProjectId === featured[1].id ? "ring-2 ring-[#faf0ca]" : ""}`}
+            >
+              <div
+                className="project w-full h-full"
+                ref={potteryRef}
+                role="button"
+                tabIndex={0}
+                onClick={(e) =>
                   openProjectFromCard(
                     activeProjectId === featured[1].id ? null : featured[1].id,
                     e.currentTarget
-                  );
+                  )
                 }
-              }}
-            >
-              <div className={`image-wrapper ${featured[1].imgBgClass}`}>
-                <img src={featured[1].imgPath} alt={featured[1].imgAlt} />
-              </div>
-
-              <div className="showcase-text-with-cta text-white-100">
-                <h2 className="mb-3">{featured[1].title}</h2>
-
-                {/* changed: snippet = strip markers -> truncate -> render (accent only) */}
-                <p className="text-white-50 md:text-lg">
-                  {renderMarkedText(truncateText(stripMarks(featured[1].description || ""), 140))}
-                </p>
-
-                <div className="mt-6 flex items-center gap-2 text-white-50/80">
-                  <span
-                    className="icon-mask size-4 md:size-5"
-                    style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
-                    aria-hidden="true"
-                  />
-                  <span className="text-sm md:text-base font-semibold">
-                    Tech Stack
-                  </span>
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    openProjectFromCard(
+                      activeProjectId === featured[1].id ? null : featured[1].id,
+                      e.currentTarget
+                    );
+                  }
+                }}
+              >
+                <div className={`image-wrapper ${featured[1].imgBgClass}`}>
+                  <img src={featured[1].imgPath} alt={featured[1].imgAlt} />
                 </div>
-
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {featured[1].techStack.map((t) => (
-                    <span
-                      key={`${featured[1].id}-card-${t}`}
-                      className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold"
-                      style={{ color: pickTechColor(t) }}
-                    >
-                      {t}
-                    </span>
-                  ))}
+                <div className="showcase-text-with-cta text-white-100">
+                  <h2 className="mb-3">{featured[1].title}</h2>
+                  <p className="text-white-50 md:text-lg">
+                    {renderMarkedText(truncateText(stripMarks(featured[1].description || ""), 140))}
+                  </p>
+                  <div className="mt-6 flex items-center gap-2 text-white-50/80">
+                    <span className="icon-mask size-4 md:size-5" style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }} aria-hidden="true" />
+                    <span className="text-sm md:text-base font-semibold">Tech Stack</span>
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {featured[1].techStack.map((t) => (
+                      <span key={`${featured[1].id}-card-${t}`} className="text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold" style={{ color: pickTechColor(t) }}>{t}</span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>

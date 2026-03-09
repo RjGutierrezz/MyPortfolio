@@ -155,7 +155,8 @@ section {
   }
 
   .hero-text {
-    @apply flex flex-col justify-center md:text-[60px] text-[30px] font-semibold relative z-10 pointer-events-none;
+    @apply flex flex-col justify-center md:text-[50px] text-[30px] font-semibold relative z-10 pointer-events-none;
+    padding-top:2rem;
     img {
       @apply size-8 md:size-10 object-contain;
     }
@@ -169,12 +170,15 @@ section {
   }
 
   .hero-3d-layout {
-    /* changed: remove absolute/top offsets that made it touch the top */
-    @apply w-full relative flex justify-center;
-    align-items: flex-start; /* keep it from drifting upward with stretching */
-    padding-top: 2.5rem;     /* main "lower it" control */
-    margin-top: 0.5rem;      /* small extra separation from the header area */
+    @apply w-full relative flex;
+    align-items: flex-start;
+    padding-top: 2.5rem;
+    margin-top: 0.5rem;
     min-height: 320px;
+    /* changed: pull model toward the left of its column */
+    justify-content: flex-start;
+    padding-left: 0;
+    margin-left: -3rem;
   }
 
   .navbar {
@@ -274,30 +278,6 @@ section {
       @apply flex xl:flex-row flex-col gap-10 justify-between;
     }
 
-    .first-project-wrapper {
-      @apply h-full flex flex-col justify-between xl:w-[60%];
-
-      .image-wrapper {
-        @apply xl:h-[70vh] md:h-[50vh] h-96 relative;
-
-        img {
-          @apply w-full h-full object-cover rounded-xl absolute inset-0;
-        }
-      }
-
-      .text-content {
-        @apply space-y-5 mt-5;
-
-        .badges {
-          @apply flex gap-2 mb-4;
-        }
-
-        h2 {
-          @apply text-2xl md:text-3xl lg:text-4xl font-bold;
-        }
-      }
-    }
-
     .project-list-wrapper {
       @apply grid grid-cols-1 md:grid-cols-2 gap-8;  
       /* flex md:flex-row flex-col xl:flex-col gap-10 xl:w-[40%]; */
@@ -315,18 +295,49 @@ section {
       }
 
       .project {
-        @apply border border-[#07294a] bg-[#07294a] rounded-lg p-5 flex flex-col transition-colors duration-300 ease-in-out;
-        position: relative; /* added */
-        box-shadow: 12px 12px rgba(250,240,202, 0.55);
-        transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out; 
-        background-color: rgba(7, 41, 74, 0.55); /* tweak alpha: 0.35–0.75 */
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        transition: none !important;
+        padding: 1.25rem; /* changed: keep padding so content isn't flush */
       }
 
       .project:hover {
-        border-color: #faf0ca; 
-        box-shadow: 0 14px 36px rgba(13, 27, 42, 0.24); 
-        background-color: rgba(7, 41, 74, 0.6);
+        background: transparent !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
       }
+    }
+  }
+
+  /* changed: move float animation onto .showcase-float so GlassSurface wrapper floats */
+  .showcase-float {
+    animation-name: floaty;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    will-change: transform;
+  }
+
+  #work .project-list-wrapper .showcase-float:nth-child(1) {
+    animation-delay: 0.25s;
+    animation-duration: 7.3s;
+  }
+
+  #work .project-list-wrapper .showcase-float:nth-child(2) {
+    animation-delay: 1.15s;
+    animation-duration: 6.4s;
+  }
+
+  /* changed: remove old float rules that targeted .project.showcase-float */
+  #work .project-list-wrapper .project.showcase-float {
+    animation: none !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .showcase-float {
+      animation: none !important;
     }
   }
 
@@ -410,10 +421,6 @@ section {
 
   .card-border {
     @apply bg-transparent;
-  }
-
-  .marquee-item {
-    @apply md:w-40 w-32;
   }
 
   .timeline-wrapper {
@@ -577,109 +584,9 @@ section {
     transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
     position: relative;
     cursor: pointer;
-    box-shadow: 12px 12px rgba(250,240,202, 0.8);
     background-color: rgba(7, 41, 74, 0.70); 
   }
 
-  .project-bubble {
-    border-radius: 1.25rem; /* more "bubble" than default rounded-lg */
-    background: rgba(13, 27, 42, 0.55);
-    border: 1px solid rgba(224, 251, 252, 0.14);
-    box-shadow:
-      0 10px 28px rgba(0, 0, 0, 0.28),
-      inset 0 1px 0 rgba(255, 255, 255, 0.10);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease,
-      background-color 220ms ease;
-  }
-
-  .project-bubble:hover {
-    border-color: rgba(250, 240, 202, 0.6);
-    background: rgba(13, 27, 42, 0.35);
-    box-shadow:
-      0 14px 36px rgba(0, 0, 0, 0.34),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .project-bubble {
-      transition: none !important;
-    }
-  }
-
-  #work .project-list-wrapper .project.project-bubble {
-    background: rgba(13, 27, 42, 0.55);
-    border: 1px solid rgba(224, 251, 252, 0.14);
-    border-radius: 1.25rem;
-    box-shadow:
-      0 10px 28px rgba(0, 0, 0, 0.28),
-      inset 0 1px 0 rgba(255, 255, 255, 0.10);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-
-  #work .project-list-wrapper .project.project-bubble:hover {
-    background: rgba(13, 27, 42, 0.35);
-    border-color: rgba(250, 240, 202, 0.6);
-    box-shadow:
-      0 14px 36px rgba(0, 0, 0, 0.34),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  }
-
-  .project-modal-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 200;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.25rem;
-
-    /* animation */
-    animation: projectModalOverlayIn 180ms ease-out both;
-
-    overflow: auto;                 /* added: allows scrolling if modal taller than viewport */
-    -webkit-overflow-scrolling: touch; /* added: smooth scroll on iOS */
-
-    /* changed: hide scrollbar visuals (no @apply) */
-    -ms-overflow-style: none; /* IE/Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-  .project-modal-overlay::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
-  }
-
-  .project-modal {
-    width: min(600px, 100%);
-    max-height: min(85vh, 900px);
-    overflow: auto;
-    border-radius: 16px;
-    border: 1px solid rgba(98, 98, 98, 0.65); /* changed: modal border color */
-    background: #07294a;
-    box-shadow: 0 0 26px rgba(255, 255, 255, 0.15);
-    padding: 1rem; /* slightly smaller padding for mobile */
-    position: relative;
-
-    /* animation */
-    transform-origin: center;
-    animation: projectModalIn 220ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
-
-    overflow: auto;                 /* keep: scroll inside the modal */
-    -webkit-overflow-scrolling: touch; /* added: smooth scroll on iOS */
-
-    /* changed: hide scrollbar visuals (no @apply) */
-    -ms-overflow-style: none; /* IE/Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-  .project-modal::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
-  }
-
-  /* added/changed: ensure modal close button is top-right */
   .project-modal-close {
     position: absolute;
     top: 0.75rem;
@@ -753,53 +660,41 @@ section {
     }
   }
 
-  /* changed: better stagger float on ProjectsCollection cards (avoid sync) */
-  #projects .grid-3-cols .project {
+  /* changed: float the glass-card wrappers in ProjectsCollection, not .project */
+  #projects .grid-3-cols .glass-card {
     animation-name: floaty;
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
     will-change: transform;
+    padding: 1.25rem; /* changed: add padding so inner content isn't flush */
   }
 
-  /* 8-step cycle: mixes delay + duration so cards don't drift together */
-  #projects .grid-3-cols .project:nth-child(8n + 1) { animation-delay: 0s;   animation-duration: 6.2s; }
-  #projects .grid-3-cols .project:nth-child(8n + 2) { animation-delay: 0.7s; animation-duration: 7.1s; }
-  #projects .grid-3-cols .project:nth-child(8n + 3) { animation-delay: 1.4s; animation-duration: 6.6s; }
-  #projects .grid-3-cols .project:nth-child(8n + 4) { animation-delay: 2.1s; animation-duration: 7.8s; }
-  #projects .grid-3-cols .project:nth-child(8n + 5) { animation-delay: 2.8s; animation-duration: 6.9s; }
-  #projects .grid-3-cols .project:nth-child(8n + 6) { animation-delay: 3.5s; animation-duration: 7.4s; }
-  #projects .grid-3-cols .project:nth-child(8n + 7) { animation-delay: 4.2s; animation-duration: 6.4s; }
-  #projects .grid-3-cols .project:nth-child(8n)     { animation-delay: 4.9s; animation-duration: 8.2s; }
+  #projects .grid-3-cols .glass-card:nth-child(8n + 1) { animation-delay: 0s;    animation-duration: 6.2s; }
+  #projects .grid-3-cols .glass-card:nth-child(8n + 2) { animation-delay: 1.3s;  animation-duration: 8.7s; }
+  #projects .grid-3-cols .glass-card:nth-child(8n + 3) { animation-delay: 2.9s;  animation-duration: 5.9s; }
+  #projects .grid-3-cols .glass-card:nth-child(8n + 4) { animation-delay: 0.6s;  animation-duration: 9.4s; }
+  #projects .grid-3-cols .glass-card:nth-child(8n + 5) { animation-delay: 3.7s;  animation-duration: 7.1s; }
+  #projects .grid-3-cols .glass-card:nth-child(8n + 6) { animation-delay: 1.8s;  animation-duration: 10.2s; }
+  #projects .grid-3-cols .glass-card:nth-child(8n + 7) { animation-delay: 4.5s;  animation-duration: 6.6s; }
+  #projects .grid-3-cols .glass-card:nth-child(8n)     { animation-delay: 2.2s;  animation-duration: 8.1s; }
 
-  /* added: keep the active/expanded card stable (no float) */
-  #projects .grid-3-cols .project.ring-2 {
+  /* changed: stop the active/selected card from floating */
+  #projects .grid-3-cols .glass-card.ring-2 {
     animation: none !important;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    #projects .grid-3-cols .project {
+    #projects .grid-3-cols .glass-card {
       animation: none !important;
     }
   }
 
+  /* changed: old .project float rules no longer needed — kept for safety but zeroed out */
+  #projects .grid-3-cols .project {
+    animation: none !important;
+  }
+
   /* added: floating animation for ShowcaseSection projects (staggered, not in sync) */
-  #work .project-list-wrapper .project.showcase-float {
-    animation-name: floaty;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
-    will-change: transform;
-  }
-
-  #work .project-list-wrapper .project.showcase-float:nth-child(1) {
-    animation-delay: 0.25s;
-    animation-duration: 7.3s;
-  }
-
-  #work .project-list-wrapper .project.showcase-float:nth-child(2) {
-    animation-delay: 1.15s;
-    animation-duration: 6.4s;
-  }
-
   @media (prefers-reduced-motion: reduce) {
     #work .project-list-wrapper .project.showcase-float {
       animation: none !important;
@@ -838,6 +733,59 @@ section {
     border: 1px solid rgba(224, 251, 252, 0.12);
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
   }
+
+  /* added: lightweight CSS-only glass card — no SVG filters, no JS, GPU-friendly */
+  .glass-card {
+    border-radius: 1.25rem;
+    backdrop-filter: blur(12px) saturate(1.6);
+    -webkit-backdrop-filter: blur(12px) saturate(1.6);
+    background: rgba(13, 27, 42, 0.45);
+    border: 1px solid rgba(224, 251, 252, 0.14);
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transition: border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+    cursor: pointer;
+    will-change: transform; /* for the float animation only */
+    padding: 1.25rem; /* changed: add padding so inner content isn't flush */
+  }
+
+  .glass-card:hover {
+    border-color: rgba(250, 240, 202, 0.6);
+    background: rgba(13, 27, 42, 0.35);
+    box-shadow:
+      0 14px 36px rgba(0, 0, 0, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  /* added: disable hover styles on static glass panels (e.g. expanded project view) */
+  .glass-card--static {
+    border-radius: 1.25rem;
+    backdrop-filter: blur(12px) saturate(1.6);
+    -webkit-backdrop-filter: blur(12px) saturate(1.6);
+    background: rgba(13, 27, 42, 0.45);
+    border: 1px solid rgba(224, 251, 252, 0.14);
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+    cursor: default;
+    pointer-events: auto;
+  }
+
+  .glass-card--static:hover {
+    border-color: rgba(224, 251, 252, 0.14);
+    background: rgba(13, 27, 42, 0.45);
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glass-card {
+      transition: none !important;
+    }
+  }
 }
 
 /* added: mobile/touch refinements */
@@ -862,7 +810,9 @@ section {
   }
 
   .hero-3d-layout {
-    /* changed: when stacked under text, give it a little breathing room */
+    /* changed: reset negative margin on mobile so it doesn't overflow */
+    margin-left: 0;
+    justify-content: center;
     padding-top: 1.25rem; /* was 1rem */
     margin-top: 0.5rem;   /* was 0.2rem */
   }

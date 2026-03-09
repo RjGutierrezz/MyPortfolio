@@ -1,6 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState, useId } from 'react';
 
+const supportsSVGFilters = () => {
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    return false;
+  }
+
+  const isWebkit = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+  const isFirefox = /Firefox/.test(navigator.userAgent);
+
+  if (isWebkit || isFirefox) {
+    return false;
+  }
+
+  const div = document.createElement('div');
+  div.style.backdropFilter = `url(#test)`;
+  return div.style.backdropFilter !== '';
+};
+
 const useDarkMode = () => {
   const [isDark, setIsDark] = useState(false);
 
@@ -45,7 +62,10 @@ const GlassSurface = ({
   const redGradId = `red-grad-${uniqueId}`;
   const blueGradId = `blue-grad-${uniqueId}`;
 
-  const [svgSupported, setSvgSupported] = useState(false);
+  const [svgSupported, setSvgSupported] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return supportsSVGFilters();
+  });
 
   const containerRef = useRef(null);
   const feImageRef = useRef(null);
@@ -136,44 +156,13 @@ const GlassSurface = ({
   }, []);
 
   useEffect(() => {
-    if (!containerRef.current) return;
-
-    const resizeObserver = new ResizeObserver(() => {
-      setTimeout(updateDisplacementMap, 0);
-    });
-
-    resizeObserver.observe(containerRef.current);
-
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
     setTimeout(updateDisplacementMap, 0);
   }, [width, height]);
 
   useEffect(() => {
-    setSvgSupported(supportsSVGFilters());
+    const supported = supportsSVGFilters();
+    if (supported !== svgSupported) setSvgSupported(supported);
   }, []);
-
-  const supportsSVGFilters = () => {
-    if (typeof window === 'undefined' || typeof document === 'undefined') {
-      return false;
-    }
-
-    const isWebkit = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
-    const isFirefox = /Firefox/.test(navigator.userAgent);
-
-    if (isWebkit || isFirefox) {
-      return false;
-    }
-
-    const div = document.createElement('div');
-    div.style.backdropFilter = `url(#${filterId})`;
-
-    return div.style.backdropFilter !== '';
-  };
 
   const supportsBackdropFilter = () => {
     if (typeof window === 'undefined') return false;

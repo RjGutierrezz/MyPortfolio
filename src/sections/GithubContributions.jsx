@@ -98,7 +98,7 @@ const GithubContributions = () => {
   return (
     <section>
       <div className="w-full h-full xl:px-20 md:px-20 px-5">
-        <div className="card-border rounded-xl p-6 md:p-10 border border-[#3d5a80] bg-[#0D1B2A]/40">
+        <div className="card-border glass-card--static rounded-xl p-6 md:p-10">
           <h2 className="text-xl md:text-3xl font-bold text-white-50">
             GitHub Contributions
           </h2>
