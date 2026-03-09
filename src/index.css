@@ -794,7 +794,9 @@ section {
   }
 
   /* changed: expanded panel image stays still — no zoom */
-  .glass-card--static .image-wrapper img {
+  .glass-card--static .image-wrapper img,
+  .glass-card.glass-card--static .image-wrapper img,
+  .glass-card.glass-card--static:hover .image-wrapper img {
     transform: none !important;
     transition: none !important;
   }
