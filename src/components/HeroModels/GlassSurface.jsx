@@ -6,16 +6,9 @@ const supportsSVGFilters = () => {
     return false;
   }
 
-  const isWebkit = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
-  const isFirefox = /Firefox/.test(navigator.userAgent);
-
-  if (isWebkit || isFirefox) {
-    return false;
-  }
-
-  const div = document.createElement('div');
-  div.style.backdropFilter = `url(#test)`;
-  return div.style.backdropFilter !== '';
+  // changed: disable SVG filter path for ALL browsers — use the CSS backdrop-filter
+  // path everywhere so GlassSurface always matches the .glass-card CSS values
+  return false;
 };
 
 const useDarkMode = () => {
