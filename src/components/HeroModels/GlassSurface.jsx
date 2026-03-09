@@ -208,24 +208,21 @@ const GlassSurface = ({
       if (!backdropFilterSupported) {
         return {
           ...baseStyles,
-          background: 'rgba(11, 60, 120, 0.55)',
+          background: 'rgba(11, 89, 163, 0.22)',
           border: '1px solid rgba(154, 217, 245, 0.28)',
-          boxShadow: `0 10px 28px rgba(0,0,0,0.38),
+          boxShadow: `0 10px 28px rgba(0,0,0,0.35),
                       inset 0 1px 0 rgba(154, 217, 245, 0.22)`
         };
       }
 
       return {
         ...baseStyles,
-        background: isDarkMode
-          ? 'rgba(11, 60, 120, 0.22)'
-          : 'rgba(11, 60, 120, 0.18)',
-        backdropFilter:  'blur(22px) saturate(3) brightness(1.25) hue-rotate(-5deg)',
-        WebkitBackdropFilter: 'blur(22px) saturate(3) brightness(1.25) hue-rotate(-5deg)',
-        border: '1px solid rgba(154, 217, 245, 0.30)',
-        boxShadow: `0 10px 28px rgba(0, 0, 0, 0.38),
-                    inset 0 1px 0 rgba(154, 217, 245, 0.25),
-                    inset 0 -1px 0 rgba(11, 89, 163, 0.15)`
+        background: 'rgba(11, 89, 163, 0.15)',
+        backdropFilter: 'blur(20px) saturate(2.5) brightness(1.2)',
+        WebkitBackdropFilter: 'blur(20px) saturate(2.5) brightness(1.2)',
+        border: '1px solid rgba(154, 217, 245, 0.28)',
+        boxShadow: `0 10px 28px rgba(0, 0, 0, 0.35),
+                    inset 0 1px 0 rgba(154, 217, 245, 0.22)`
       };
     }
   };
