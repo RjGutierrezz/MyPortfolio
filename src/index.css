@@ -283,7 +283,7 @@ section {
       /* flex md:flex-row flex-col xl:flex-col gap-10 xl:w-[40%]; */
 
       .image-wrapper {
-        @apply xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl xl:px-5 2xl:px-12 py-0;
+        @apply xl:h-[26vh] md:h-52 lg:h-60 h-52 relative rounded-xl xl:px-5 2xl:px-12 py-0;
       }
 
       img {
@@ -777,6 +777,25 @@ section {
     box-shadow:
       0 10px 28px rgba(0, 0, 0, 0.28),
       inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  /* added: title color change on glass-card hover (ProjectsCollection) */
+  .glass-card:hover h2 {
+    color: #faf0ca;
+  }
+
+  /* added: image zoom on glass-card hover (ProjectsCollection) */
+  .glass-card .image-wrapper img {
+    @apply transition-transform duration-300 ease-in-out;
+  }
+
+  .glass-card:hover .image-wrapper img {
+    transform: scale(1.1);
+  }
+
+  .glass-card--static .image-wrapper img {
+    transform: none !important;
+    transition: none !important;
   }
 
   @media (prefers-reduced-motion: reduce) {

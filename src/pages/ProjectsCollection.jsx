@@ -232,7 +232,7 @@ const ProjectsCollection = () => {
                   </div>
 
                   {/* changed: marked/colored project description */}
-                  <p className="text-white-50 md:text-lg mt-4 whitespace-pre-line">
+                  <p className="text-white-50 md:text-md mt-4 whitespace-pre-line">
                     {renderMarkedText(activeProject.description || "")}
                   </p>
 
@@ -298,14 +298,13 @@ const ProjectsCollection = () => {
         ) : null}
 
         <div id="techstack" className="mt-5">
-          <div className="mx-auto grid-3-cols p-2 md:p-4 overflow-visible">
+          <div className="mx-auto grid-3-cols pt-3 overflow-visible">
             {projects.map((p) => {
               const isActive = activeProjectId === p.id;
 
               return (
                 <div
                   key={p.id}
-                  // changed: removed .floaty — nth-child rules in CSS handle staggered float
                   className={`glass-card ${isActive ? "ring-2 ring-[#faf0ca]" : ""}`}
                   role="button"
                   tabIndex={0}
@@ -318,23 +317,26 @@ const ProjectsCollection = () => {
                   }}
                 >
                   <div
-                    className={`image-wrapper ${p.imgBgClass} xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl xl:px-5 2xl:px-12 py-0`}
+                    className={`image-wrapper ${p.imgBgClass} xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl overflow-hidden`}
                   >
                     <img
                       src={p.imgPath}
                       alt={p.imgAlt || p.title}
-                      className="w-full h-full object-contain rounded-xl p-10 transition-transform duration-300 ease-in-out"
+                      className="w-full h-full object-contain rounded-xl p-6 transition-transform duration-300 ease-in-out"
+                      style={{ transformOrigin: "center" }}
                     />
                   </div>
 
                   <div className="showcase-text-with-cta text-white-100">
-                    <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mt-5 mb-3">
+                    <h2
+                      className="text-lg md:text-xl lg:text-2xl font-semibold mt-5 mb-3 transition-colors duration-[250ms] ease-in-out"
+                    >
                       {p.title}
                     </h2>
 
                     {/* changed: snippet keeps truncation, but still renders colored marks */}
-                    <p className="text-white-50 md:text-lg">
-                      {renderMarkedText(truncateText(stripMarks(p.description || ""), 140))}
+                    <p className="text-white-50 md:text-md">
+                      {renderMarkedText(truncateText(stripMarks(p.description || ""), 100))}
                     </p>
 
                     {Array.isArray(p.techStack) && p.techStack.length > 0 && (
