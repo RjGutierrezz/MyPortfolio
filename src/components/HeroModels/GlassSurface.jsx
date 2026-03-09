@@ -6,9 +6,16 @@ const supportsSVGFilters = () => {
     return false;
   }
 
-  // changed: disable SVG filter path for ALL browsers — use the CSS backdrop-filter
-  // path everywhere so GlassSurface always matches the .glass-card CSS values
-  return false;
+  const isWebkit = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+  const isFirefox = /Firefox/.test(navigator.userAgent);
+
+  if (isWebkit || isFirefox) {
+    return false;
+  }
+
+  const div = document.createElement('div');
+  div.style.backdropFilter = `url(#test)`;
+  return div.style.backdropFilter !== '';
 };
 
 const useDarkMode = () => {
@@ -198,25 +205,49 @@ const GlassSurface = ({
              0px 16px 56px rgba(17, 17, 26, 0.05) inset`
       };
     } else {
-      if (!backdropFilterSupported) {
-        return {
-          ...baseStyles,
-          background: 'rgba(11, 89, 163, 0.22)',
-          border: '1px solid rgba(154, 217, 245, 0.28)',
-          boxShadow: `0 10px 28px rgba(0,0,0,0.35),
-                      inset 0 1px 0 rgba(154, 217, 245, 0.22)`
-        };
+      if (isDarkMode) {
+        if (!backdropFilterSupported) {
+          return {
+            ...baseStyles,
+            background: 'rgba(0, 0, 0, 0.4)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            boxShadow: `inset 0 1px 0 0 rgba(255, 255, 255, 0.2),
+                        inset 0 -1px 0 0 rgba(255, 255, 255, 0.1)`
+          };
+        } else {
+          return {
+            ...baseStyles,
+            background: 'rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'blur(12px) saturate(1.8) brightness(1.2)',
+            WebkitBackdropFilter: 'blur(12px) saturate(1.8) brightness(1.2)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            boxShadow: `inset 0 1px 0 0 rgba(255, 255, 255, 0.2),
+                        inset 0 -1px 0 0 rgba(255, 255, 255, 0.1)`
+          };
+        }
+      } else {
+        if (!backdropFilterSupported) {
+          return {
+            ...baseStyles,
+            background: 'rgba(255, 255, 255, 0.4)',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
+            boxShadow: `inset 0 1px 0 0 rgba(255, 255, 255, 0.5),
+                        inset 0 -1px 0 0 rgba(255, 255, 255, 0.3)`
+          };
+        } else {
+          return {
+            ...baseStyles,
+            background: 'rgba(255, 255, 255, 0.25)',
+            backdropFilter: 'blur(12px) saturate(1.8) brightness(1.1)',
+            WebkitBackdropFilter: 'blur(12px) saturate(1.8) brightness(1.1)',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
+            boxShadow: `0 8px 32px 0 rgba(31, 38, 135, 0.2),
+                        0 2px 16px 0 rgba(31, 38, 135, 0.1),
+                        inset 0 1px 0 0 rgba(255, 255, 255, 0.4),
+                        inset 0 -1px 0 0 rgba(255, 255, 255, 0.2)`
+          };
+        }
       }
-
-      return {
-        ...baseStyles,
-        background: 'rgba(11, 89, 163, 0.15)',
-        backdropFilter: 'blur(20px) saturate(2.5) brightness(1.2)',
-        WebkitBackdropFilter: 'blur(20px) saturate(2.5) brightness(1.2)',
-        border: '1px solid rgba(154, 217, 245, 0.28)',
-        boxShadow: `0 10px 28px rgba(0, 0, 0, 0.35),
-                    inset 0 1px 0 rgba(154, 217, 245, 0.22)`
-      };
     }
   };
 

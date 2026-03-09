@@ -744,8 +744,8 @@ section {
       inset 0 1px 0 rgba(154, 217, 245, 0.22);
     transition: border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
     cursor: pointer;
-    will-change: transform; /* for the float animation only */
-    padding: 1.25rem; /* changed: add padding so inner content isn't flush */
+    will-change: transform;
+    padding: 1.25rem;
   }
 
   .glass-card:hover {
@@ -756,7 +756,6 @@ section {
       inset 0 1px 0 rgba(154, 217, 245, 0.32);
   }
 
-  /* added: disable hover styles on static glass panels (e.g. expanded project view) */
   .glass-card--static {
     border-radius: 1.25rem;
     backdrop-filter: blur(20px) saturate(2.5) brightness(1.2);
@@ -766,7 +765,6 @@ section {
     box-shadow:
       0 10px 28px rgba(0, 0, 0, 0.35),
       inset 0 1px 0 rgba(154, 217, 245, 0.22);
-
     cursor: default;
     pointer-events: auto;
   }
@@ -779,58 +777,19 @@ section {
       inset 0 1px 0 rgba(154, 217, 245, 0.22);
   }
 
-  /* changed: animated CSS gradient background — replaces Grainient canvas so
-     backdrop-filter on glass cards can sample through it on Vercel/production */
-  .app-bg {
-    background:
-      radial-gradient(ellipse at 20% 20%, rgba(11, 89, 163, 0.9) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 80%, rgba(9, 50, 120, 0.85) 0%, transparent 50%),
-      radial-gradient(ellipse at 60% 10%, rgba(14, 42, 90, 0.8) 0%, transparent 45%),
-      radial-gradient(ellipse at 10% 70%, rgba(6, 30, 80, 0.85) 0%, transparent 50%),
-      #071a2e;
-    background-attachment: local;
-    animation: bgShift 18s ease-in-out infinite alternate;
+  /* changed: Chrome-only glass boost to match Safari rendering */
+  html.is-chrome .glass-card {
+    backdrop-filter: blur(24px) saturate(4) brightness(1.5) hue-rotate(-8deg);
+    -webkit-backdrop-filter: blur(24px) saturate(4) brightness(1.5) hue-rotate(-8deg);
+    background: rgba(11, 89, 163, 0.18);
+    border-color: rgba(154, 217, 245, 0.30);
   }
 
-  @keyframes bgShift {
-    0% {
-      background:
-        radial-gradient(ellipse at 20% 20%, rgba(11, 89, 163, 0.9) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(9, 50, 120, 0.85) 0%, transparent 50%),
-        radial-gradient(ellipse at 60% 10%, rgba(14, 42, 90, 0.8) 0%, transparent 45%),
-        radial-gradient(ellipse at 10% 70%, rgba(6, 30, 80, 0.85) 0%, transparent 50%),
-        #071a2e;
-    }
-    33% {
-      background:
-        radial-gradient(ellipse at 70% 30%, rgba(11, 89, 163, 0.9) 0%, transparent 50%),
-        radial-gradient(ellipse at 20% 70%, rgba(9, 50, 120, 0.85) 0%, transparent 50%),
-        radial-gradient(ellipse at 90% 60%, rgba(14, 42, 90, 0.8) 0%, transparent 45%),
-        radial-gradient(ellipse at 40% 10%, rgba(6, 30, 80, 0.85) 0%, transparent 50%),
-        #071a2e;
-    }
-    66% {
-      background:
-        radial-gradient(ellipse at 50% 80%, rgba(11, 89, 163, 0.9) 0%, transparent 50%),
-        radial-gradient(ellipse at 10% 20%, rgba(9, 50, 120, 0.85) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 40%, rgba(14, 42, 90, 0.8) 0%, transparent 45%),
-        radial-gradient(ellipse at 60% 90%, rgba(6, 30, 80, 0.85) 0%, transparent 50%),
-        #071a2e;
-    }
-    100% {
-      background:
-        radial-gradient(ellipse at 30% 60%, rgba(11, 89, 163, 0.9) 0%, transparent 50%),
-        radial-gradient(ellipse at 70% 10%, rgba(9, 50, 120, 0.85) 0%, transparent 50%),
-        radial-gradient(ellipse at 20% 90%, rgba(14, 42, 90, 0.8) 0%, transparent 45%),
-        radial-gradient(ellipse at 80% 50%, rgba(6, 30, 80, 0.85) 0%, transparent 50%),
-        #071a2e;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .app-bg {
-      animation: none !important;
-    }
+  html.is-chrome .glass-card--static {
+    backdrop-filter: blur(24px) saturate(4) brightness(1.5) hue-rotate(-8deg);
+    -webkit-backdrop-filter: blur(24px) saturate(4) brightness(1.5) hue-rotate(-8deg);
+    background: rgba(11, 89, 163, 0.18);
+    border-color: rgba(154, 217, 245, 0.30);
   }
 
   /* added: title color change on glass-card hover (ProjectsCollection cards) */
@@ -914,7 +873,6 @@ section {
 }
 
 /* Hero Text slider ends */
-
 .gradient-line {
   width: 2px;
   background: linear-gradient(
@@ -972,7 +930,6 @@ section {
   }
 }
 /* marquee end */
-
 .card {
   --start: 0;
   position: relative;
