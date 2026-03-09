@@ -5,7 +5,7 @@
   --gradient: radial-gradient(circle, #e5e5e5 0%, #fff 100%);
 
   /* keep timeline in-sync with page bg */
-  --timeline-bg-color: #0d3b66;
+  /* --timeline-bg-color: #0d3b66; */
   --timeline-bg-image: none;
 }
 
@@ -15,8 +15,8 @@ body {
   width: 100%;
   overflow-x: hidden;
 
-  /* changed: allow Grainient (fixed in AppLayout) to be visible globally */
-  background-color: transparent;
+  /* changed: solid dark base so there's no flash */
+  background-color: #071a2e;
   background-image: none;
 
   color: #e0fbfc;
@@ -430,7 +430,7 @@ section {
   .timeline {
     @apply absolute z-30 h-[110%] -top-10 w-14 md:w-28;
 
-    background-color: var(--timeline-bg-color);
+    /* background-color: var(--timeline-bg-color); */
     background-image: var(--timeline-bg-image);
     background-repeat: no-repeat;
     background-size: cover;
@@ -735,13 +735,13 @@ section {
   /* added: lightweight CSS-only glass card — no SVG filters, no JS, GPU-friendly */
   .glass-card {
     border-radius: 1.25rem;
-    backdrop-filter: blur(12px) saturate(1.6);
-    -webkit-backdrop-filter: blur(12px) saturate(1.6);
-    background: rgba(13, 27, 42, 0.45);
-    border: 1px solid rgba(224, 251, 252, 0.14);
+    backdrop-filter: blur(20px) saturate(2.5) brightness(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(2.5) brightness(1.2);
+    background: rgba(11, 89, 163, 0.15);
+    border: 1px solid rgba(154, 217, 245, 0.28);
     box-shadow:
-      0 10px 28px rgba(0, 0, 0, 0.28),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      0 10px 28px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(154, 217, 245, 0.22);
     transition: border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
     cursor: pointer;
     will-change: transform; /* for the float animation only */
@@ -750,38 +750,86 @@ section {
 
   .glass-card:hover {
     border-color: rgba(250, 240, 202, 0.6);
-    background: rgba(13, 27, 42, 0.35);
+    background: rgba(11, 89, 163, 0.25);
     box-shadow:
-      0 14px 36px rgba(0, 0, 0, 0.34),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      0 14px 36px rgba(0, 0, 0, 0.42),
+      inset 0 1px 0 rgba(154, 217, 245, 0.32);
   }
 
   /* added: disable hover styles on static glass panels (e.g. expanded project view) */
   .glass-card--static {
     border-radius: 1.25rem;
-    backdrop-filter: blur(12px) saturate(1.6);
-    -webkit-backdrop-filter: blur(12px) saturate(1.6);
-    background: rgba(13, 27, 42, 0.45);
-    border: 1px solid rgba(224, 251, 252, 0.14);
+    backdrop-filter: blur(20px) saturate(2.5) brightness(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(2.5) brightness(1.2);
+    background: rgba(11, 89, 163, 0.15);
+    border: 1px solid rgba(154, 217, 245, 0.28);
     box-shadow:
-      0 10px 28px rgba(0, 0, 0, 0.28),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      0 10px 28px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(154, 217, 245, 0.22);
 
     cursor: default;
     pointer-events: auto;
   }
 
   .glass-card--static:hover {
-    border-color: rgba(224, 251, 252, 0.14);
-    background: rgba(13, 27, 42, 0.45);
+    border-color: rgba(154, 217, 245, 0.28);
+    background: rgba(11, 89, 163, 0.15);
     box-shadow:
-      0 10px 28px rgba(0, 0, 0, 0.28),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      0 10px 28px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(154, 217, 245, 0.22);
+  }
+
+  /* changed: animated CSS gradient background — replaces Grainient canvas so
+     backdrop-filter on glass cards can sample through it on Vercel/production */
+  .app-bg {
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(11, 89, 163, 0.9) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(9, 50, 120, 0.85) 0%, transparent 50%),
+      radial-gradient(ellipse at 60% 10%, rgba(14, 42, 90, 0.8) 0%, transparent 45%),
+      radial-gradient(ellipse at 10% 70%, rgba(6, 30, 80, 0.85) 0%, transparent 50%),
+      #071a2e;
+    background-attachment: local;
+    animation: bgShift 18s ease-in-out infinite alternate;
+  }
+
+  @keyframes bgShift {
+    0% {
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(11, 89, 163, 0.9) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(9, 50, 120, 0.85) 0%, transparent 50%),
+        radial-gradient(ellipse at 60% 10%, rgba(14, 42, 90, 0.8) 0%, transparent 45%),
+        radial-gradient(ellipse at 10% 70%, rgba(6, 30, 80, 0.85) 0%, transparent 50%),
+        #071a2e;
+    }
+    33% {
+      background:
+        radial-gradient(ellipse at 70% 30%, rgba(11, 89, 163, 0.9) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 70%, rgba(9, 50, 120, 0.85) 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 60%, rgba(14, 42, 90, 0.8) 0%, transparent 45%),
+        radial-gradient(ellipse at 40% 10%, rgba(6, 30, 80, 0.85) 0%, transparent 50%),
+        #071a2e;
+    }
+    66% {
+      background:
+        radial-gradient(ellipse at 50% 80%, rgba(11, 89, 163, 0.9) 0%, transparent 50%),
+        radial-gradient(ellipse at 10% 20%, rgba(9, 50, 120, 0.85) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 40%, rgba(14, 42, 90, 0.8) 0%, transparent 45%),
+        radial-gradient(ellipse at 60% 90%, rgba(6, 30, 80, 0.85) 0%, transparent 50%),
+        #071a2e;
+    }
+    100% {
+      background:
+        radial-gradient(ellipse at 30% 60%, rgba(11, 89, 163, 0.9) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 10%, rgba(9, 50, 120, 0.85) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 90%, rgba(14, 42, 90, 0.8) 0%, transparent 45%),
+        radial-gradient(ellipse at 80% 50%, rgba(6, 30, 80, 0.85) 0%, transparent 50%),
+        #071a2e;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .glass-card {
-      transition: none !important;
+    .app-bg {
+      animation: none !important;
     }
   }
 }

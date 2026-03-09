@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import TitleHeader from "../components/TitleHeader";
 import { projects } from "../constants/index.js";
+import GlassSurface from "../components/HeroModels/GlassSurface.jsx";
 
 const truncateText = (text, maxLength) =>
   text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
@@ -14,7 +15,6 @@ const asset = (p) => {
 
 const TECH_BADGE_COLORS = ["#ffadad", "#ffd6a5", "#fdffb6", "#caffbf", "#9bf6ff", "#a0c4ff", "#bdb2ff", "#ff9ed7"];
 
-// added: deterministic "random" color picker (stable per label)
 const pickTechColor = (label) => {
   const s = String(label ?? "");
   let h = 2166136261; // FNV-1a-ish
@@ -26,13 +26,14 @@ const pickTechColor = (label) => {
   return TECH_BADGE_COLORS[idx];
 };
 
+const FLOAT_DELAYS = ["0s", "1.3s", "2.9s", "0.6s", "3.7s", "1.8s", "4.5s", "2.2s"];
+const FLOAT_DURATIONS = ["6.2s", "8.7s", "5.9s", "9.4s", "7.1s", "10.2s", "6.6s", "8.1s"];
+
 const ProjectsCollection = () => {
   const [activeProjectId, setActiveProjectId] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   const expandedTopRef = useRef(null);
-
-  // added: store the last clicked card's bounding rect for FLIP animation
   const lastCardRectRef = useRef(null);
 
   const activeProject = useMemo(
@@ -40,12 +41,9 @@ const ProjectsCollection = () => {
     [activeProjectId]
   );
 
-  // added: render [[text|tone]] markers from constants with your chosen colors
   const renderMarkedText = (text) => {
     const TONE_CLASS = {
-      // tech: "text-[#9bf6ff] font-semibold",
       accent: "text-[#aaffb8] font-medium",
-      // warn: "text-[#ffadad] font-semibold",
     };
 
     const s = String(text ?? "");
@@ -71,10 +69,8 @@ const ProjectsCollection = () => {
     });
   };
 
-  // changed: truncate for plain text (strip the markup so snippets don’t show [[...|...]])
   const stripMarks = (text) => String(text ?? "").replace(/\[\[([\s\S]+?)\|([a-zA-Z0-9_-]+)\]\]/g, "$1");
 
-  // changed: animate the top panel from the clicked card position -> top panel position
   useEffect(() => {
     setActiveImageIndex(0);
     if (!activeProjectId) return;
@@ -86,12 +82,10 @@ const ProjectsCollection = () => {
     requestAnimationFrame(() => {
       const panel = expandedTopRef.current;
 
-      // changed: scroll with explicit offset so the panel isn't hidden under the fixed navbar
       if (panel) {
         const navbar = document.querySelector(".navbar");
         const navH = navbar?.getBoundingClientRect?.().height ?? 0;
 
-        // extra breathing room below navbar
         const offset = navH + 16;
 
         const y = panel.getBoundingClientRect().top + window.scrollY - offset;
@@ -103,7 +97,6 @@ const ProjectsCollection = () => {
       const fromRect = lastCardRectRef.current;
       if (!panel || !fromRect) return;
 
-      // Let layout settle after scroll starts, then FLIP
       requestAnimationFrame(() => {
         const toRect = panel.getBoundingClientRect();
 
@@ -127,13 +120,11 @@ const ProjectsCollection = () => {
           }
         );
 
-        // one-shot: only use the rect for the immediate transition
         lastCardRectRef.current = null;
       });
     });
   }, [activeProjectId]);
 
-  // added: capture clicked card position before activating
   const openProjectFromCard = (id, el) => {
     if (el?.getBoundingClientRect) lastCardRectRef.current = el.getBoundingClientRect();
     setActiveProjectId(id);
@@ -155,191 +146,94 @@ const ProjectsCollection = () => {
 
         {activeProject ? (
           <div ref={expandedTopRef} className="mt-6 project-expand-panel">
-            <div className="glass-card glass-card--static relative p-4 md:p-6">
-              <button
-                type="button"
-                className="project-modal-close"
-                aria-label="Close project details"
-                onClick={() => setActiveProjectId(null)}
-              >
-                <span
-                  className="icon-mask size-5 md:size-6"
-                  style={{ ["--icon-url"]: `url(${asset("images/close.png")})` }}
-                  aria-hidden="true"
-                />
-              </button>
+            <GlassSurface
+              width="100%"
+              height="auto"
+              borderRadius={20}
+              className="w-full"
+              style={{ height: "auto", minHeight: 60 }}
+            >
+              <div className="relative p-4 md:p-6 w-full">
+                <button
+                  type="button"
+                  className="project-modal-close"
+                  aria-label="Close project details"
+                  onClick={() => setActiveProjectId(null)}
+                >
+                  <span
+                    className="icon-mask size-5 md:size-6"
+                    style={{ ["--icon-url"]: `url(${asset("images/close.png")})` }}
+                    aria-hidden="true"
+                  />
+                </button>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                {(() => {
-                  const gallery =
-                    Array.isArray(activeProject.gallery) && activeProject.gallery.length
-                      ? activeProject.gallery
-                      : [activeProject.imgPath];
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                  {(() => {
+                    const gallery =
+                      Array.isArray(activeProject.gallery) && activeProject.gallery.length
+                        ? activeProject.gallery
+                        : [activeProject.imgPath];
 
-                  const canPaginate = gallery.length > 1;
-                  const imgSrc = gallery[Math.min(activeImageIndex, gallery.length - 1)];
+                    const canPaginate = gallery.length > 1;
+                    const imgSrc = gallery[Math.min(activeImageIndex, gallery.length - 1)];
 
-                  const prev = () =>
-                    setActiveImageIndex((i) => (i - 1 + gallery.length) % gallery.length);
-                  const next = () =>
-                    setActiveImageIndex((i) => (i + 1) % gallery.length);
+                    const prev = () =>
+                      setActiveImageIndex((i) => (i - 1 + gallery.length) % gallery.length);
+                    const next = () =>
+                      setActiveImageIndex((i) => (i + 1) % gallery.length);
 
-                  return (
-                    <div className="relative">
-                      <div
-                        className="image-wrapper md:h-96 h-72 relative rounded-xl overflow-hidden"
-                      >
-                        <img
-                          src={imgSrc}
-                          alt={activeProject.imgAlt || activeProject.title}
-                          className="w-full h-full object-contain"
-                        />
+                    return (
+                      <div className="relative">
+                        <div
+                          className="image-wrapper md:h-96 h-72 relative rounded-xl overflow-hidden"
+                        >
+                          <img
+                            src={imgSrc}
+                            alt={activeProject.imgAlt || activeProject.title}
+                            className="w-full h-full object-contain"
+                          />
+
+                          {canPaginate ? (
+                            <div className="absolute inset-0 grid grid-cols-2">
+                              <button
+                                type="button"
+                                aria-label="Previous image"
+                                className="cursor-w-resize bg-transparent"
+                                onClick={prev}
+                              />
+                              <button
+                                type="button"
+                                aria-label="Next image"
+                                className="cursor-e-resize bg-transparent"
+                                onClick={next}
+                              />
+                            </div>
+                          ) : null}
+                        </div>
 
                         {canPaginate ? (
-                          <div className="absolute inset-0 grid grid-cols-2">
-                            <button
-                              type="button"
-                              aria-label="Previous image"
-                              className="cursor-w-resize bg-transparent"
-                              onClick={prev}
-                            />
-                            <button
-                              type="button"
-                              aria-label="Next image"
-                              className="cursor-e-resize bg-transparent"
-                              onClick={next}
-                            />
+                          <div className="mt-2 flex items-center justify-center">
+                            <span className="text-white-50 text-sm">
+                              {activeImageIndex + 1} / {gallery.length}
+                            </span>
                           </div>
                         ) : null}
                       </div>
+                    );
+                  })()}
 
-                      {canPaginate ? (
-                        <div className="mt-2 flex items-center justify-center">
-                          <span className="text-white-50 text-sm">
-                            {activeImageIndex + 1} / {gallery.length}
-                          </span>
-                        </div>
-                      ) : null}
+                  <div className="flex flex-col min-h-full">
+                    <div className="flex items-start justify-between gap-4">
+                      <h2 className="text-[#faf0ca] text-2xl md:text-3xl font-bold">
+                        {activeProject.title}
+                      </h2>
                     </div>
-                  );
-                })()}
 
-                <div className="flex flex-col min-h-full">
-                  <div className="flex items-start justify-between gap-4">
-                    <h2 className="text-[#faf0ca] text-2xl md:text-3xl font-bold">
-                      {activeProject.title}
-                    </h2>
-                  </div>
-
-                  {/* changed: marked/colored project description */}
-                  <p className="text-white-50 md:text-md mt-4 whitespace-pre-line">
-                    {renderMarkedText(activeProject.description || "")}
-                  </p>
-
-                  {Array.isArray(activeProject.techStack) && activeProject.techStack.length > 0 ? (
-                    <>
-                      <div className="mt-6 flex items-center gap-2 text-white-50/80">
-                        <span
-                          className="icon-mask size-4 md:size-5"
-                          style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
-                          aria-hidden="true"
-                        />
-                        <span className="text-sm md:text-base font-semibold">
-                          Tech Stack
-                        </span>
-                      </div>
-
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {activeProject.techStack.map((t) => (
-                          <span
-                            key={`${activeProject.id}-top-${t}`}
-                            // changed: dynamic text color + bold
-                            className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold"
-                            style={{ color: pickTechColor(t) }}
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </>
-                  ) : null}
-
-                  <div className="mt-auto pt-6 flex items-center justify-between gap-4">
-                    <a
-                      href={activeProject.disabled ? undefined : activeProject.href}
-                      target={activeProject.disabled ? undefined : "_blank"}
-                      rel={activeProject.disabled ? undefined : "noopener noreferrer"}
-                      className="showcase-cta learn-more-fill"
-                      aria-disabled={activeProject.disabled ? "true" : undefined}
-                      onClick={(e) => {
-                        if (activeProject.disabled) e.preventDefault();
-                      }}
-                    >
-                      View Repo
-                    </a>
-
-                    {activeProject.liveHref ? (
-                      <a
-                        href={activeProject.liveHref}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="showcase-cta learn-more-fill"
-                      >
-                        Live App
-                      </a>
-                    ) : (
-                      <span aria-hidden="true" />
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : null}
-
-        <div id="techstack" className="mt-5">
-          <div className="mx-auto grid-3-cols pt-3 overflow-visible">
-            {projects.map((p) => {
-              const isActive = activeProjectId === p.id;
-
-              return (
-                <div
-                  key={p.id}
-                  className={`glass-card ${isActive ? "ring-2 ring-[#faf0ca]" : ""}`}
-                  role="button"
-                  tabIndex={0}
-                  onClick={(e) => openProjectFromCard(isActive ? null : p.id, e.currentTarget)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      openProjectFromCard(isActive ? null : p.id, e.currentTarget);
-                    }
-                  }}
-                >
-                  <div
-                    className={`image-wrapper ${p.imgBgClass} xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl overflow-hidden`}
-                  >
-                    <img
-                      src={p.imgPath}
-                      alt={p.imgAlt || p.title}
-                      className="w-full h-full object-contain rounded-xl p-6 transition-transform duration-300 ease-in-out"
-                      style={{ transformOrigin: "center" }}
-                    />
-                  </div>
-
-                  <div className="showcase-text-with-cta text-white-100">
-                    <h2
-                      className="text-lg md:text-xl lg:text-2xl font-semibold mt-5 mb-3 transition-colors duration-[250ms] ease-in-out"
-                    >
-                      {p.title}
-                    </h2>
-
-                    {/* changed: snippet keeps truncation, but still renders colored marks */}
-                    <p className="text-white-50 md:text-md">
-                      {renderMarkedText(truncateText(stripMarks(p.description || ""), 100))}
+                    <p className="text-white-50 md:text-md mt-4 whitespace-pre-line">
+                      {renderMarkedText(activeProject.description || "")}
                     </p>
 
-                    {Array.isArray(p.techStack) && p.techStack.length > 0 && (
+                    {Array.isArray(activeProject.techStack) && activeProject.techStack.length > 0 ? (
                       <>
                         <div className="mt-6 flex items-center gap-2 text-white-50/80">
                           <span
@@ -353,10 +247,10 @@ const ProjectsCollection = () => {
                         </div>
 
                         <div className="mt-3 flex flex-wrap gap-2">
-                          {p.techStack.map((t) => (
+                          {activeProject.techStack.map((t) => (
                             <span
-                              key={`${p.id}-${t}`}
-                              className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent font-bold"
+                              key={`${activeProject.id}-top-${t}`}
+                              className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold"
                               style={{ color: pickTechColor(t) }}
                             >
                               {t}
@@ -364,9 +258,120 @@ const ProjectsCollection = () => {
                           ))}
                         </div>
                       </>
-                    )}
+                    ) : null}
+
+                    <div className="mt-auto pt-6 flex items-center justify-between gap-4">
+                      <a
+                        href={activeProject.disabled ? undefined : activeProject.href}
+                        target={activeProject.disabled ? undefined : "_blank"}
+                        rel={activeProject.disabled ? undefined : "noopener noreferrer"}
+                        className="showcase-cta learn-more-fill"
+                        aria-disabled={activeProject.disabled ? "true" : undefined}
+                        onClick={(e) => {
+                          if (activeProject.disabled) e.preventDefault();
+                        }}
+                      >
+                        View Repo
+                      </a>
+
+                      {activeProject.liveHref ? (
+                        <a
+                          href={activeProject.liveHref}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="showcase-cta learn-more-fill"
+                        >
+                          Live App
+                        </a>
+                      ) : (
+                        <span aria-hidden="true" />
+                      )}
+                    </div>
                   </div>
                 </div>
+              </div>
+            </GlassSurface>
+          </div>
+        ) : null}
+
+        <div id="techstack" className="mt-5">
+          <div className="mx-auto grid-3-cols pt-3 overflow-visible">
+            {projects.map((p, index) => {
+              const isActive = activeProjectId === p.id;
+              const floatDelay = FLOAT_DELAYS[index % 8];
+              const floatDuration = FLOAT_DURATIONS[index % 8];
+
+              return (
+                <GlassSurface
+                  key={p.id}
+                  width="100%"
+                  height="auto"
+                  borderRadius={20}
+                  className={`w-full cursor-pointer ${isActive ? "ring-2 ring-[#faf0ca]" : ""}`}
+                  style={{
+                    height: "auto",
+                    minHeight: 60,
+                    animationName: isActive ? "none" : "floaty",
+                    animationTimingFunction: "ease-in-out",
+                    animationIterationCount: "infinite",
+                    animationDelay: isActive ? "0s" : floatDelay,
+                    animationDuration: isActive ? "0s" : floatDuration,
+                    willChange: "transform",
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  onClick={(e) => openProjectFromCard(isActive ? null : p.id, e.currentTarget)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      openProjectFromCard(isActive ? null : p.id, e.currentTarget);
+                    }
+                  }}
+                >
+                  <div className="p-1 w-full flex flex-col">
+                    <div className={`image-wrapper ${p.imgBgClass} xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl overflow-hidden`}>
+                      <img
+                        src={p.imgPath}
+                        alt={p.imgAlt || p.title}
+                        className="w-full h-full object-contain rounded-xl p-6 transition-transform duration-300 ease-in-out"
+                        style={{ transformOrigin: "center" }}
+                      />
+                    </div>
+
+                    <div className="showcase-text-with-cta text-white-100">
+                      <h2
+                        className="text-lg md:text-xl lg:text-2xl font-semibold mt-5 mb-3 transition-colors duration-[250ms] ease-in-out"
+                        style={{ color: isActive ? "#faf0ca" : undefined }}
+                      >
+                        {p.title}
+                      </h2>
+
+                      <p className="text-white-50 md:text-md">
+                        {renderMarkedText(truncateText(stripMarks(p.description || ""), 100))}
+                      </p>
+
+                      {Array.isArray(p.techStack) && p.techStack.length > 0 && (
+                        <>
+                          <div className="mt-6 flex items-center gap-2 text-white-50/80">
+                            <span className="icon-mask size-4 md:size-5" style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }} aria-hidden="true" />
+                            <span className="text-sm md:text-base font-semibold">Tech Stack</span>
+                          </div>
+                          <div className="mt-3 mb-2 flex flex-wrap gap-2">
+                            {p.techStack.map((t) => (
+                              <span
+                                key={`${p.id}-${t}`}
+                                className="text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent font-bold"
+                                style={{ color: pickTechColor(t) }}
+                              >
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </GlassSurface>
               );
             })}
           </div>
