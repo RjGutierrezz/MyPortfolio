@@ -35,7 +35,7 @@ const AppLayout = ({ children }) => (
         blendSoftness={0.05}
         rotationAmount={500}
         noiseScale={2}
-        grainAmount={0}
+        grainAmount={0.1}
         grainScale={2}
         grainAnimated={false}
         contrast={1.5}
