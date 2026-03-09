@@ -15,12 +15,10 @@ import Grainient from "./components/HeroModels/Grainient.jsx"; // added
 
 const AppLayout = ({ children }) => (
   <>
-    {/* changed: use absolute instead of fixed so backdrop-filter on child elements
-        can sample through it — fixed backgrounds create isolated stacking contexts
-        that backdrop-filter cannot pierce on Vercel/Chrome */}
+    {/* global animated background */}
     <div
-      className="absolute inset-0 z-0 pointer-events-none"
-      style={{ width: "100%", minHeight: "100%" }}
+      className="fixed inset-0 z-0 pointer-events-none"
+      style={{ width: "100vw", height: "100vh" }}
       aria-hidden="true"
     >
       <Grainient
@@ -49,9 +47,10 @@ const AppLayout = ({ children }) => (
       />
     </div>
 
-    {/* changed: position relative so absolute Grainient is contained here */}
+    {/* changed: no overflow or transform on this wrapper — keeps fixed bg visible */}
     <div className="relative z-10 min-h-screen">
       <NavBar />
+      {/* changed: constrain only the scrollable content, not the whole layout */}
       <main className="mx-auto w-full max-w-[1400px] px-4 md:px-8 xl:px-12">
         {children}
       </main>

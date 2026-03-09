@@ -9,14 +9,6 @@
   --timeline-bg-image: none;
 }
 
-/* changed: wrap everything in a relative container so absolute Grainient covers full page */
-html,
-body,
-#root {
-  min-height: 100%;
-  position: relative;
-}
-
 html,
 body {
   /* changed: avoid 100dvw causing horizontal overflow on mobile (scrollbar width issues) */
