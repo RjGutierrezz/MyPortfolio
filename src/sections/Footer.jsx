@@ -16,13 +16,13 @@ const Footer = () => {
         width="100%"
         height="auto"
         borderRadius={40}
-        className="w-full"
+        className="w-full max-w-[1150px] mx-auto"
         style={{ height: "auto", minHeight: 60 }}
       >
         <div className='footer-container'>
           <div className='flex flex-col justify-center'>
             <a
-              href={asset("resume.pdf")}
+              href={`${import.meta.env.BASE_URL}resume.pdf`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2"

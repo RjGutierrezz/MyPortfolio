@@ -53,8 +53,8 @@ const AppLayout = ({ children }) => (
       {/* changed: constrain only the scrollable content, not the whole layout */}
       <main className="mx-auto w-full max-w-[1400px] px-4 md:px-8 xl:px-12">
         {children}
+        <Footer />
       </main>
-      <Footer />
     </div>
   </>
 );
