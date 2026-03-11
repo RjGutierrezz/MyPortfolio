@@ -1,3 +1,5 @@
+import GlassSurface from './HeroModels/GlassSurface.jsx';
+
 const ASSET_BASE = import.meta.env.BASE_URL;
 const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
 
@@ -18,13 +20,21 @@ const Button = ({ text, className, id, toId = "counter" }) => {
       }}
       className={`${className ?? ""} cta-wrapper`}
     >
-      <div className="cta-button group">
-        <div className="bg-circle" />
-        <p className="text">{text}</p>
-        <div className="arrow-wrapper">
-          <img src={asset("images/arrow-down.svg")} alt="arrow" />
+      <GlassSurface
+        width="100%"
+        height="auto"
+        borderRadius={40}
+        className="w-full"
+        style={{ height: "auto", minHeight: 0 }}
+      >
+        <div className="cta-button group">
+          <div className="bg-circle" />
+          <p className="text">{text}</p>
+          <div className="arrow-wrapper">
+            <img src={asset("images/arrow-down.svg")} alt="arrow" />
+          </div>
         </div>
-      </div>
+      </GlassSurface>
     </a>
   );
 };

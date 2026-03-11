@@ -52,12 +52,39 @@ const Hero = () => {
                         <h1>Into Real Projects</h1>
                         <h1>That Deliver Results</h1>
                     </div>
-                <p className='text-white-50 md:text-xl relative z-10 pointer-events-none'>
-                  Hello! My name is Rover Gutierrez,<br /> a full stack developer based in Sacramento CA. <br />
-                  I'm a full-stack developer who enjoys building web <br /> and mobile applications that matter. <br />
-                  If you're looking for someone hungry to learn and build — let's connect.
-                </p>
-                <Button className="md:w-80 md-16 w-60 h-12 mb-20" id="button" text="See my work" toId="work"/>
+
+                {/* changed: wrapped intro text in a glass card with accent highlights */}
+                <div className="glass-card--static p-5 md:p-6 rounded-2xl max-w-xl">
+                  <p className='text-white-50 md:text-lg text-base leading-relaxed'>
+                    Hello! My name is{' '}
+                    <span className="text-[#faf0ca] font-semibold">Rover Gutierrez</span>,
+                    <br />
+                    a{' '}
+                    <span className="text-[#aaffb8] font-medium">full-stack developer</span>
+                    {' '}based in{' '}
+                    <span className="inline-flex items-center gap-1">
+                      <span
+                        className="icon-mask size-4"
+                        style={{
+                          color: "#9ad9f5",
+                          ["--icon-url"]: `url(${asset("images/pin.png")})`,
+                        }}
+                        aria-hidden="true"
+                      />
+                      <span className="text-[#9ad9f5] font-medium">Sacramento, CA</span>
+                    </span>.
+                    <br /><br />
+                    I enjoy building{' '}
+                    <span className="text-[#aaffb8] font-medium">web & mobile applications</span>
+                    {' '}that matter.
+                    <br />
+                    If you're looking for someone hungry to learn and build —{' '}
+                    <span className="text-[#faf0ca] font-semibold">let's connect</span>.
+                  </p>
+                </div>
+                <div className="flex justify-center">
+                  <Button className="md:w-80 md-16 w-60 h-12 mb-20" id="button" text="See my work" toId="work"/>
+                  </div>
                 </div>
 
             </header>

@@ -394,6 +394,15 @@ section {
     @apply relative z-50 cursor-pointer; /* was z-20 */
   }
 
+  /* added: when cta-button is inside cta-wrapper (which has GlassSurface), 
+     strip its own background/border so only the glass shows */
+  .cta-wrapper .cta-button {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow: visible;
+  }
+
   .cta-button {
     @apply px-4 py-4 rounded-lg bg-transparent flex justify-center items-center relative cursor-pointer overflow-hidden;
 
@@ -809,6 +818,21 @@ section {
 
   .glass-card:hover h2 {
     color: #faf0ca;
+  }
+
+  /* added: hide the white bg-circle inside glass-wrapped buttons until hover */
+  .cta-wrapper .cta-button .bg-circle {
+    opacity: 0;
+    transition: opacity 500ms ease;
+  }
+
+  .cta-wrapper:hover .cta-button .bg-circle {
+    opacity: 1;
+  }
+
+  /* added: make text white by default inside glass button (it's black by default) */
+  .cta-wrapper .cta-button .text {
+    color: #e0fbfc;
   }
 }
 
