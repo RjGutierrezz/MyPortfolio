@@ -61,7 +61,7 @@ const AppLayout = ({ children }) => {
       <div className="relative z-10 min-h-screen">
         <NavBar />
         {/* changed: constrain only the scrollable content, not the whole layout */}
-        <main className="mx-auto w-full max-w-[1400px] px-4 md:px-8 xl:px-12">
+        <main className="mx-auto w-full max-w-[1400px] px-2 md:px-8 xl:px-12">
           {children}
           <Footer />
         </main>

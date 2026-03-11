@@ -115,8 +115,8 @@ section {
   }
 
   .section-padding {
-    /* changed: reduce stacked spacing on mobile */
-    @apply px-5 md:px-10 md:mt-40 mt-16;
+    /* changed: tighter mobile spacing */
+    @apply px-3 md:px-10 md:mt-40 mt-10;
   }
 
   .mt-responsive {
@@ -145,40 +145,23 @@ section {
   }
 
   .grid-12-cols {
-    @apply grid grid-cols-1 xl:grid-cols-12 gap-10;
+    @apply grid grid-cols-1 xl:grid-cols-12 gap-6 md:gap-10;
   }
 
   .hero-layout {
-    /* changed: grid layout keeps hero text and 3D in separate columns (no overlap) */
+    /* changed: kept for backwards compat but Hero now uses a flex column layout directly */
     @apply relative z-10 xl:mt-20 mt-32 grid grid-cols-1 md:grid-cols-2 gap-10 items-center;
-    min-height: 80vh; /* stable hero height without forcing absolute positioning */
+    min-height: 80vh;
   }
 
   .hero-text {
-    @apply flex flex-col justify-center md:text-[50px] text-[30px] font-semibold relative z-10 pointer-events-none;
-    padding-top:2rem;
-    img {
-      @apply size-8 md:size-10 object-contain;
-    }
-    .slide {
-      @apply absolute pt-0 px-2 md:px-5 py-[30px] h-[60px] md:h-[78px] md:translate-y-1 translate-y-0 overflow-hidden;
-    }
-  }
- 
-  .hero-badge {
-    @apply bg-[#3d5a80] text-[#e0fbfc] py-2 px-4 rounded-full w-fit text-sm md:text-base text-nowrap;
-  }
+    @apply flex flex-col justify-center relative z-10;
+    padding-top: 5rem;
+    height: 200px;
 
-  .hero-3d-layout {
-    @apply w-full relative flex;
-    align-items: flex-start;
-    padding-top: 2.5rem;
-    margin-top: 0.5rem;
-    min-height: 320px;
-    /* changed: pull model toward the left of its column */
-    justify-content: flex-start;
-    padding-left: 0;
-    margin-left: -4rem;
+    @media (min-width: 768px) {
+      height: 280px;
+    }
   }
 
   .navbar {
@@ -272,26 +255,25 @@ section {
   }
 
   .app-showcase {
-    @apply w-full px-5 md:px-20 py-10 md:py-20 flex items-center justify-center;
+    @apply w-full px-3 md:px-20 py-4 md:py-20 flex items-center justify-center;
 
     .showcaselayout {
       @apply flex xl:flex-row flex-col gap-10 justify-between;
     }
 
     .project-list-wrapper {
-      @apply grid grid-cols-1 md:grid-cols-2 gap-8;  
-      /* flex md:flex-row flex-col xl:flex-col gap-10 xl:w-[40%]; */
+      @apply grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8;
 
       .image-wrapper {
-        @apply xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl xl:px-5 2xl:px-12 py-0;
+        @apply xl:h-[37vh] md:h-52 lg:h-72 h-48 relative rounded-xl xl:px-5 2xl:px-12 py-0;
       }
 
       img {
-        @apply w-full h-full object-contain rounded-xl p-10;
+        @apply w-full h-full object-contain rounded-xl p-4 md:p-10;
       }
 
       h2 {
-        @apply text-lg md:text-xl lg:text-2xl font-semibold mt-5;
+        @apply text-base md:text-xl lg:text-2xl font-semibold mt-3 md:mt-5;
       }
 
       .project {
@@ -453,7 +435,7 @@ section {
   }
 
   .exp-card-wrapper {
-    @apply flex flex-col-reverse xl:flex-row xl:gap-20 gap-10 justify-between;
+    @apply flex flex-col-reverse xl:flex-row xl:gap-20 gap-5 md:gap-10 justify-between;
   }
 
   .gradient-edge {
@@ -478,12 +460,11 @@ section {
   }
 
   .tech-grid {
-    @apply grid xl:grid-cols-5 md:grid-cols-3 grid-cols-1 xl:gap-16 md:gap-10 gap-5 mt-16 ;
+    @apply grid xl:grid-cols-5 md:grid-cols-3 grid-cols-2 xl:gap-16 md:gap-10 gap-4 mt-10 md:mt-16 ;
   }
 
   .tech-icon-wrapper {
-    /* changed: reduced from w-52 h-60 */
-    @apply flex justify-center items-center w-36 h-44 relative;
+    @apply flex justify-center items-center w-28 h-36 md:w-36 md:h-44 relative;
   }
 
   form {
@@ -534,12 +515,10 @@ section {
   }
 
   .footer {
-    /* changed: simple full-width block — <main> already handles max-width and padding */
-    @apply my-10 md:mt-20 mt-10 text-white-50 w-full;
+    @apply my-6 md:my-10 md:mt-20 mt-10 text-white-50 w-full;
 
     .footer-container {
-      /* changed: remove manual glass styles — GlassSurface handles them now */
-      @apply p-3 px-10 grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-0 w-full;
+      @apply p-3 px-4 md:px-10 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-0 w-full;
       align-items: center;
     }
 
@@ -838,30 +817,110 @@ section {
 /* added: mobile/touch refinements */
 @media (max-width: 768px) {
   .hero-layout {
-    /* reduce chance of overflow from absolute 3d layout */
-    min-height: 70vh;
+    min-height: 60vh;
+  }
+
+  .hero-text {
+    padding-top: 2rem;
+    height: 140px;
   }
 
   .app-showcase {
-    /* less horizontal padding on small devices */
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 
   .project-modal-overlay {
-    padding: 0.75rem;
+    padding: 0.5rem;
   }
 
   .project-modal .project-modal-image img {
-    padding: 1.25rem; /* less padding so image doesn't look cramped */
+    padding: 0.75rem;
   }
 
   .hero-3d-layout {
-    /* changed: reset negative margin on mobile so it doesn't overflow */
     margin-left: 0;
     justify-content: center;
-    /* padding-top: 1.25rem; was 1rem */
-    /* margin-top: 0.5rem;    */
+  }
+
+  /* added: prevent timeline from overflowing on mobile */
+  .timeline-wrapper {
+    left: 0.5rem;
+  }
+
+  .timeline {
+    width: 2.5rem;
+  }
+
+  /* added: tighter experience text on mobile */
+  .expText {
+    gap: 0.75rem;
+  }
+
+  .expText h1 {
+    font-size: 1.25rem;
+  }
+
+  .expText li {
+    font-size: 0.95rem;
+  }
+
+  /* added: glass cards need less padding on mobile */
+  .glass-card {
+    padding: 0.75rem;
+  }
+
+  .glass-card--static {
+    padding: 0.75rem;
+  }
+
+  /* added: project expand panel tighter on mobile */
+  .project-expand-panel .glass-card,
+  .project-expand-panel .glass-card--static {
+    padding: 0.75rem;
+  }
+
+  /* added: navbar inner less padding on mobile */
+  .navbar .inner {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    min-height: 60px;
+  }
+
+  .navbar > div > .inner {
+    min-height: 60px;
+  }
+
+  /* added: contact section form tighter */
+  #contact .grid-12-cols {
+    gap: 1.5rem;
+  }
+
+  /* added: tighter footer on mobile */
+  .footer {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* added: extra small screens */
+@media (max-width: 380px) {
+  .hero-text {
+    font-size: 22px;
+    padding-top: 1.5rem;
+    height: 120px;
+  }
+
+  .hero-text .slide {
+    height: 44px;
+    padding-top: 0;
+    padding-bottom: 20px;
+  }
+
+  .navbar .logo {
+    font-size: 1rem;
   }
 }
 

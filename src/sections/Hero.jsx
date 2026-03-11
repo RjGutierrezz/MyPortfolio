@@ -1,17 +1,17 @@
 import React from 'react'
 import {words} from '../constants/index.js'
 import Button from '../components/Button.jsx'
-import HeroExperience from '../components/HeroModels/HeroExperience.jsx'
 import { useGSAP} from '@gsap/react'
 import gsap from 'gsap';
 import AnimatedCounter from '../components/AnimatedCounter.jsx'
+import TextType from '../components/HeroModels/TextType.jsx'
 
 const ASSET_BASE = import.meta.env.BASE_URL;
 const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
 
 const Hero = () => {
     useGSAP (() => {
-        gsap.fromTo('.hero-text h1',
+        gsap.fromTo('.hero-text',
             {
                 y: 50,
                 opacity:0
@@ -19,8 +19,7 @@ const Hero = () => {
             {
                 y: 0,
                 opacity: 1,
-                stagger: 0.2,
-                duration: 3,
+                duration: 2,
                 ease: 'power2.inOut'
             },
         )
@@ -28,43 +27,42 @@ const Hero = () => {
 
 
   return (
-    // ensure the section is tall enough and establishes a predictable stacking context
-    <section id="hero" className="relative overflow-hidden min-h-[85vh]">
+    <section id="hero" className="relative overflow-hidden min-h-[60vh] md:min-h-[85vh]">
 
-        {/* ensure all hero content is above the background */}
-        <div className="relative z-10 hero-layout">
-            <header className="order-1 md:order-1 flex flex-col justify-center md:w-full w-screen md:px-20 px-5 pt-10 md:pt-16">
-                <div className="flex flex-col gap-7">
-                    <div className='hero-text'>
-                        <h1>Turning
-                            <span className='slide'>
-                                <span className='wrapper'>
-                                    {words.map((word, idx) => (
-                                        <span key={`${word.text}-${idx}`} className = "flex items-center md:gap-3 gap-1 pb-2">
-                                            <img src={word.imgPath} alt={word.text} className='xl:size-12 md:size-10 size-7 md:p-2 p-1 rounded-full bg-white-50' />
-                                            <span>{word.text}</span>
-                                        </span>
-                                    ))}
+        <div className="relative z-10 flex flex-col items-center justify-center xl:mt-20 mt-16 gap-4 md:gap-10 px-4 md:px-20">
+            <div className="flex flex-col gap-3 md:gap-7 w-full max-w-4xl">
+                <div className='hero-text'>
+                    <TextType
+                      as="h1"
+                      text={[
+                        "Turning Ideas Into Real Projects That Deliver Results",
+                        "Turning Visions Into Real Projects That Deliver Results",
+                        "Turning Designs Into Real Projects That Deliver Results",
+                        "Turning Code Into Real Projects That Deliver Results",
+                      ]}
+                      typingSpeed={60}
+                      deletingSpeed={40}
+                      pauseDuration={5000}
+                      loop
+                      showCursor
+                      cursorCharacter="|"
+                      cursorClassName="text-[#9ad9f5]"
+                      className="md:text-[50px] text-[26px] font-semibold leading-tight"
+                    />
+                </div>
 
-                                </span>
-                            </span>
-                        </h1>
-                        <h1>Into Real Projects</h1>
-                        <h1>That Deliver Results</h1>
-                    </div>
-
-                {/* changed: wrapped intro text in a glass card with accent highlights */}
-                <div className="glass-card--static p-5 md:p-6 rounded-2xl max-w-xl">
-                  <p className='text-white-50 md:text-lg text-base leading-relaxed'>
+                {/* glass intro card */}
+                <div className="glass-card--static p-4 md:p-8 rounded-2xl w-full">
+                  <p className='text-white-50 text-sm md:text-lg leading-relaxed'>
                     Hello! My name is{' '}
                     <span className="text-[#faf0ca] font-semibold">Rover Gutierrez</span>,
-                    <br />
+                    <br className="hidden md:block" />
                     a{' '}
                     <span className="text-[#aaffb8] font-medium">full-stack developer</span>
                     {' '}based in{' '}
                     <span className="inline-flex items-center gap-1">
                       <span
-                        className="icon-mask size-4"
+                        className="icon-mask size-3.5 md:size-4"
                         style={{
                           color: "#9ad9f5",
                           ["--icon-url"]: `url(${asset("images/pin.png")})`,
@@ -82,17 +80,7 @@ const Hero = () => {
                     <span className="text-[#faf0ca] font-semibold">let's connect</span>.
                   </p>
                 </div>
-                <div className="flex justify-center">
-                  <Button className="md:w-80 md-16 w-60 h-12 mb-20" id="button" text="See my work" toId="work"/>
-                  </div>
-                </div>
-
-            </header>
-            <figure className="order-2 md:order-2">
-                <div className="hero-3d-layout">
-                    <HeroExperience/>
-                </div>
-            </figure>
+            </div>
         </div>
 
         {/* <AnimatedCounter/> */}

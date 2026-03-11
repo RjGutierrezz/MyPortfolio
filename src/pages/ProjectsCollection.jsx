@@ -142,7 +142,7 @@ const ProjectsCollection = () => {
   return (
     <section id="projects" className="flex-center section-padding">
       <div className="w-full h-full md:px-10 px-5">
-        <div className="flex items-center gap-3 mt-10">
+        <div className="flex items-center gap-3 mt-6 md:mt-10">
           <span
             className="icon-mask size-7 md:size-8 text-white-50"
             style={{ ["--icon-url"]: `url(${asset("images/projectlogo.png")})` }}
@@ -297,7 +297,7 @@ const ProjectsCollection = () => {
           </div>
         ) : null}
 
-        <div id="techstack" className="mt-5">
+        <div id="techstack" className="mt-3 md:mt-5">
           <div className="mx-auto grid-3-cols pt-3 overflow-visible">
             {projects.map((p) => {
               const isActive = activeProjectId === p.id;

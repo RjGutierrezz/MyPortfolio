@@ -194,7 +194,7 @@ const ShowcaseSection = () => {
   return (
     <div id="work" ref={sectionRef} className="app-showcase">
       <div className="w-full">
-        <div className="showcase-header md:mb-10 flex items-center justify-between w-full text-white-50">
+        <div className="showcase-header mb-4 md:mb-10 flex items-center justify-between w-full text-white-50">
           <div className="flex items-center gap-3">
             <span
               className="icon-mask size-6 md:size-7"
