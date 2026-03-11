@@ -156,11 +156,18 @@ section {
 
   .hero-text {
     @apply flex flex-col justify-center relative z-10;
-    padding-top: 5rem;
-    height: 200px;
+    padding-top: 9rem;
+  }
+
+  /* added: fixed-size box for the typing animation so it never shifts content below */
+  .hero-type-fixed {
+    height: 140px;       /* ~4 lines at 26px mobile */
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
 
     @media (min-width: 768px) {
-      height: 280px;
+      height: 200px;     /* ~3 lines at 50px desktop */
     }
   }
 
@@ -821,7 +828,10 @@ section {
   }
 
   .hero-text {
-    padding-top: 2rem;
+    padding-top: 7rem;
+  }
+
+  .hero-type-fixed {
     height: 140px;
   }
 
@@ -909,8 +919,11 @@ section {
 @media (max-width: 380px) {
   .hero-text {
     font-size: 22px;
-    padding-top: 1.5rem;
-    height: 120px;
+    padding-top: 5.5rem;
+  }
+
+  .hero-type-fixed {
+    height: 130px;       /* ~5 lines at 22px */
   }
 
   .hero-text .slide {

@@ -32,23 +32,25 @@ const Hero = () => {
         <div className="relative z-10 flex flex-col items-center justify-center xl:mt-20 mt-16 gap-4 md:gap-10 px-4 md:px-20">
             <div className="flex flex-col gap-3 md:gap-7 w-full max-w-4xl">
                 <div className='hero-text'>
-                    <TextType
-                      as="h1"
-                      text={[
-                        "Turning Ideas Into Real Projects That Deliver Results",
-                        "Turning Visions Into Real Projects That Deliver Results",
-                        "Turning Designs Into Real Projects That Deliver Results",
-                        "Turning Code Into Real Projects That Deliver Results",
-                      ]}
-                      typingSpeed={60}
-                      deletingSpeed={40}
-                      pauseDuration={5000}
-                      loop
-                      showCursor
-                      cursorCharacter="|"
-                      cursorClassName="text-[#9ad9f5]"
-                      className="md:text-[50px] text-[26px] font-semibold leading-tight"
-                    />
+                    <div className="hero-type-fixed">
+                      <TextType
+                        as="h1"
+                        text={[
+                          "Turning IDEAS into real projects that deliver results",
+                          "Turning CONCEPTS into real projects that deliver results",
+                          "Turning DESIGNS into real projects that deliver results",
+                          "Turning CODE into real projects that deliver results",
+                        ]}
+                        typingSpeed={60}
+                        deletingSpeed={40}
+                        pauseDuration={5000}
+                        loop
+                        showCursor
+                        cursorCharacter="|"
+                        cursorClassName="text-[#9ad9f5]"
+                        className="md:text-[50px] text-[26px] font-semibold leading-tight"
+                      />
+                    </div>
                 </div>
 
                 {/* glass intro card */}
