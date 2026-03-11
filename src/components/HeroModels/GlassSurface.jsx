@@ -144,13 +144,17 @@ const GlassSurface = ({
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // changed: debounce resize observer to reduce layout thrashing
+    let debounceTimer;
     const resizeObserver = new ResizeObserver(() => {
-      setTimeout(updateDisplacementMap, 0);
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(updateDisplacementMap, 150);
     });
 
     resizeObserver.observe(containerRef.current);
 
     return () => {
+      clearTimeout(debounceTimer);
       resizeObserver.disconnect();
     };
   }, []);

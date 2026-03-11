@@ -132,7 +132,7 @@ const Grainient = ({
       webgl: 2,
       alpha: true,
       antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
+      dpr: Math.min(window.devicePixelRatio || 1, 1.5) // changed: cap at 1.5 instead of 2
     });
 
     const gl = renderer.gl;
@@ -193,15 +193,33 @@ const Grainient = ({
 
     let raf = 0;
     const t0 = performance.now();
-    const loop = t => {
+    const TARGET_FPS = 30; // changed: throttle to 30fps
+    const FRAME_INTERVAL = 1000 / TARGET_FPS;
+    let lastFrameTime = 0;
+    let isVisible = !document.hidden;
+
+    const loop = (t) => {
+      raf = requestAnimationFrame(loop);
+
+      // changed: skip rendering when tab is hidden
+      if (!isVisible) return;
+
+      // changed: throttle frame rate
+      if (t - lastFrameTime < FRAME_INTERVAL) return;
+      lastFrameTime = t;
+
       program.uniforms.iTime.value = (t - t0) * 0.001;
       renderer.render({ scene: mesh });
-      raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
 
+    // changed: pause when tab is not visible
+    const onVisibility = () => { isVisible = !document.hidden; };
+    document.addEventListener('visibilitychange', onVisibility);
+
     return () => {
       cancelAnimationFrame(raf);
+      document.removeEventListener('visibilitychange', onVisibility);
       ro.disconnect();
       try {
         container.removeChild(canvas);

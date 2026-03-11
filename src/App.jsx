@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import ProjectsCollection from "./pages/ProjectsCollection.jsx";
 import LogoSection from './components/LogoSection.jsx'
@@ -13,51 +13,62 @@ import TechStack from './sections/TechStack.jsx'
 import GithubContributions from "./sections/GithubContributions.jsx";
 import Grainient from "./components/HeroModels/Grainient.jsx"; // added
 
-const AppLayout = ({ children }) => (
-  <>
-    {/* global animated background */}
-    <div
-      className="fixed inset-0 z-0 pointer-events-none"
-      style={{ width: "100vw", height: "100vh" }}
-      aria-hidden="true"
-    >
-      <Grainient
-        color1="#0e2a45"
-        color2="#0b59a3"
-        color3="#9ad9f5"
-        timeSpeed={0.25}
-        colorBalance={0}
-        warpStrength={1}
-        warpFrequency={5}
-        warpSpeed={2}
-        warpAmplitude={50}
-        blendAngle={0}
-        blendSoftness={0.05}
-        rotationAmount={500}
-        noiseScale={2}
-        grainAmount={0}
-        grainScale={2}
-        grainAnimated={false}
-        contrast={1.5}
-        gamma={1}
-        saturation={1}
-        centerX={0}
-        centerY={0}
-        zoom={0.9}
-      />
-    </div>
+const AppLayout = ({ children }) => {
+  // added: pause CSS animations when tab is not visible
+  useEffect(() => {
+    const onVisibility = () => {
+      document.documentElement.classList.toggle('tab-hidden', document.hidden);
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
+  }, []);
 
-    {/* changed: no overflow or transform on this wrapper — keeps fixed bg visible */}
-    <div className="relative z-10 min-h-screen">
-      <NavBar />
-      {/* changed: constrain only the scrollable content, not the whole layout */}
-      <main className="mx-auto w-full max-w-[1400px] px-4 md:px-8 xl:px-12">
-        {children}
-        <Footer />
-      </main>
-    </div>
-  </>
-);
+  return (
+    <>
+      {/* global animated background */}
+      <div
+        className="fixed inset-0 z-0 pointer-events-none"
+        style={{ width: "100vw", height: "100vh" }}
+        aria-hidden="true"
+      >
+        <Grainient
+          color1="#0e2a45"
+          color2="#0b59a3"
+          color3="#9ad9f5"
+          timeSpeed={0.25}
+          colorBalance={0}
+          warpStrength={1}
+          warpFrequency={5}
+          warpSpeed={2}
+          warpAmplitude={50}
+          blendAngle={0}
+          blendSoftness={0.05}
+          rotationAmount={500}
+          noiseScale={2}
+          grainAmount={0}
+          grainScale={2}
+          grainAnimated={false}
+          contrast={1.5}
+          gamma={1}
+          saturation={1}
+          centerX={0}
+          centerY={0}
+          zoom={0.9}
+        />
+      </div>
+
+      {/* changed: no overflow or transform on this wrapper — keeps fixed bg visible */}
+      <div className="relative z-10 min-h-screen">
+        <NavBar />
+        {/* changed: constrain only the scrollable content, not the whole layout */}
+        <main className="mx-auto w-full max-w-[1400px] px-4 md:px-8 xl:px-12">
+          {children}
+          <Footer />
+        </main>
+      </div>
+    </>
+  );
+};
 
 const ScrollToHash = () => {
   const { hash } = useLocation();
