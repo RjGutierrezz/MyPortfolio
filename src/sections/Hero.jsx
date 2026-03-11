@@ -1,30 +1,12 @@
 import React from 'react'
 import {words} from '../constants/index.js'
 import Button from '../components/Button.jsx'
-import { useGSAP} from '@gsap/react'
-import gsap from 'gsap';
-import AnimatedCounter from '../components/AnimatedCounter.jsx'
 import TextType from '../components/HeroModels/TextType.jsx'
 
 const ASSET_BASE = import.meta.env.BASE_URL;
 const asset = (p) => `${ASSET_BASE}${String(p).replace(/^\/+/, "")}`;
 
 const Hero = () => {
-    useGSAP (() => {
-        gsap.fromTo('.hero-text',
-            {
-                y: 50,
-                opacity:0
-            },
-            {
-                y: 0,
-                opacity: 1,
-                duration: 2,
-                ease: 'power2.inOut'
-            },
-        )
-    })
-
 
   return (
     <section id="hero" className="relative overflow-hidden min-h-[60vh] md:min-h-[85vh]">
