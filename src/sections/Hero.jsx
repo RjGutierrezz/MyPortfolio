@@ -44,17 +44,7 @@ const Hero = () => {
                     a{' '}
                     <span className="text-[#aaffb8] font-medium">full-stack developer</span>
                     {' '}based in{' '}
-                    <span className="inline-flex items-center gap-1">
-                      <span
-                        className="icon-mask size-3.5 md:size-4"
-                        style={{
-                          color: "#9ad9f5",
-                          ["--icon-url"]: `url(${asset("images/pin.png")})`,
-                        }}
-                        aria-hidden="true"
-                      />
-                      <span className="text-[#9ad9f5] font-medium">Sacramento, CA</span>
-                    </span>.
+                    <span className="text-[#aaffb8] font-medium">Sacramento, CA</span>.
                     <br /><br />
                     I enjoy building{' '}
                     <span className="text-[#aaffb8] font-medium">web & mobile applications</span>
