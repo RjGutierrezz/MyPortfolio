@@ -726,6 +726,8 @@ section {
     background: rgba(13, 27, 42, 0.35);
     border: 1px solid rgba(224, 251, 252, 0.12);
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+    padding: 10px 15px 10px 15px;
+    border-radius: 40px;
   }
 
   /* added: lightweight CSS-only glass card — no SVG filters, no JS, GPU-friendly */
