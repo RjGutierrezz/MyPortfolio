@@ -3,8 +3,8 @@ import { GitHubCalendar } from "react-github-calendar";
 
 // changed: this lib version expects arrays of exactly 5 colors for light/dark
 const THEME = {
-  light: ["#2b415d", "#386fa4", "#59a5d8", "#84d2f6", "#cff2f9"],
-  dark: ["#222222", "#263342", "#344e6c", "#416895", "#4f83bf"],
+  light: ["#222222", "#386fa4", "#59a5d8", "#84d2f6", "#cff2f9"],
+  dark: ["#222222", "#386fa4", "#59a5d8", "#84d2f6", "#d9f5fa"],
 };
 
 // changed: bump key so the calendar remounts with the corrected theme shape

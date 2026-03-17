@@ -647,32 +647,6 @@ section {
     color: #e0fbfc;
   }
 
-  /* updated: make GitHub contribution boxes slightly transparent */
-  .github-contributions rect {
-    fill: rgba(224, 251, 252, 0.8); /* Adjust transparency */
-    opacity: 0.1; /* Slightly reduce opacity */
-  }
-
-  /* updated: make GitHub contribution day-to-day boxes slightly transparent */
-  .github-contributions rect {
-    fill-opacity: 0.8; /* Adjust transparency */
-    stroke: none; /* Ensure no border is applied */
-  }
-
-  /* updated: make GitHub contribution boxes rounded with a glossy effect */
-  .github-contributions rect {
-    rx: 4px; /* Rounded corners */
-    ry: 4px; /* Rounded corners */
-    fill-opacity: 0.8; /* Slight transparency */
-    stroke: none;
-    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.2)); /* Glossy shadow effect */
-  }
-
-  .github-contributions rect:hover {
-    fill-opacity: 1; /* Full opacity on hover */
-    filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.3)); /* Stronger shadow on hover */
-  }
-
   @keyframes projectModalOverlayIn {
     from {
       opacity: 0;
