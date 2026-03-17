@@ -23,6 +23,12 @@ const AppLayout = ({ children }) => {
     return () => document.removeEventListener('visibilitychange', onVisibility);
   }, []);
 
+  // added: set timeline bg var once instead of on every scroll
+  useEffect(() => {
+    document.documentElement.style.setProperty('--timeline-bg-color', '#071a2e');
+    document.documentElement.style.setProperty('--timeline-bg-image', 'none');
+  }, []);
+
   return (
     <>
       {/* global animated background */}

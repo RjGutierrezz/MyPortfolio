@@ -34,33 +34,18 @@ const NavBar = () => {
   }, [menuOpen]);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
+    let ticking = false;
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 10);
+        ticking = false;
+      });
+    };
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // ...existing code for syncTimelineBgVars useEffect...
-  useEffect(() => {
-    const syncTimelineBgVars = () => {
-      const el = document.body || document.documentElement;
-      const cs = window.getComputedStyle(el);
-      const bgColor = cs.backgroundColor || 'transparent';
-      const bgImage = cs.backgroundImage || 'none';
-      document.documentElement.style.setProperty('--timeline-bg-color', bgColor);
-      document.documentElement.style.setProperty('--timeline-bg-image', bgImage);
-    };
-    syncTimelineBgVars();
-    window.addEventListener('resize', syncTimelineBgVars, { passive: true });
-    window.addEventListener('scroll', syncTimelineBgVars, { passive: true });
-    const mo = new MutationObserver(syncTimelineBgVars);
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'style'] });
-    if (document.body) mo.observe(document.body, { attributes: true, attributeFilter: ['class', 'style'] });
-    return () => {
-      window.removeEventListener('resize', syncTimelineBgVars);
-      window.removeEventListener('scroll', syncTimelineBgVars);
-      mo.disconnect();
-    };
   }, []);
 
   const renderLink = ({ link, name, icon }, isMobile = false) => {

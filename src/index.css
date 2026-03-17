@@ -90,10 +90,10 @@ section {
   @keyframes floaty {
     0%,
     100% {
-      transform: translateY(0);
+      translate: 0 0;
     }
     50% {
-      transform: translateY(-10px);
+      translate: 0 -10px;
     }
   }
 
@@ -271,6 +271,15 @@ section {
     .project-list-wrapper {
       @apply grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8;
 
+      /* added: stretch grid items to equal height */
+      align-items: stretch;
+
+      /* added: direct children (GlareHover wrappers) must fill grid cell */
+      > * {
+        display: flex;
+        flex-direction: column;
+      }
+
       .image-wrapper {
         @apply xl:h-[37vh] md:h-52 lg:h-72 h-48 relative rounded-xl xl:px-5 2xl:px-12 py-0;
       }
@@ -322,6 +331,17 @@ section {
   /* changed: remove old float rules that targeted .project.showcase-float */
   #work .project-list-wrapper .project.showcase-float {
     animation: none !important;
+  }
+
+  /* changed: target direct children of project-list-wrapper for staggered float */
+  #work .project-list-wrapper > .showcase-float:nth-child(1) {
+    animation-delay: 0.25s;
+    animation-duration: 7.3s;
+  }
+
+  #work .project-list-wrapper > .showcase-float:nth-child(2) {
+    animation-delay: 1.15s;
+    animation-duration: 6.4s;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -654,45 +674,34 @@ section {
     }
   }
 
-  /* changed: float the glass-card wrappers in ProjectsCollection, not .project */
+  /* changed: float the GlareHover wrappers (direct children) in ProjectsCollection, not .glass-card */
+  #projects .grid-3-cols > * {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #projects .grid-3-cols {
+    align-items: stretch;
+  }
+
+  #projects .grid-3-cols > *:nth-child(8n + 1) { animation-name: floaty; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-delay: 0s;    animation-duration: 6.2s; }
+  #projects .grid-3-cols > *:nth-child(8n + 2) { animation-name: floaty; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-delay: 1.3s;  animation-duration: 8.7s; }
+  #projects .grid-3-cols > *:nth-child(8n + 3) { animation-name: floaty; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-delay: 2.9s;  animation-duration: 5.9s; }
+  #projects .grid-3-cols > *:nth-child(8n + 4) { animation-name: floaty; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-delay: 0.6s;  animation-duration: 9.4s; }
+  #projects .grid-3-cols > *:nth-child(8n + 5) { animation-name: floaty; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-delay: 3.7s;  animation-duration: 7.1s; }
+  #projects .grid-3-cols > *:nth-child(8n + 6) { animation-name: floaty; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-delay: 1.8s;  animation-duration: 10.2s; }
+  #projects .grid-3-cols > *:nth-child(8n + 7) { animation-name: floaty; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-delay: 4.5s;  animation-duration: 6.6s; }
+  #projects .grid-3-cols > *:nth-child(8n)     { animation-name: floaty; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-delay: 2.2s;  animation-duration: 8.1s; }
+
+  /* changed: stop the active/selected card wrapper from floating */
+  #projects .grid-3-cols > *:has(.ring-2) {
+    animation: none !important;
+  }
+
+  /* changed: old .glass-card float rules — remove since GlareHover wrapper now handles it */
   #projects .grid-3-cols .glass-card {
-    animation-name: floaty;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
-    /* changed: removed will-change: transform */
-    padding: 1.25rem; /* changed: add padding so inner content isn't flush */
-  }
-
-  #projects .grid-3-cols .glass-card:nth-child(8n + 1) { animation-delay: 0s;    animation-duration: 6.2s; }
-  #projects .grid-3-cols .glass-card:nth-child(8n + 2) { animation-delay: 1.3s;  animation-duration: 8.7s; }
-  #projects .grid-3-cols .glass-card:nth-child(8n + 3) { animation-delay: 2.9s;  animation-duration: 5.9s; }
-  #projects .grid-3-cols .glass-card:nth-child(8n + 4) { animation-delay: 0.6s;  animation-duration: 9.4s; }
-  #projects .grid-3-cols .glass-card:nth-child(8n + 5) { animation-delay: 3.7s;  animation-duration: 7.1s; }
-  #projects .grid-3-cols .glass-card:nth-child(8n + 6) { animation-delay: 1.8s;  animation-duration: 10.2s; }
-  #projects .grid-3-cols .glass-card:nth-child(8n + 7) { animation-delay: 4.5s;  animation-duration: 6.6s; }
-  #projects .grid-3-cols .glass-card:nth-child(8n)     { animation-delay: 2.2s;  animation-duration: 8.1s; }
-
-  /* changed: stop the active/selected card from floating */
-  #projects .grid-3-cols .glass-card.ring-2 {
     animation: none !important;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    #projects .grid-3-cols .glass-card {
-      animation: none !important;
-    }
-  }
-
-  /* changed: old .project float rules no longer needed — kept for safety but zeroed out */
-  #projects .grid-3-cols .project {
-    animation: none !important;
-  }
-
-  /* added: floating animation for ShowcaseSection projects (staggered, not in sync) */
-  @media (prefers-reduced-motion: reduce) {
-    #work .project-list-wrapper .project.showcase-float {
-      animation: none !important;
-    }
+    padding: 1.25rem;
   }
 
   /* added: ProjectsCollection top expander entrance animation */
@@ -744,6 +753,7 @@ section {
     transition: border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
     cursor: pointer;
     padding: 1.25rem;
+    contain: layout style;
   }
 
   .glass-card:hover {
@@ -767,6 +777,7 @@ section {
       inset 0 1px 0 rgba(154, 217, 245, 0.25);
     cursor: default;
     pointer-events: auto;
+    contain: layout style;
   }
 
   .glass-card--static:hover {
@@ -820,6 +831,12 @@ section {
   /* added: make text white by default inside glass button (it's black by default) */
   .cta-wrapper .cta-button .text {
     color: #e0fbfc;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #projects .grid-3-cols > * {
+    animation: none !important;
   }
 }
 

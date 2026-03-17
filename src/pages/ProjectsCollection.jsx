@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import TitleHeader from "../components/TitleHeader";
 import { projects } from "../constants/index.js";
+import GlareHover from "../components/HeroModels/GlareHover.jsx";
 
 const truncateText = (text, maxLength) =>
   text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
@@ -303,70 +304,85 @@ const ProjectsCollection = () => {
               const isActive = activeProjectId === p.id;
 
               return (
-                <div
+                <GlareHover
                   key={p.id}
-                  className={`glass-card ${isActive ? "ring-2 ring-[#faf0ca]" : ""}`}
-                  role="button"
-                  tabIndex={0}
-                  onClick={(e) => openProjectFromCard(isActive ? null : p.id, e.currentTarget)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      openProjectFromCard(isActive ? null : p.id, e.currentTarget);
-                    }
-                  }}
+                  width="100%"
+                  height="100%"
+                  background="transparent"
+                  borderRadius="20px"
+                  borderColor="transparent"
+                  glareColor="#9ad9f5"
+                  glareOpacity={0.5}
+                  glareAngle={-30}
+                  glareSize={400}
+                  transitionDuration={1500}
+                  playOnce={false}
+                  className="h-full"
+                  style={{ border: "none" }}
                 >
                   <div
-                    className={`image-wrapper ${p.imgBgClass} xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl overflow-hidden`}
+                    className={`glass-card w-full h-full ${isActive ? "ring-2 ring-[#faf0ca]" : ""}`}
+                    role="button"
+                    tabIndex={0}
+                    onClick={(e) => openProjectFromCard(isActive ? null : p.id, e.currentTarget)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        openProjectFromCard(isActive ? null : p.id, e.currentTarget);
+                      }
+                    }}
                   >
-                    <img
-                      src={p.imgPath}
-                      alt={p.imgAlt || p.title}
-                      // changed: remove inline transition classes — CSS handles it via .glass-card:hover .image-wrapper img
-                      className="w-full h-full object-contain rounded-xl p-6"
-                    />
-                  </div>
-
-                  <div className="showcase-text-with-cta text-white-100">
-                    <h2
-                      className="text-lg md:text-xl lg:text-2xl font-semibold mt-5 mb-3 transition-colors duration-[250ms] ease-in-out"
+                    <div
+                      className={`image-wrapper ${p.imgBgClass} xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl overflow-hidden`}
                     >
-                      {p.title}
-                    </h2>
+                      <img
+                        src={p.imgPath}
+                        alt={p.imgAlt || p.title}
+                        className="w-full h-full object-contain rounded-xl p-6"
+                        loading="lazy"
+                      />
+                    </div>
 
-                    {/* changed: snippet keeps truncation, but still renders colored marks */}
-                    <p className="text-white-50 md:text-md">
-                      {renderMarkedText(truncateText(stripMarks(p.description || ""), 100))}
-                    </p>
+                    <div className="showcase-text-with-cta text-white-100">
+                      <h2
+                        className="text-lg md:text-xl lg:text-2xl font-semibold mt-5 mb-3 transition-colors duration-[250ms] ease-in-out"
+                      >
+                        {p.title}
+                      </h2>
 
-                    {Array.isArray(p.techStack) && p.techStack.length > 0 && (
-                      <>
-                        <div className="mt-6 flex items-center gap-2 text-white-50/80">
-                          <span
-                            className="icon-mask size-4 md:size-5"
-                            style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
-                            aria-hidden="true"
-                          />
-                          <span className="text-sm md:text-base font-semibold">
-                            Tech Stack
-                          </span>
-                        </div>
+                      <p className="text-white-50 md:text-md">
+                        {renderMarkedText(truncateText(stripMarks(p.description || ""), 100))}
+                      </p>
 
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {p.techStack.map((t) => (
+                      {Array.isArray(p.techStack) && p.techStack.length > 0 && (
+                        <>
+                          <div className="mt-6 flex items-center gap-2 text-white-50/80">
                             <span
-                              key={`${p.id}-${t}`}
-                              className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent font-bold"
-                              style={{ color: pickTechColor(t) }}
-                            >
-                              {t}
+                              className="icon-mask size-4 md:size-5"
+                              style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
+                              aria-hidden="true"
+                            />
+                            <span className="text-sm md:text-base font-semibold">
+                              Tech Stack
                             </span>
-                          ))}
-                        </div>
-                      </>
-                    )}
+                          </div>
+
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {p.techStack.map((t) => (
+                              <span
+                                key={`${p.id}-${t}`}
+                                className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent font-bold"
+                                style={{ color: pickTechColor(t) }}
+                              >
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
-                </div>
+                </GlareHover>
               );
             })}
           </div>

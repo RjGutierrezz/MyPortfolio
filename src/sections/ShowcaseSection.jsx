@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import GlareHover from "../components/HeroModels/GlareHover.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -357,95 +358,127 @@ const ShowcaseSection = () => {
         <div className="showcaselayout">
           <div className="project-list-wrapper overflow-visible grid grid-cols-1 md:grid-cols-2 gap-8">
 
-            <div
-              className={`glass-card showcase-float ${activeProjectId === featured[0].id ? "ring-2 ring-[#faf0ca]" : ""}`}
+            <GlareHover
+              width="100%"
+              height="100%"
+              background="transparent"
+              borderRadius="20px"
+              borderColor="transparent"
+              glareColor="#9ad9f5"
+              glareOpacity={0.5}
+              glareAngle={-30}
+              glareSize={400}
+              transitionDuration={1500}
+              playOnce={false}
+              className="showcase-float h-full"
+              style={{ border: "none" }}
             >
               <div
-                className="project w-full h-full"
-                ref={studyBreakRef}
-                role="button"
-                tabIndex={0}
-                onClick={(e) =>
-                  openProjectFromCard(
-                    activeProjectId === featured[0].id ? null : featured[0].id,
-                    e.currentTarget
-                  )
-                }
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
+                className={`glass-card w-full h-full ${activeProjectId === featured[0].id ? "ring-2 ring-[#faf0ca]" : ""}`}
+              >
+                <div
+                  className="project w-full h-full"
+                  ref={studyBreakRef}
+                  role="button"
+                  tabIndex={0}
+                  onClick={(e) =>
                     openProjectFromCard(
                       activeProjectId === featured[0].id ? null : featured[0].id,
                       e.currentTarget
-                    );
+                    )
                   }
-                }}
-              >
-                <div className={`image-wrapper ${featured[0].imgBgClass}`}>
-                  <img src={featured[0].imgPath} alt={featured[0].imgAlt} />
-                </div>
-                <div className="showcase-text-with-cta text-white-100">
-                  <h2 className="mb-3">{featured[0].title}</h2>
-                  <p className="text-white-50 md:text-lg">
-                    {renderMarkedText(truncateText(stripMarks(featured[0].description || ""), 140))}
-                  </p>
-                  <div className="mt-6 flex items-center gap-2 text-white-50/80">
-                    <span className="icon-mask size-4 md:size-5" style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }} aria-hidden="true" />
-                    <span className="text-sm md:text-base font-semibold">Tech Stack</span>
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      openProjectFromCard(
+                        activeProjectId === featured[0].id ? null : featured[0].id,
+                        e.currentTarget
+                      );
+                    }
+                  }}
+                >
+                  <div className={`image-wrapper ${featured[0].imgBgClass}`}>
+                    <img src={featured[0].imgPath} alt={featured[0].imgAlt} loading="lazy" />
                   </div>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {featured[0].techStack.map((t) => (
-                      <span key={`${featured[0].id}-card-${t}`} className="text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold" style={{ color: pickTechColor(t) }}>{t}</span>
-                    ))}
+                  <div className="showcase-text-with-cta text-white-100">
+                    <h2 className="mb-3">{featured[0].title}</h2>
+                    <p className="text-white-50 md:text-lg">
+                      {renderMarkedText(truncateText(stripMarks(featured[0].description || ""), 140))}
+                    </p>
+                    <div className="mt-6 flex items-center gap-2 text-white-50/80">
+                      <span className="icon-mask size-4 md:size-5" style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }} aria-hidden="true" />
+                      <span className="text-sm md:text-base font-semibold">Tech Stack</span>
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {featured[0].techStack.map((t) => (
+                        <span key={`${featured[0].id}-card-${t}`} className="text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold" style={{ color: pickTechColor(t) }}>{t}</span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </GlareHover>
 
-            <div
-              className={`glass-card showcase-float ${activeProjectId === featured[1].id ? "ring-2 ring-[#faf0ca]" : ""}`}
+            <GlareHover
+              width="100%"
+              height="100%"
+              background="transparent"
+              borderRadius="20px"
+              borderColor="transparent"
+              glareColor="#9ad9f5"
+              glareOpacity={0.5}
+              glareAngle={-30}
+              glareSize={400}
+              transitionDuration={1500}
+              playOnce={false}
+              className="showcase-float h-full"
+              style={{ border: "none" }}
             >
               <div
-                className="project w-full h-full"
-                ref={potteryRef}
-                role="button"
-                tabIndex={0}
-                onClick={(e) =>
-                  openProjectFromCard(
-                    activeProjectId === featured[1].id ? null : featured[1].id,
-                    e.currentTarget
-                  )
-                }
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
+                className={`glass-card w-full h-full ${activeProjectId === featured[1].id ? "ring-2 ring-[#faf0ca]" : ""}`}
+              >
+                <div
+                  className="project w-full h-full"
+                  ref={potteryRef}
+                  role="button"
+                  tabIndex={0}
+                  onClick={(e) =>
                     openProjectFromCard(
                       activeProjectId === featured[1].id ? null : featured[1].id,
                       e.currentTarget
-                    );
+                    )
                   }
-                }}
-              >
-                <div className={`image-wrapper ${featured[1].imgBgClass}`}>
-                  <img src={featured[1].imgPath} alt={featured[1].imgAlt} />
-                </div>
-                <div className="showcase-text-with-cta text-white-100">
-                  <h2 className="mb-3">{featured[1].title}</h2>
-                  <p className="text-white-50 md:text-lg">
-                    {renderMarkedText(truncateText(stripMarks(featured[1].description || ""), 140))}
-                  </p>
-                  <div className="mt-6 flex items-center gap-2 text-white-50/80">
-                    <span className="icon-mask size-4 md:size-5" style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }} aria-hidden="true" />
-                    <span className="text-sm md:text-base font-semibold">Tech Stack</span>
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      openProjectFromCard(
+                        activeProjectId === featured[1].id ? null : featured[1].id,
+                        e.currentTarget
+                      );
+                    }
+                  }}
+                >
+                  <div className={`image-wrapper ${featured[1].imgBgClass}`}>
+                    <img src={featured[1].imgPath} alt={featured[1].imgAlt} loading="lazy" />
                   </div>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {featured[1].techStack.map((t) => (
-                      <span key={`${featured[1].id}-card-${t}`} className="text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold" style={{ color: pickTechColor(t) }}>{t}</span>
-                    ))}
+                  <div className="showcase-text-with-cta text-white-100">
+                    <h2 className="mb-3">{featured[1].title}</h2>
+                    <p className="text-white-50 md:text-lg">
+                      {renderMarkedText(truncateText(stripMarks(featured[1].description || ""), 140))}
+                    </p>
+                    <div className="mt-6 flex items-center gap-2 text-white-50/80">
+                      <span className="icon-mask size-4 md:size-5" style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }} aria-hidden="true" />
+                      <span className="text-sm md:text-base font-semibold">Tech Stack</span>
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {featured[1].techStack.map((t) => (
+                        <span key={`${featured[1].id}-card-${t}`} className="text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold" style={{ color: pickTechColor(t) }}>{t}</span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </GlareHover>
 
           </div>
         </div>

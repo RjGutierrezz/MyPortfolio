@@ -132,7 +132,7 @@ const Grainient = ({
       webgl: 2,
       alpha: true,
       antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 1.5) // changed: cap at 1.5 instead of 2
+      dpr: 1.0 // changed: cap at 1.0 for background — no one notices
     });
 
     const gl = renderer.gl;
@@ -193,16 +193,17 @@ const Grainient = ({
 
     let raf = 0;
     const t0 = performance.now();
-    const TARGET_FPS = 30; // changed: throttle to 30fps
+    const TARGET_FPS = 20; // changed: 20fps is plenty for a bg gradient
     const FRAME_INTERVAL = 1000 / TARGET_FPS;
     let lastFrameTime = 0;
     let isVisible = !document.hidden;
+    let isInViewport = true; // added
 
     const loop = (t) => {
       raf = requestAnimationFrame(loop);
 
-      // changed: skip rendering when tab is hidden
-      if (!isVisible) return;
+      // changed: skip rendering when tab is hidden OR element is offscreen
+      if (!isVisible || !isInViewport) return;
 
       // changed: throttle frame rate
       if (t - lastFrameTime < FRAME_INTERVAL) return;
@@ -217,9 +218,17 @@ const Grainient = ({
     const onVisibility = () => { isVisible = !document.hidden; };
     document.addEventListener('visibilitychange', onVisibility);
 
+    // added: pause when element is scrolled offscreen
+    const io = new IntersectionObserver(
+      ([entry]) => { isInViewport = entry.isIntersecting; },
+      { threshold: 0 }
+    );
+    io.observe(container);
+
     return () => {
       cancelAnimationFrame(raf);
       document.removeEventListener('visibilitychange', onVisibility);
+      io.disconnect();
       ro.disconnect();
       try {
         container.removeChild(canvas);
