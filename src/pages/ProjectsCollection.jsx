@@ -315,7 +315,7 @@ const ProjectsCollection = () => {
                   glareOpacity={0.5}
                   glareAngle={-30}
                   glareSize={400}
-                  transitionDuration={1500}
+                  transitionDuration={800}
                   playOnce={false}
                   className="h-full"
                   style={{ border: "none" }}
