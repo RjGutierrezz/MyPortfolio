@@ -157,7 +157,7 @@ const ProjectsCollection = () => {
 
         {activeProject ? (
           <div ref={expandedTopRef} className="mt-6 project-expand-panel">
-            <div className="relative p-4 md:p-10 px-6 md:px-30">
+            <div className="relative p-3 md:p-10 px-4 md:px-30">
               {/* <button
                 type="button"
                 className="project-modal-close"
@@ -171,11 +171,11 @@ const ProjectsCollection = () => {
                 />
               </button> */}
 
-              <div className="grid grid-cols-1 gap-6 items-start">
+              <div className="grid grid-cols-1 gap-4 md:gap-6 items-start">
                 <div className="relative flex-1 flex justify-center">
                   <Carousel
                     gallery={activeProject.gallery || [activeProject.imgPath]}
-                    baseWidth={900}
+                    baseWidth={window.innerWidth < 768 ? Math.min(window.innerWidth - 80, 310) : 900}
                     autoplay
                     autoplayDelay={3000}
                     pauseOnHover
@@ -186,35 +186,35 @@ const ProjectsCollection = () => {
                 </div>
 
                 <div className="flex flex-col min-h-full">
-                  <div className="flex items-start justify-between gap-4">
-                    <h2 className="text-[#faf0ca] text-2xl md:text-3xl font-bold">
+                  <div className="flex items-start justify-between gap-2 md:gap-4">
+                    <h2 className="text-[#faf0ca] text-xl md:text-3xl font-bold break-words">
                       {activeProject.title}
                     </h2>
                   </div>
 
                   {/* changed: marked/colored project description */}
-                  <p className="text-white-50 md:text-lg mt-4 whitespace-pre-line">
+                  <p className="text-white-50 text-sm md:text-lg mt-3 md:mt-4 whitespace-pre-line line-clamp-3 md:line-clamp-none">
                     {renderMarkedText(activeProject.description || "")}
                   </p>
 
                   {Array.isArray(activeProject.techStack) && activeProject.techStack.length > 0 ? (
                     <>
-                      <div className="mt-6 flex items-center gap-2 text-white-50/80">
+                      <div className="mt-4 md:mt-6 flex items-center gap-2 text-white-50/80">
                         <span
-                          className="icon-mask size-4 md:size-5"
+                          className="icon-mask size-3 md:size-5"
                           style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
                           aria-hidden="true"
                         />
-                        <span className="text-sm md:text-base font-semibold">
+                        <span className="text-xs md:text-base font-semibold">
                           Tech Stack
                         </span>
                       </div>
 
-                      <div className="mt-3 flex flex-wrap gap-2">
+                      <div className="mt-2 md:mt-3 flex flex-wrap gap-1 md:gap-2">
                         {activeProject.techStack.map((t) => (
                           <span
                             key={`${activeProject.id}-top-${t}`}
-                            className="text-sm md:text-sm px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold"
+                            className="glass-card--static text-xs px-2 md:px-3 py-0.5 md:py-1 rounded-sm font-bold"
                             style={{ color: pickTechColor(t) }}
                           >
                             {t}
@@ -224,12 +224,12 @@ const ProjectsCollection = () => {
                     </>
                   ) : null}
 
-                  <div className="mt-auto pt-6 flex items-center justify-between gap-4">
+                  <div className="mt-auto pt-4 md:pt-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2 md:gap-4">
                     <a
                       href={activeProject.disabled ? undefined : activeProject.href}
                       target={activeProject.disabled ? undefined : "_blank"}
                       rel={activeProject.disabled ? undefined : "noopener noreferrer"}
-                      className="showcase-cta learn-more-fill"
+                      className="showcase-cta learn-more-fill text-xs md:text-base px-3 md:px-4 py-2 md:py-3"
                       aria-disabled={activeProject.disabled ? "true" : undefined}
                       onClick={(e) => {
                         if (activeProject.disabled) e.preventDefault();
@@ -243,7 +243,7 @@ const ProjectsCollection = () => {
                         href={activeProject.liveHref}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="showcase-cta learn-more-fill"
+                        className="showcase-cta learn-more-fill text-xs md:text-base px-3 md:px-4 py-2 md:py-3"
                       >
                         Live App
                       </a>
@@ -330,7 +330,7 @@ const ProjectsCollection = () => {
                             {p.techStack.map((t) => (
                               <span
                                 key={`${p.id}-${t}`}
-                                className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] text-white-50 border border-transparent font-bold"
+                                className="glass-card--static text-xs md:text-xs px-3 py-1 rounded-sm text-white-50 font-bold"
                                 style={{ color: pickTechColor(t) }}
                               >
                                 {t}

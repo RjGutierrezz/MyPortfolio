@@ -42,7 +42,7 @@ const Hero = () => {
                     <span className="text-[#faf0ca] font-semibold">Rover Gutierrez</span>,
                     <br className="hidden md:block" />
                     a{' '}
-                    <span className="text-[#aaffb8] font-medium">full-stack developer</span>
+                    <span className="text-[#aaffb8] font-medium">software engineer</span>
                     {' '}based in{' '}
                     <span className="text-[#aaffb8] font-medium">Sacramento, CA</span>.
                     <br /><br />
