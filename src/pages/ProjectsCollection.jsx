@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import TitleHeader from "../components/TitleHeader";
 import { projects } from "../constants/index.js";
 import GlareHover from "../components/HeroModels/GlareHover.jsx";
+import Carousel from "../components/HeroModels/Carousel.jsx";
 
 const truncateText = (text, maxLength) =>
   text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
@@ -156,8 +157,8 @@ const ProjectsCollection = () => {
 
         {activeProject ? (
           <div ref={expandedTopRef} className="mt-6 project-expand-panel">
-            <div className="glass-card glass-card--static relative p-4 md:p-6">
-              <button
+            <div className="relative p-4 md:p-10 px-6 md:px-30">
+              {/* <button
                 type="button"
                 className="project-modal-close"
                 aria-label="Close project details"
@@ -168,62 +169,21 @@ const ProjectsCollection = () => {
                   style={{ ["--icon-url"]: `url(${asset("images/close.png")})` }}
                   aria-hidden="true"
                 />
-              </button>
+              </button> */}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                {(() => {
-                  const gallery =
-                    Array.isArray(activeProject.gallery) && activeProject.gallery.length
-                      ? activeProject.gallery
-                      : [activeProject.imgPath];
-
-                  const canPaginate = gallery.length > 1;
-                  const imgSrc = gallery[Math.min(activeImageIndex, gallery.length - 1)];
-
-                  const prev = () =>
-                    setActiveImageIndex((i) => (i - 1 + gallery.length) % gallery.length);
-                  const next = () =>
-                    setActiveImageIndex((i) => (i + 1) % gallery.length);
-
-                  return (
-                    <div className="relative">
-                      <div
-                        className="image-wrapper md:h-96 h-72 relative rounded-xl overflow-hidden"
-                      >
-                        <img
-                          src={imgSrc}
-                          alt={activeProject.imgAlt || activeProject.title}
-                          className="w-full h-full object-contain"
-                        />
-
-                        {canPaginate ? (
-                          <div className="absolute inset-0 grid grid-cols-2">
-                            <button
-                              type="button"
-                              aria-label="Previous image"
-                              className="cursor-w-resize bg-transparent"
-                              onClick={prev}
-                            />
-                            <button
-                              type="button"
-                              aria-label="Next image"
-                              className="cursor-e-resize bg-transparent"
-                              onClick={next}
-                            />
-                          </div>
-                        ) : null}
-                      </div>
-
-                      {canPaginate ? (
-                        <div className="mt-2 flex items-center justify-center">
-                          <span className="text-white-50 text-sm">
-                            {activeImageIndex + 1} / {gallery.length}
-                          </span>
-                        </div>
-                      ) : null}
-                    </div>
-                  );
-                })()}
+              <div className="grid grid-cols-1 gap-6 items-start">
+                <div className="relative flex-1 flex justify-center">
+                  <Carousel
+                    gallery={activeProject.gallery || [activeProject.imgPath]}
+                    baseWidth={900}
+                    autoplay
+                    autoplayDelay={3000}
+                    pauseOnHover
+                    loop={(activeProject.gallery || [activeProject.imgPath]).length > 1}
+                    round={false}
+                    fillHeight={true}
+                  />
+                </div>
 
                 <div className="flex flex-col min-h-full">
                   <div className="flex items-start justify-between gap-4">
@@ -233,7 +193,7 @@ const ProjectsCollection = () => {
                   </div>
 
                   {/* changed: marked/colored project description */}
-                  <p className="text-white-50 md:text-md mt-4 whitespace-pre-line">
+                  <p className="text-white-50 md:text-lg mt-4 whitespace-pre-line">
                     {renderMarkedText(activeProject.description || "")}
                   </p>
 
@@ -254,8 +214,7 @@ const ProjectsCollection = () => {
                         {activeProject.techStack.map((t) => (
                           <span
                             key={`${activeProject.id}-top-${t}`}
-                            // changed: dynamic text color + bold
-                            className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold"
+                            className="text-sm md:text-sm px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold"
                             style={{ color: pickTechColor(t) }}
                           >
                             {t}

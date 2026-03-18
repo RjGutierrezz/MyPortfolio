@@ -39,8 +39,8 @@ const AppLayout = ({ children }) => {
       >
         <Grainient
           color1="#0e2a45"
-          color2="#0b59a3"
-          color3="#9ad9f5"
+          color2="#6C48C5"
+          color3="#C68FE6"
           timeSpeed={0.25}
           colorBalance={0}
           warpStrength={1}

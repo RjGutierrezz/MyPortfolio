@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import GlareHover from "../components/HeroModels/GlareHover.jsx";
+import Carousel from "../components/HeroModels/Carousel.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -215,8 +216,8 @@ const ShowcaseSection = () => {
 
         {activeProject ? (
           <div ref={expandedTopRef} className="mt-6 mb-10 md:mb-14 project-expand-panel">
-            <div className="glass-card--static relative p-4 md:p-6">
-              <button
+            <div className="relative p-4 md:p-10 px-6 md:px-30">
+              {/* <button
                 type="button"
                 className="project-modal-close"
                 aria-label="Close project details"
@@ -227,63 +228,24 @@ const ShowcaseSection = () => {
                   style={{ ["--icon-url"]: `url(${asset("images/close.png")})` }}
                   aria-hidden="true"
                 />
-              </button>
+              </button> */}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                {(() => {
-                  const gallery =
-                    Array.isArray(activeProject.gallery) && activeProject.gallery?.length
-                      ? activeProject.gallery
-                      : [activeProject.imgPath];
+              {/* changed: portrait layout with centered carousel */}
+              <div className="grid grid-cols-1 gap-6 items-start">
+                <div className="relative flex-1 flex justify-center">
+                  <Carousel
+                    gallery={activeProject.gallery || [activeProject.imgPath]}
+                    baseWidth={900}
+                    autoplay
+                    autoplayDelay={3000}
+                    pauseOnHover
+                    loop={(activeProject.gallery || [activeProject.imgPath]).length > 1}
+                    round={false}
+                    fillHeight={true}
+                  />
+                </div>
 
-                  const canPaginate = gallery.length > 1;
-                  const imgSrc = gallery[Math.min(activeImageIndex, gallery.length - 1)];
-
-                  const prev = () =>
-                    setActiveImageIndex((i) => (i - 1 + gallery.length) % gallery.length);
-                  const next = () =>
-                    setActiveImageIndex((i) => (i + 1) % gallery.length);
-
-                  return (
-                    <div className="relative">
-                      <div
-                        className={`image-wrapper md:h-96 h-72 relative rounded-xl overflow-hidden`}
-                      >
-                        <img
-                          src={imgSrc}
-                          alt={activeProject.imgAlt || activeProject.title}
-                          className="w-full h-full object-contain"
-                        />
-
-                        {canPaginate ? (
-                          <div className="absolute inset-0 grid grid-cols-2">
-                            <button
-                              type="button"
-                              aria-label="Previous image"
-                              className="cursor-w-resize bg-transparent"
-                              onClick={prev}
-                            />
-                            <button
-                              type="button"
-                              aria-label="Next image"
-                              className="cursor-e-resize bg-transparent"
-                              onClick={next}
-                            />
-                          </div>
-                        ) : null}
-                      </div>
-
-                      {canPaginate ? (
-                        <div className="mt-2 flex items-center justify-center">
-                          <span className="text-white-50 text-sm">
-                            {activeImageIndex + 1} / {gallery.length}
-                          </span>
-                        </div>
-                      ) : null}
-                    </div>
-                  );
-                })()}
-
+                {/* changed: scrollable description area */}
                 <div className="flex flex-col min-h-full">
                   <div className="flex items-start justify-between gap-4">
                     <h2 className="text-[#faf0ca] text-2xl md:text-3xl font-bold">
@@ -312,7 +274,7 @@ const ShowcaseSection = () => {
                         {activeProject.techStack.map((t) => (
                           <span
                             key={`${activeProject.id}-top-${t}`}
-                            className="text-xs md:text-xs px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold"
+                            className="text-sm md:text-sm px-3 py-1 rounded-sm bg-[#3d5a80] border border-transparent font-bold"
                             style={{ color: pickTechColor(t) }}
                           >
                             {t}
