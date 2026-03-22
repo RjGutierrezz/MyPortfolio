@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import GlareHover from "../components/HeroModels/GlareHover.jsx";
 import Carousel from "../components/HeroModels/Carousel.jsx";
+import GlassSurface from "../components/HeroModels/GlassSurface.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -284,29 +285,45 @@ const ShowcaseSection = () => {
                     </>
                   ) : null}
 
-                  <div className="mt-auto pt-4 md:pt-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2 md:gap-4">
-                    <a
-                      href={activeProject.disabled ? undefined : activeProject.href}
-                      target={activeProject.disabled ? undefined : "_blank"}
-                      rel={activeProject.disabled ? undefined : "noopener noreferrer"}
-                      className="showcase-cta learn-more-fill text-xs md:text-base px-3 md:px-4 py-2 md:py-3"
-                      aria-disabled={activeProject.disabled ? "true" : undefined}
-                      onClick={(e) => {
-                        if (activeProject.disabled) e.preventDefault();
-                      }}
+                  <div className="mt-auto pt-4 md:pt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 md:gap-4 w-full">
+                    <GlassSurface
+                      width="auto"
+                      height="auto"
+                      borderRadius={40}
+                      className="flex-1 sm:flex-none"
+                      style={{ minHeight: 0 }}
                     >
-                      View Repo
-                    </a>
+                      <a
+                        href={activeProject.disabled ? undefined : activeProject.href}
+                        target={activeProject.disabled ? undefined : "_blank"}
+                        rel={activeProject.disabled ? undefined : "noopener noreferrer"}
+                        className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-white-50 font-semibold inline-flex items-center justify-center w-full"
+                        aria-disabled={activeProject.disabled ? "true" : undefined}
+                        onClick={(e) => {
+                          if (activeProject.disabled) e.preventDefault();
+                        }}
+                      >
+                        View Repo
+                      </a>
+                    </GlassSurface>
 
                     {activeProject.liveHref ? (
-                      <a
-                        href={activeProject.liveHref}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="showcase-cta learn-more-fill text-xs md:text-base px-3 md:px-4 py-2 md:py-3"
+                      <GlassSurface
+                        width="auto"
+                        height="auto"
+                        borderRadius={40}
+                        className="flex-1 sm:flex-none"
+                        style={{ minHeight: 0 }}
                       >
-                        Live App
-                      </a>
+                        <a
+                          href={activeProject.liveHref}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-white-50 font-semibold inline-flex items-center justify-center w-full"
+                        >
+                          Live App
+                        </a>
+                      </GlassSurface>
                     ) : (
                       <span aria-hidden="true" />
                     )}
