@@ -30,16 +30,16 @@ const Hero = () => {
                         showCursor
                         cursorCharacter="|"
                         cursorClassName="text-[#9ad9f5]"
-                        className="md:text-[50px] text-[26px] font-semibold leading-tight"
+                        className="md:text-[50px] text-[26px] font-semibold text-[#c8f5e1] leading-tight"
                       />
                     </div>
                 </div>
 
                 {/* glass intro card */}
                 <div className="glass-card--static p-4 md:p-8 rounded-2xl w-full">
-                  <p className='text-white-50 text-sm md:text-lg leading-relaxed'>
+                  <p className='text-[#e0d7f5] text-sm md:text-lg leading-relaxed'>
                     Hello! My name is{' '}
-                    <span className="text-[#faf0ca] font-semibold">Rover Gutierrez</span>,
+                    <span className="text-[#ffd166] font-semibold">Rover Gutierrez</span>,
                     <br className="hidden md:block" />
                     a{' '}
                     <span className="text-[#aaffb8] font-medium">software engineer</span>
@@ -51,7 +51,7 @@ const Hero = () => {
                     {' '}that matter.
                     <br />
                     If you're looking for someone hungry to learn and build —{' '}
-                    <span className="text-[#faf0ca] font-semibold">let's connect</span>.
+                    <span className="text-[#ffd166] font-semibold">let's connect</span>.
                   </p>
                 </div>
             </div>

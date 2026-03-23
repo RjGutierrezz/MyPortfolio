@@ -202,7 +202,7 @@ const ShowcaseSection = () => {
             <span
               className="icon-mask size-6 md:size-7"
               style={{
-                color: "#ffffff",
+                color: "#e0d7f5",
                 ["--icon-url"]: `url(${asset("images/starlogo.png")})`,
               }}
               aria-hidden="true"
@@ -236,7 +236,7 @@ const ShowcaseSection = () => {
                 <div className="relative flex-1 flex justify-center">
                   <Carousel
                     gallery={activeProject.gallery || [activeProject.imgPath]}
-                    baseWidth={typeof window !== 'undefined' && window.innerWidth < 768 ? Math.min(window.innerWidth - 80, 200) : 650}
+                    baseWidth={typeof window !== 'undefined' && window.innerWidth < 768 ? Math.min(window.innerWidth - 80, 310) : 650}
                     autoplay
                     autoplayDelay={3000}
                     pauseOnHover

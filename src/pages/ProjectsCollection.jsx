@@ -176,7 +176,7 @@ const ProjectsCollection = () => {
                 <div className="relative flex-1 flex justify-center">
                   <Carousel
                     gallery={activeProject.gallery || [activeProject.imgPath]}
-                    baseWidth={window.innerWidth < 768 ? Math.min(window.innerWidth - 50, 200) : 650}
+                    baseWidth={window.innerWidth < 768 ? Math.min(window.innerWidth - 50, 310) : 650}
                     autoplay
                     autoplayDelay={3000}
                     pauseOnHover
