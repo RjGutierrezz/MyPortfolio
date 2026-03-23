@@ -236,7 +236,7 @@ const ShowcaseSection = () => {
                 <div className="relative flex-1 flex justify-center">
                   <Carousel
                     gallery={activeProject.gallery || [activeProject.imgPath]}
-                    baseWidth={typeof window !== 'undefined' && window.innerWidth < 768 ? Math.min(window.innerWidth - 80, 310) : 650}
+                    baseWidth={typeof window !== 'undefined' && window.innerWidth < 768 ? Math.min(window.innerWidth - 80, 310) : 640}
                     autoplay
                     autoplayDelay={3000}
                     pauseOnHover
@@ -379,7 +379,7 @@ const ShowcaseSection = () => {
                   <div className={`image-wrapper ${featured[0].imgBgClass}`}>
                     <img src={featured[0].imgPath} alt={featured[0].imgAlt} loading="lazy" />
                   </div>
-                  <div className="showcase-text-with-cta text-white-100">
+                  <div className="showcase-text-with-cta text-white">
                     <h2 className="mb-3">{featured[0].title}</h2>
                     <p className="text-[#e0d7f5] md:text-lg">
                       {renderMarkedText(truncateText(stripMarks(featured[0].description || ""), 140))}
@@ -440,7 +440,7 @@ const ShowcaseSection = () => {
                   <div className={`image-wrapper ${featured[1].imgBgClass}`}>
                     <img src={featured[1].imgPath} alt={featured[1].imgAlt} loading="lazy" />
                   </div>
-                  <div className="showcase-text-with-cta text-white-100">
+                  <div className="showcase-text-with-cta text-white">
                     <h2 className="mb-3">{featured[1].title}</h2>
                     <p className="text-[#e0d7f5] md:text-lg">
                       {renderMarkedText(truncateText(stripMarks(featured[1].description || ""), 140))}

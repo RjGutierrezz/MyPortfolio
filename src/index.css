@@ -31,6 +31,7 @@ section {
 
 @theme {
   --font-sans: "Mona Sans", sans-serif;
+  --color-white: #fff;
   --color-white-50: #e0d7f5;
   --color-white-100: #c8f5e1;
   --color-black-50: #1c1c21;

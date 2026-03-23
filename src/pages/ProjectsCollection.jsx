@@ -176,7 +176,7 @@ const ProjectsCollection = () => {
                 <div className="relative flex-1 flex justify-center">
                   <Carousel
                     gallery={activeProject.gallery || [activeProject.imgPath]}
-                    baseWidth={window.innerWidth < 768 ? Math.min(window.innerWidth - 50, 310) : 650}
+                    baseWidth={window.innerWidth < 768 ? Math.min(window.innerWidth - 50, 310) : 640}
                     autoplay
                     autoplayDelay={3000}
                     pauseOnHover
@@ -319,7 +319,7 @@ const ProjectsCollection = () => {
                       />
                     </div>
 
-                    <div className="showcase-text-with-cta text-white-100">
+                    <div className="showcase-text-with-cta text-white">
                       <h2
                         className="text-lg md:text-xl lg:text-2xl font-semibold mt-5 mb-3 transition-colors duration-[250ms] ease-in-out"
                       >
