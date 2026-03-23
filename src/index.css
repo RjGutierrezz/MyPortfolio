@@ -573,7 +573,7 @@ section {
 
   /* added: global project hover effects (same as ShowcaseSection) */
   .project:hover {
-    border-color: #faf0ca;
+    border-color: #c8f5e1;
     box-shadow: 0 14px 36px rgba(13, 27, 42, 0.24);
   }
 
@@ -628,7 +628,7 @@ section {
 
   /* added: change project card title color on hover (applies to ShowcaseSection + ProjectsCollection) */
   .project:hover h2 {
-    color: #faf0ca;
+    color: #c8f5e1;
   }
 
   /* added: smooth ease-in-out for project title color changes */
@@ -806,7 +806,7 @@ section {
   }
 
   .glass-card:hover h2 {
-    color: #faf0ca;
+    color: #c8f5e1;
   }
 
   /* added: hide the white bg-circle inside glass-wrapped buttons until hover */

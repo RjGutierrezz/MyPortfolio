@@ -217,7 +217,7 @@ const ShowcaseSection = () => {
 
         {activeProject ? (
           <div ref={expandedTopRef} className="mt-6 mb-10 md:mb-14 project-expand-panel">
-            <div className="relative p-3 md:p-10 px-4 md:px-30">
+            <div className="relative p-3 md:p-10 px-4 md:px-62">
               {/* <button
                 type="button"
                 className="project-modal-close"
@@ -236,7 +236,7 @@ const ShowcaseSection = () => {
                 <div className="relative flex-1 flex justify-center">
                   <Carousel
                     gallery={activeProject.gallery || [activeProject.imgPath]}
-                    baseWidth={typeof window !== 'undefined' && window.innerWidth < 768 ? Math.min(window.innerWidth - 80, 310) : 900}
+                    baseWidth={typeof window !== 'undefined' && window.innerWidth < 768 ? Math.min(window.innerWidth - 80, 200) : 650}
                     autoplay
                     autoplayDelay={3000}
                     pauseOnHover
@@ -249,12 +249,12 @@ const ShowcaseSection = () => {
                 {/* changed: scrollable description area */}
                 <div className="flex flex-col min-h-full">
                   <div className="flex items-start justify-between gap-2 md:gap-4">
-                    <h2 className="text-[#faf0ca] text-xl md:text-3xl font-bold break-words">
+                    <h2 className="text-[#c8f5e1] text-xl md:text-3xl font-bold break-words">
                       {activeProject.title}
                     </h2>
                   </div>
 
-                  <p className="text-white-50 text-sm md:text-lg mt-3 md:mt-4 whitespace-pre-line line-clamp-3 md:line-clamp-none">
+                  <p className="text-[#e0d7f5] text-sm md:text-lg mt-3 md:mt-4 whitespace-pre-line line-clamp-3 md:line-clamp-none">
                     {renderMarkedText(activeProject.description || "")}
                   </p>
 
@@ -297,7 +297,7 @@ const ShowcaseSection = () => {
                         href={activeProject.disabled ? undefined : activeProject.href}
                         target={activeProject.disabled ? undefined : "_blank"}
                         rel={activeProject.disabled ? undefined : "noopener noreferrer"}
-                        className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-white-50 font-semibold inline-flex items-center justify-center w-full"
+                        className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-[#e0d7f5] font-semibold inline-flex items-center justify-center w-full"
                         aria-disabled={activeProject.disabled ? "true" : undefined}
                         onClick={(e) => {
                           if (activeProject.disabled) e.preventDefault();
@@ -319,7 +319,7 @@ const ShowcaseSection = () => {
                           href={activeProject.liveHref}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-white-50 font-semibold inline-flex items-center justify-center w-full"
+                          className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-[#e0d7f5] font-semibold inline-flex items-center justify-center w-full"
                         >
                           Live App
                         </a>
@@ -353,7 +353,7 @@ const ShowcaseSection = () => {
               style={{ border: "none" }}
             >
               <div
-                className={`glass-card w-full h-full ${activeProjectId === featured[0].id ? "ring-2 ring-[#faf0ca]" : ""}`}
+                className={`glass-card w-full h-full ${activeProjectId === featured[0].id ? "ring-2 ring-[#c8f5e1]" : ""}`}
               >
                 <div
                   className="project w-full h-full"
@@ -381,7 +381,7 @@ const ShowcaseSection = () => {
                   </div>
                   <div className="showcase-text-with-cta text-white-100">
                     <h2 className="mb-3">{featured[0].title}</h2>
-                    <p className="text-white-50 md:text-lg">
+                    <p className="text-[#e0d7f5] md:text-lg">
                       {renderMarkedText(truncateText(stripMarks(featured[0].description || ""), 140))}
                     </p>
                     <div className="mt-6 flex items-center gap-2 text-white-50/80">
@@ -442,7 +442,7 @@ const ShowcaseSection = () => {
                   </div>
                   <div className="showcase-text-with-cta text-white-100">
                     <h2 className="mb-3">{featured[1].title}</h2>
-                    <p className="text-white-50 md:text-lg">
+                    <p className="text-[#e0d7f5] md:text-lg">
                       {renderMarkedText(truncateText(stripMarks(featured[1].description || ""), 140))}
                     </p>
                     <div className="mt-6 flex items-center gap-2 text-white-50/80">

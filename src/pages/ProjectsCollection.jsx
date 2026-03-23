@@ -158,7 +158,7 @@ const ProjectsCollection = () => {
 
         {activeProject ? (
           <div ref={expandedTopRef} className="mt-6 project-expand-panel">
-            <div className="relative p-3 md:p-10 px-4 md:px-30">
+            <div className="relative p-3 md:p-10 px-4 md:px-62">
               {/* <button
                 type="button"
                 className="project-modal-close"
@@ -176,7 +176,7 @@ const ProjectsCollection = () => {
                 <div className="relative flex-1 flex justify-center">
                   <Carousel
                     gallery={activeProject.gallery || [activeProject.imgPath]}
-                    baseWidth={window.innerWidth < 768 ? Math.min(window.innerWidth - 80, 310) : 900}
+                    baseWidth={window.innerWidth < 768 ? Math.min(window.innerWidth - 50, 200) : 650}
                     autoplay
                     autoplayDelay={3000}
                     pauseOnHover
@@ -188,13 +188,13 @@ const ProjectsCollection = () => {
 
                 <div className="flex flex-col min-h-full">
                   <div className="flex items-start justify-between gap-2 md:gap-4">
-                    <h2 className="text-[#faf0ca] text-xl md:text-3xl font-bold break-words">
+                    <h2 className="text-[#c8f5e1] text-xl md:text-3xl font-bold break-words">
                       {activeProject.title}
                     </h2>
                   </div>
 
                   {/* changed: marked/colored project description */}
-                  <p className="text-white-50 text-sm md:text-lg mt-3 md:mt-4 whitespace-pre-line line-clamp-3 md:line-clamp-none">
+                  <p className="text-[#e0d7f5] text-sm md:text-lg mt-3 md:mt-4 whitespace-pre-line line-clamp-3 md:line-clamp-none">
                     {renderMarkedText(activeProject.description || "")}
                   </p>
 
@@ -237,7 +237,7 @@ const ProjectsCollection = () => {
                         href={activeProject.disabled ? undefined : activeProject.href}
                         target={activeProject.disabled ? undefined : "_blank"}
                         rel={activeProject.disabled ? undefined : "noopener noreferrer"}
-                        className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-white-50 font-semibold inline-flex items-center justify-center w-full"
+                        className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-[#e0d7f5] font-semibold inline-flex items-center justify-center w-full"
                         aria-disabled={activeProject.disabled ? "true" : undefined}
                         onClick={(e) => {
                           if (activeProject.disabled) e.preventDefault();
@@ -259,7 +259,7 @@ const ProjectsCollection = () => {
                           href={activeProject.liveHref}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-white-50 font-semibold inline-flex items-center justify-center w-full"
+                          className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-[#e0d7f5] font-semibold inline-flex items-center justify-center w-full"
                         >
                           Live App
                         </a>
@@ -297,7 +297,7 @@ const ProjectsCollection = () => {
                   style={{ border: "none" }}
                 >
                   <div
-                    className={`glass-card w-full h-full ${isActive ? "ring-2 ring-[#faf0ca]" : ""}`}
+                    className={`glass-card w-full h-full ${isActive ? "ring-2 ring-[#c8f5e1]" : ""}`}
                     role="button"
                     tabIndex={0}
                     onClick={(e) => openProjectFromCard(isActive ? null : p.id, e.currentTarget)}
@@ -326,7 +326,7 @@ const ProjectsCollection = () => {
                         {p.title}
                       </h2>
 
-                      <p className="text-white-50 md:text-md">
+                      <p className="text-[#e0d7f5] md:text-md">
                         {renderMarkedText(truncateText(stripMarks(p.description || ""), 100))}
                       </p>
 
