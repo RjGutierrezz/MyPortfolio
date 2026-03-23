@@ -12,7 +12,7 @@ import ShowcaseSection from './sections/ShowcaseSection.jsx'
 import TechStack from './sections/TechStack.jsx'
 import GithubContributions from "./sections/GithubContributions.jsx";
 import Grainient from "./components/HeroModels/Grainient.jsx"; 
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 
 const AppLayout = ({ children }) => {
   // added: pause CSS animations when tab is not visible
