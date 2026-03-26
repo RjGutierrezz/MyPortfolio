@@ -30,7 +30,7 @@ const Footer = () => {
               <span
                 className="icon-mask w-4 h-4 md:w-5 md:h-5"
                 style={{
-                  color: "#ffffff",
+                  color: "#e0d7f5",
                   ["--icon-url"]: `url(${asset("images/order.png")})`,
                 }}
                 aria-hidden="true"

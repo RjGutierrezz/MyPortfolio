@@ -237,11 +237,11 @@ section {
           }
 
           span {
-            @apply transition-colors duration-300 hover:text-white;
+            @apply transition-colors duration-300 hover:text-white-50;
           }
 
           .underline {
-            @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full;
+            @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-white-50 transition-all duration-300 group-hover:w-full;
           }
         }
       }
