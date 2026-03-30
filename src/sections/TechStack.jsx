@@ -65,11 +65,11 @@ const TechStack = () => {
             >
               {/* The tech-card-animated-bg div is used to create a background animation when the 
                   component is hovered. */}
-              <div className="tech-card-animated-bg" />
+              <div className="tech-card-animated-bg tech-glass-card" />
               <div className="tech-card-content">
                 {/* The tech-icon-wrapper div contains the TechIconCardExperience component, 
                     which renders the 3D model of the tech stack icon. */}
-                <div className="tech-icon-wrapper">
+                <div className="tech-icon-wrapper ">
                   <TechIcon model={techStackIcon} />
                 </div>
                 {/* The padding-x and w-full classes are used to add horizontal padding to the 

@@ -478,7 +478,7 @@ section {
   }
 
   .tech-card-animated-bg {
-    @apply absolute left-0 bottom-[-100%] w-full h-full bg-[#0D1B2A] group-hover:bottom-0 transition-all duration-700;
+    @apply absolute left-0 bottom-[-100%] w-full h-full group-hover:bottom-0 transition-all duration-700;
   }
 
   .tech-card-content {
@@ -764,6 +764,13 @@ section {
       0 14px 36px rgba(0, 0, 0, 0.52),
       inset 0 1px 0 rgba(154, 217, 245, 0.38),
       inset 0 0 0 1px rgba(154, 217, 245, 0.12);
+  }
+
+  .tech-glass-card {
+    /* Inherit the base styles from glass-card--static */
+    border-radius: 0.75rem; /* Adjusted radius for smoother edges */
+    background: rgba(11, 89, 163, 0.30);
+    /* border: 1px solid rgba(154, 217, 245, 0.30); */
   }
 
   .glass-card--static {
