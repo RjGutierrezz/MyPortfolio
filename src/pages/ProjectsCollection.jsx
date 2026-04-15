@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import TitleHeader from "../components/TitleHeader";
+import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
+import { FiArrowLeft, FiCalendar, FiExternalLink, FiGithub } from "react-icons/fi";
 import { projects } from "../constants/index.js";
 import GlareHover from "../components/HeroModels/GlareHover.jsx";
 import Carousel from "../components/HeroModels/Carousel.jsx";
@@ -31,12 +32,8 @@ const pickTechColor = (label) => {
 
 const ProjectsCollection = () => {
   const [activeProjectId, setActiveProjectId] = useState(null);
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
-
-  const expandedTopRef = useRef(null);
-
-  // added: store the last clicked card's bounding rect for FLIP animation
-  const lastCardRectRef = useRef(null);
+  const reduceMotion = useReducedMotion();
+  const sectionRef = useRef(null);
 
   const activeProject = useMemo(
     () => projects.find((p) => p.id === activeProjectId) || null,
@@ -56,18 +53,22 @@ const ProjectsCollection = () => {
     const re = /\[\[([\s\S]+?)\|([a-zA-Z0-9_-]+)\]\]/g;
 
     let last = 0;
-    let m;
-    while ((m = re.exec(s)) !== null) {
-      if (m.index > last) parts.push({ type: "text", value: s.slice(last, m.index) });
-      parts.push({ type: "mark", value: m[1], tone: m[2] });
-      last = m.index + m[0].length;
+    let match = re.exec(s);
+    while (match) {
+      const keyBase = `${match.index}-${match[1]}-${match[2]}`;
+      if (match.index > last) {
+        parts.push({ type: "text", value: s.slice(last, match.index), key: `text-${last}` });
+      }
+      parts.push({ type: "mark", value: match[1], tone: match[2], key: keyBase });
+      last = match.index + match[0].length;
+      match = re.exec(s);
     }
-    if (last < s.length) parts.push({ type: "text", value: s.slice(last) });
+    if (last < s.length) parts.push({ type: "text", value: s.slice(last), key: `text-${last}` });
 
-    return parts.map((p, i) => {
-      if (p.type === "text") return <React.Fragment key={i}>{p.value}</React.Fragment>;
+    return parts.map((p) => {
+      if (p.type === "text") return <React.Fragment key={p.key}>{p.value}</React.Fragment>;
       return (
-        <span key={i} className={TONE_CLASS[p.tone] ?? TONE_CLASS.accent}>
+        <span key={p.key} className={TONE_CLASS[p.tone] ?? TONE_CLASS.accent}>
           {p.value}
         </span>
       );
@@ -77,75 +78,82 @@ const ProjectsCollection = () => {
   // changed: truncate for plain text (strip the markup so snippets don’t show [[...|...]])
   const stripMarks = (text) => String(text ?? "").replace(/\[\[([\s\S]+?)\|([a-zA-Z0-9_-]+)\]\]/g, "$1");
 
-  // changed: animate the top panel from the clicked card position -> top panel position
   useEffect(() => {
-    setActiveImageIndex(0);
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setActiveProjectId(null);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!activeProjectId) return;
 
-    const reduceMotion =
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-
     requestAnimationFrame(() => {
-      const panel = expandedTopRef.current;
-
-      // changed: scroll with explicit offset so the panel isn't hidden under the fixed navbar
-      if (panel) {
-        const navbar = document.querySelector(".navbar");
-        const navH = navbar?.getBoundingClientRect?.().height ?? 0;
-
-        // extra breathing room below navbar
-        const offset = navH + 16;
-
-        const y = panel.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
-      }
-
-      if (reduceMotion) return;
-
-      const fromRect = lastCardRectRef.current;
-      if (!panel || !fromRect) return;
-
-      // Let layout settle after scroll starts, then FLIP
-      requestAnimationFrame(() => {
-        const toRect = panel.getBoundingClientRect();
-
-        const dx = fromRect.left - toRect.left;
-        const dy = fromRect.top - toRect.top;
-        const sx = fromRect.width / Math.max(toRect.width, 1);
-        const sy = fromRect.height / Math.max(toRect.height, 1);
-
-        panel.animate(
-          [
-            {
-              transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`,
-              opacity: 0.35,
-            },
-            { transform: "translate(0px, 0px) scale(1, 1)", opacity: 1 },
-          ],
-          {
-            duration: 520,
-            easing: "cubic-bezier(0.2, 0.9, 0.2, 1)",
-            fill: "both",
-          }
-        );
-
-        // one-shot: only use the rect for the immediate transition
-        lastCardRectRef.current = null;
+      sectionRef.current?.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "start",
       });
     });
-  }, [activeProjectId]);
+  }, [activeProjectId, reduceMotion]);
 
-  // added: capture clicked card position before activating
-  const openProjectFromCard = (id, el) => {
-    if (el?.getBoundingClientRect) lastCardRectRef.current = el.getBoundingClientRect();
-    setActiveProjectId(id);
-  };
+  const pageTransition = reduceMotion
+    ? { duration: 0 }
+    : { duration: 0.5, ease: "easeInOut" };
+
+  const sharedTransition = reduceMotion
+    ? { duration: 0 }
+    : { duration: 0.5, ease: "easeInOut" };
+
+  const renderProjectActions = (project) => (
+    <div className="project-page-actions">
+      <GlassSurface width="auto" height="auto" borderRadius={40} className="flex-1 sm:flex-none" style={{ minHeight: 0 }}>
+        <a
+          href={project.disabled ? undefined : project.href}
+          target={project.disabled ? undefined : "_blank"}
+          rel={project.disabled ? undefined : "noopener noreferrer"}
+          className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-[#e0d7f5] font-semibold inline-flex items-center justify-center gap-2 w-full"
+          aria-disabled={project.disabled ? "true" : undefined}
+          onClick={(e) => {
+            if (project.disabled) e.preventDefault();
+          }}
+        >
+          <FiGithub className="size-4" />
+          <span>View Repo</span>
+        </a>
+      </GlassSurface>
+
+      {project.liveHref ? (
+        <GlassSurface width="auto" height="auto" borderRadius={40} className="flex-1 sm:flex-none" style={{ minHeight: 0 }}>
+          <a
+            href={project.liveHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-[#e0d7f5] font-semibold inline-flex items-center justify-center gap-2 w-full"
+          >
+            <FiExternalLink className="size-4" />
+            <span>Live App</span>
+          </a>
+        </GlassSurface>
+      ) : null}
+    </div>
+  );
+
+  const heroBaseWidth =
+    typeof window !== "undefined"
+      ? window.innerWidth < 768
+        ? Math.max(280, Math.min(window.innerWidth - 32, 350))
+        : Math.min(750, window.innerWidth - 160)
+      : 320;
 
   return (
-    <section id="projects" className="flex-center section-padding">
+    <section ref={sectionRef} id="projects" className="flex-center section-padding">
       <div className="w-full h-full md:px-10 px-5">
-        <div className="flex items-center gap-3 mt-6 md:mt-10">
+        <div className="flex items-center gap-3 mt-20 md:mt-10">
           <span
             className="icon-mask size-7 md:size-8 text-white-50"
             style={{ ["--icon-url"]: `url(${asset("images/projectlogo.png")})` }}
@@ -155,214 +163,201 @@ const ProjectsCollection = () => {
               Projects
           </h3>
         </div>
-
-        {activeProject ? (
-          <div ref={expandedTopRef} className="mt-6 project-expand-panel">
-            <div className="relative p-3 md:p-10 px-4 md:px-62">
-              {/* <button
-                type="button"
-                className="project-modal-close"
-                aria-label="Close project details"
-                onClick={() => setActiveProjectId(null)}
+        <LayoutGroup id="projects-continuity">
+          <AnimatePresence mode="wait">
+            {activeProject ? (
+              <motion.div
+                key={`detail-${activeProject.id}`}
+                className="project-page-view"
+                initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+                animate={{ opacity: 1 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 18 }}
+                transition={pageTransition}
               >
-                <span
-                  className="icon-mask size-5 md:size-6"
-                  style={{ ["--icon-url"]: `url(${asset("images/close.png")})` }}
-                  aria-hidden="true"
-                />
-              </button> */}
-
-              <div className="grid grid-cols-1 gap-4 md:gap-6 items-start">
-                <div className="relative flex-1 flex justify-center">
-                  <Carousel
-                    gallery={activeProject.gallery || [activeProject.imgPath]}
-                    baseWidth={window.innerWidth < 768 ? Math.min(window.innerWidth - 50, 310) : 640}
-                    autoplay
-                    autoplayDelay={3000}
-                    pauseOnHover
-                    loop={(activeProject.gallery || [activeProject.imgPath]).length > 1}
-                    round={false}
-                    fillHeight={true}
-                  />
-                </div>
-
-                <div className="flex flex-col min-h-full">
-                  <div className="flex items-start justify-between gap-2 md:gap-4">
-                    <h2 className="text-[#c8f5e1] text-xl md:text-3xl font-bold break-words">
-                      {activeProject.title}
-                    </h2>
-                  </div>
-
-                  {/* changed: marked/colored project description */}
-                  <p className="text-[#e0d7f5] text-sm md:text-lg mt-3 md:mt-4 whitespace-pre-line line-clamp-3 md:line-clamp-none">
-                    {renderMarkedText(activeProject.description || "")}
-                  </p>
-
-                  {Array.isArray(activeProject.techStack) && activeProject.techStack.length > 0 ? (
-                    <>
-                      <div className="mt-4 md:mt-6 flex items-center gap-2 text-white-50/80">
-                        <span
-                          className="icon-mask size-3 md:size-5"
-                          style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
-                          aria-hidden="true"
-                        />
-                        <span className="text-xs md:text-base font-semibold">
-                          Tech Stack
-                        </span>
-                      </div>
-
-                      <div className="mt-2 md:mt-3 flex flex-wrap gap-1 md:gap-2">
-                        {activeProject.techStack.map((t) => (
-                          <span
-                            key={`${activeProject.id}-top-${t}`}
-                            className="glass-card--static text-xs px-2 md:px-3 py-0.5 md:py-1 rounded-sm font-bold"
-                            style={{ color: pickTechColor(t) }}
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </>
-                  ) : null}
-
-                  <div className="mt-auto pt-4 md:pt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 md:gap-4 w-full">
-                    <GlassSurface
-                      width="auto"
-                      height="auto"
-                      borderRadius={40}
-                      className="flex-1 sm:flex-none"
-                      style={{ minHeight: 0 }}
-                    >
-                      <a
-                        href={activeProject.disabled ? undefined : activeProject.href}
-                        target={activeProject.disabled ? undefined : "_blank"}
-                        rel={activeProject.disabled ? undefined : "noopener noreferrer"}
-                        className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-[#e0d7f5] font-semibold inline-flex items-center justify-center w-full"
-                        aria-disabled={activeProject.disabled ? "true" : undefined}
-                        onClick={(e) => {
-                          if (activeProject.disabled) e.preventDefault();
-                        }}
-                      >
-                        View Repo
-                      </a>
-                    </GlassSurface>
-
-                    {activeProject.liveHref ? (
-                      <GlassSurface
-                        width="auto"
-                        height="auto"
-                        borderRadius={40}
-                        className="flex-1 sm:flex-none"
-                        style={{ minHeight: 0 }}
-                      >
-                        <a
-                          href={activeProject.liveHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-[#e0d7f5] font-semibold inline-flex items-center justify-center w-full"
-                        >
-                          Live App
-                        </a>
-                      </GlassSurface>
-                    ) : (
-                      <span aria-hidden="true" />
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : null}
-
-        <div id="techstack" className="mt-3 md:mt-5">
-          <div className="mx-auto grid-3-cols pt-3 overflow-visible">
-            {projects.map((p) => {
-              const isActive = activeProjectId === p.id;
-
-              return (
-                <GlareHover
-                  key={p.id}
-                  width="100%"
-                  height="100%"
-                  background="transparent"
-                  borderRadius="20px"
-                  borderColor="transparent"
-                  glareColor="#9ad9f5"
-                  glareOpacity={0.5}
-                  glareAngle={-30}
-                  glareSize={400}
-                  transitionDuration={800}
-                  playOnce={false}
-                  className="h-full"
-                  style={{ border: "none" }}
-                >
-                  <div
-                    className={`glass-card w-full h-full ${isActive ? "ring-2 ring-[#c8f5e1]" : ""}`}
-                    role="button"
-                    tabIndex={0}
-                    onClick={(e) => openProjectFromCard(isActive ? null : p.id, e.currentTarget)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        openProjectFromCard(isActive ? null : p.id, e.currentTarget);
-                      }
-                    }}
+                <div className="project-page-shell">
+                  <motion.article
+                    layoutId={`project-card-${activeProject.id}`}
+                    className="project-page-card"
+                    transition={sharedTransition}
                   >
-                    <div
-                      className={`image-wrapper ${p.imgBgClass} xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl overflow-hidden`}
+                    <button
+                      type="button"
+                      className="project-page-back"
+                      aria-label="Back to projects"
+                      onClick={() => setActiveProjectId(null)}
                     >
-                      <img
-                        src={p.imgPath}
-                        alt={p.imgAlt || p.title}
-                        className="w-full h-full object-contain rounded-xl p-6"
-                        loading="lazy"
-                      />
-                    </div>
+                      <FiArrowLeft className="size-4 md:size-5" />
+                      <span>Back to projects</span>
+                    </button>
 
-                    <div className="showcase-text-with-cta text-white">
-                      <h2
-                        className="text-lg md:text-xl lg:text-2xl font-semibold mt-5 mb-3 transition-colors duration-[250ms] ease-in-out"
+                    <div className="project-page-content">
+                      <motion.div layoutId={`project-image-${activeProject.id}`} className="project-page-hero">
+                        <Carousel
+                          gallery={activeProject.gallery || [activeProject.imgPath]}
+                          baseWidth={heroBaseWidth}
+                          autoplay={(activeProject.gallery || [activeProject.imgPath]).length > 1}
+                          autoplayDelay={3000}
+                          pauseOnHover
+                          loop={(activeProject.gallery || [activeProject.imgPath]).length > 1}
+                          round={false}
+                          showBorder={false}
+                        />
+                      </motion.div>
+
+                      <section className="project-page-body">
+                        <div className="project-page-header">
+                          <motion.h2
+                            layoutId={`project-title-${activeProject.id}`}
+                            className="project-page-title"
+                          >
+                            {activeProject.title}
+                          </motion.h2>
+                        </div>
+
+                        {activeProject.date ? (
+                          <div className="project-page-meta-row">
+                            <div className="project-page-meta-item">
+                              <FiCalendar className="size-4" />
+                              <span>{activeProject.date}</span>
+                            </div>
+                          </div>
+                        ) : null}
+
+                        {renderProjectActions(activeProject)}
+
+                        <div className="project-page-meta-block">
+                          {Array.isArray(activeProject.techStack) && activeProject.techStack.length > 0 ? (
+                            <div className="project-page-section">
+                              <h3 className="project-page-section-title">Tech Stack</h3>
+                              <div className="project-page-tag-list">
+                                {activeProject.techStack.map((t) => (
+                                  <span
+                                    key={`${activeProject.id}-top-${t}`}
+                                    className="project-page-tag"
+                                    style={{ color: pickTechColor(t) }}
+                                  >
+                                    {t}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          ) : null}
+                        </div>
+
+                        <div className="project-page-section">
+                          <h3 className="project-page-section-title">Overview</h3>
+                          <p className="project-page-description">
+                            {renderMarkedText(activeProject.description || "")}
+                          </p>
+                        </div>
+                      </section>
+                    </div>
+                  </motion.article>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="grid"
+                id="techstack"
+                className="mt-3 md:mt-5"
+                initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -18 }}
+                transition={pageTransition}
+              >
+                <div className="mx-auto grid-3-cols pt-3 overflow-visible">
+                  {projects.map((p) => (
+                    <motion.div key={p.id} layout className="project-card-origin">
+                      <GlareHover
+                        width="100%"
+                        height="100%"
+                        background="transparent"
+                        borderRadius="20px"
+                        borderColor="transparent"
+                        glareColor="#9ad9f5"
+                        glareOpacity={0.5}
+                        glareAngle={-30}
+                        glareSize={400}
+                        transitionDuration={800}
+                        playOnce={false}
+                        className="h-full"
+                        style={{ border: "none" }}
                       >
-                        {p.title}
-                      </h2>
-
-                      <p className="text-[#e0d7f5] md:text-md">
-                        {renderMarkedText(truncateText(stripMarks(p.description || ""), 100))}
-                      </p>
-
-                      {Array.isArray(p.techStack) && p.techStack.length > 0 && (
-                        <>
-                          <div className="mt-6 flex items-center gap-2 text-white-50/80">
-                            <span
-                              className="icon-mask size-4 md:size-5"
-                              style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
-                              aria-hidden="true"
+                        <motion.div
+                          layoutId={`project-card-${p.id}`}
+                          className="glass-card w-full h-full"
+                          role="button"
+                          tabIndex={0}
+                          aria-expanded="false"
+                          onClick={() => setActiveProjectId(p.id)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              setActiveProjectId(p.id);
+                            }
+                          }}
+                          transition={sharedTransition}
+                        >
+                          <motion.div
+                            layoutId={`project-image-${p.id}`}
+                            className={`image-wrapper ${p.imgBgClass} xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl overflow-hidden`}
+                          >
+                            <img
+                              src={p.imgPath}
+                              alt={p.imgAlt || p.title}
+                              className="w-full h-full object-contain rounded-xl p-6"
+                              loading="lazy"
                             />
-                            <span className="text-sm md:text-base font-semibold">
-                              Tech Stack
-                            </span>
-                          </div>
+                          </motion.div>
 
-                          <div className="mt-3 flex flex-wrap gap-2">
-                            {p.techStack.map((t) => (
-                              <span
-                                key={`${p.id}-${t}`}
-                                className="glass-card--static text-xs md:text-xs px-3 py-1 rounded-sm text-white-50 font-bold"
-                                style={{ color: pickTechColor(t) }}
-                              >
-                                {t}
-                              </span>
-                            ))}
+                          <div className="showcase-text-with-cta text-white">
+                            <motion.h2
+                              layoutId={`project-title-${p.id}`}
+                              className="text-lg md:text-xl lg:text-2xl font-semibold mt-5 mb-3 transition-colors duration-[250ms] ease-in-out"
+                            >
+                              {p.title}
+                            </motion.h2>
+
+                            <p className="text-[#e0d7f5] md:text-md">
+                              {renderMarkedText(truncateText(stripMarks(p.description || ""), 100))}
+                            </p>
+
+                            {Array.isArray(p.techStack) && p.techStack.length > 0 && (
+                              <>
+                                <div className="mt-6 flex items-center gap-2 text-white-50/80">
+                                  <span
+                                    className="icon-mask size-4 md:size-5"
+                                    style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
+                                    aria-hidden="true"
+                                  />
+                                  <span className="text-sm md:text-base font-semibold">
+                                    Tech Stack
+                                  </span>
+                                </div>
+
+                                <div className="mt-3 flex flex-wrap gap-2">
+                                  {p.techStack.map((t) => (
+                                    <span
+                                      key={`${p.id}-${t}`}
+                                      className="glass-card--static text-xs md:text-xs px-3 py-1 rounded-sm text-white-50 font-bold"
+                                      style={{ color: pickTechColor(t) }}
+                                    >
+                                      {t}
+                                    </span>
+                                  ))}
+                                </div>
+                              </>
+                            )}
                           </div>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </GlareHover>
-              );
-            })}
-          </div>
-        </div>
+                        </motion.div>
+                      </GlareHover>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </LayoutGroup>
       </div>
     </section>
   );

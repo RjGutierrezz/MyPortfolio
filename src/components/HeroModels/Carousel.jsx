@@ -93,7 +93,8 @@ export default function Carousel({
   autoplayDelay = 3000,
   pauseOnHover = false,
   loop = false,
-  round = false
+  round = false,
+  showBorder = true,
 }) {
   // changed: use gallery images if provided, otherwise use items
   const displayItems = useMemo(() => {
@@ -237,7 +238,9 @@ export default function Carousel({
     <div
       ref={containerRef}
       className={`relative overflow-hidden p-4 ${
-        round ? 'rounded-full border border-[#9ad9f5]' : 'rounded-[24px] border border-[#9ad9f5]'
+        round
+          ? `rounded-full ${showBorder ? 'border border-[#9ad9f5]' : ''}`
+          : `rounded-[24px] ${showBorder ? 'border border-[#9ad9f5]' : ''}`
       }`}
       style={{
         width: `${baseWidth}px`,

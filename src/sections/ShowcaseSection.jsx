@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
+import { FiArrowLeft, FiCalendar, FiExternalLink, FiGithub } from "react-icons/fi";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -32,111 +34,71 @@ const pickTechColor = (label) => {
   return TECH_BADGE_COLORS[idx];
 };
 
+const featured = [
+  {
+    id: "studybreak-bite",
+    title: "StudyBreak-Bite",
+    date: "2025",
+    imgPath: asset("images/appmockup.png"),
+    imgAlt: "StudyBreak-Bite",
+    imgBgClass: "bg-[#E0E1DD]",
+    description:
+      "A [[mobile|accent]] food discovery and delivery app built for university students, focused on saving time and minimizing interruptions during busy academic schedules.",
+    href: "https://github.com/RjGutierrezz/StudyBreak-Bite.git",
+    techStack: ["React Native", "JavaScript", "TypeScript", "Expo", "Expo Router", "Tailwind CSS"],
+    gallery: [asset("images/appmockup.png")],
+    liveHref: null,
+    disabled: false,
+  },
+  {
+    id: "pottery-webapp",
+    title: "Pottery WebApp",
+    date: "2025",
+    imgPath: asset("images/project1.png"),
+    imgAlt: "Pottery WebApp",
+    imgBgClass: "bg-[#E0E1DD]",
+    description:
+      "A [[full-stack|accent]] web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.",
+    href: "https://github.com/jjmendez819/sales-app/tree/main",
+    techStack: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
+    gallery: [asset("images/project1.png")],
+    liveHref: null,
+    disabled: false,
+  },
+];
+
 const ShowcaseSection = () => {
   const sectionRef = useRef(null);
   const studyBreakRef = useRef(null);
   const potteryRef = useRef(null);
+  const reduceMotion = useReducedMotion();
 
   const [activeProjectId, setActiveProjectId] = useState(null);
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
-
-  const expandedTopRef = useRef(null);
-  const lastCardRectRef = useRef(null);
-
-  const featured = [
-    {
-      id: "studybreak-bite",
-      title: "StudyBreak-Bite",
-      imgPath: asset("images/appmockup.png"),
-      imgAlt: "StudyBreak-Bite",
-      imgBgClass: "bg-[#E0E1DD]",
-      description:
-        "A [[mobile |accent]] food discovery and delivery app built for university students, focused on saving time and minimizing interruptions during busy academic schedules.",
-      href: "https://github.com/RjGutierrezz/StudyBreak-Bite.git",
-      techStack: ["React Native", "JavaScript", "TypeScript", "Expo",
-        "Expo Router", "Tailwind CSS"],
-      gallery: null,
-      liveHref: null,
-      disabled: false,
-    },
-    {
-      id: "pottery-webapp",
-      title: "Pottery WebApp",
-      imgPath: asset("images/project1.png"),
-      imgAlt: "Pottery WebApp",
-      imgBgClass: "bg-[#E0E1DD]",
-      description:
-        "A [[full-stack|accent]] web application built with Next.js (React + TypeScript), CSS, and Supabase, delivering a fast, scalable, and user-friendly experience.",
-      href: "https://github.com/jjmendez819/sales-app/tree/main",
-      techStack: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
-      gallery: null,
-      liveHref: null,
-      disabled: false,
-    },
-  ];
 
   const activeProject = useMemo(
     () => featured.find((p) => p.id === activeProjectId) || null,
     [activeProjectId]
   );
 
-  const openProjectFromCard = (id, el) => {
-    if (el?.getBoundingClientRect) lastCardRectRef.current = el.getBoundingClientRect();
-    setActiveProjectId(id);
-  };
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setActiveProjectId(null);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   useEffect(() => {
-    setActiveImageIndex(0);
     if (!activeProjectId) return;
 
-    const reduceMotion =
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-
     requestAnimationFrame(() => {
-      const panel = expandedTopRef.current;
-
-      if (panel) {
-        const navbar = document.querySelector(".navbar");
-        const navH = navbar?.getBoundingClientRect?.().height ?? 0;
-        const offset = navH + 16;
-
-        const y = panel.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
-      }
-
-      if (reduceMotion) return;
-
-      const fromRect = lastCardRectRef.current;
-      if (!panel || !fromRect) return;
-
-      requestAnimationFrame(() => {
-        const toRect = panel.getBoundingClientRect();
-
-        const dx = fromRect.left - toRect.left;
-        const dy = fromRect.top - toRect.top;
-        const sx = fromRect.width / Math.max(toRect.width, 1);
-        const sy = fromRect.height / Math.max(toRect.height, 1);
-
-        panel.animate(
-          [
-            {
-              transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`,
-              opacity: 0.35,
-            },
-            { transform: "translate(0px, 0px) scale(1, 1)", opacity: 1 },
-          ],
-          {
-            duration: 520,
-            easing: "cubic-bezier(0.2, 0.9, 0.2, 1)",
-            fill: "both",
-          }
-        );
-
-        lastCardRectRef.current = null;
+      sectionRef.current?.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "start",
       });
     });
-  }, [activeProjectId]);
+  }, [activeProjectId, reduceMotion]);
 
   useGSAP(() => {
     gsap.fromTo(
@@ -174,25 +136,77 @@ const ShowcaseSection = () => {
     const re = /\[\[([\s\S]+?)\|accent\]\]/g;
 
     let last = 0;
-    let m;
-    while ((m = re.exec(s)) !== null) {
-      if (m.index > last) parts.push({ type: "text", value: s.slice(last, m.index) });
-      parts.push({ type: "mark", value: m[1] });
-      last = m.index + m[0].length;
+    let match = re.exec(s);
+    while (match) {
+      if (match.index > last) {
+        parts.push({ type: "text", value: s.slice(last, match.index), key: `text-${last}` });
+      }
+      parts.push({ type: "mark", value: match[1], key: `mark-${match.index}-${match[1]}` });
+      last = match.index + match[0].length;
+      match = re.exec(s);
     }
-    if (last < s.length) parts.push({ type: "text", value: s.slice(last) });
+    if (last < s.length) parts.push({ type: "text", value: s.slice(last), key: `text-${last}` });
 
-    return parts.map((p, i) => {
-      if (p.type === "text") return <React.Fragment key={i}>{p.value}</React.Fragment>;
+    return parts.map((part) => {
+      if (part.type === "text") return <React.Fragment key={part.key}>{part.value}</React.Fragment>;
       return (
-        <span key={i} className="text-[#aaffb8] font-medium">
-          {p.value}
+        <span key={part.key} className="text-[#aaffb8] font-medium">
+          {part.value}
         </span>
       );
     });
   };
 
   const stripMarks = (text) => String(text ?? "").replace(/\[\[([\s\S]+?)\|accent\]\]/g, "$1");
+
+  const pageTransition = reduceMotion
+    ? { duration: 0 }
+    : { duration: 0.5, ease: "easeInOut" };
+
+  const sharedTransition = reduceMotion
+    ? { duration: 0 }
+    : { duration: 0.5, ease: "easeInOut" };
+
+  const heroBaseWidth =
+    typeof window !== "undefined"
+      ? window.innerWidth < 768
+        ? Math.max(280, Math.min(window.innerWidth - 32, 380))
+        : Math.min(750, window.innerWidth - 160)
+      : 320;
+
+  const renderProjectActions = (project) => (
+    <div className="project-page-actions">
+      <GlassSurface width="auto" height="auto" borderRadius={40} className="flex-1 sm:flex-none" style={{ minHeight: 0 }}>
+        <a
+          href={project.disabled ? undefined : project.href}
+          target={project.disabled ? undefined : "_blank"}
+          rel={project.disabled ? undefined : "noopener noreferrer"}
+          className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-[#e0d7f5] font-semibold inline-flex items-center justify-center gap-2 w-full"
+          aria-disabled={project.disabled ? "true" : undefined}
+          onClick={(e) => {
+            if (project.disabled) e.preventDefault();
+          }}
+        >
+          <FiGithub className="size-4" />
+          <span>View Repo</span>
+        </a>
+      </GlassSurface>
+
+      {project.liveHref ? (
+        <GlassSurface width="auto" height="auto" borderRadius={40} className="flex-1 sm:flex-none" style={{ minHeight: 0 }}>
+          <a
+            href={project.liveHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-[#e0d7f5] font-semibold inline-flex items-center justify-center gap-2 w-full"
+          >
+            <FiExternalLink className="size-4" />
+            <span>Live App</span>
+          </a>
+        </GlassSurface>
+      ) : null}
+    </div>
+  );
 
   return (
     <div id="work" ref={sectionRef} className="app-showcase">
@@ -215,252 +229,173 @@ const ShowcaseSection = () => {
           </Link>
         </div>
 
-        {activeProject ? (
-          <div ref={expandedTopRef} className="mt-6 mb-10 md:mb-14 project-expand-panel">
-            <div className="relative p-3 md:p-10 px-4 md:px-62">
-              {/* <button
-                type="button"
-                className="project-modal-close"
-                aria-label="Close project details"
-                onClick={() => setActiveProjectId(null)}
+        <LayoutGroup id="showcase-projects-continuity">
+          <AnimatePresence mode="wait">
+            {activeProject ? (
+              <motion.div
+                key={`showcase-detail-${activeProject.id}`}
+                className="project-page-view"
+                initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 18 }}
+                transition={pageTransition}
               >
-                <span
-                  className="icon-mask size-5 md:size-6"
-                  style={{ ["--icon-url"]: `url(${asset("images/close.png")})` }}
-                  aria-hidden="true"
-                />
-              </button> */}
-
-              {/* changed: portrait layout with centered carousel */}
-              <div className="grid grid-cols-1 gap-4 md:gap-6 items-start">
-                <div className="relative flex-1 flex justify-center">
-                  <Carousel
-                    gallery={activeProject.gallery || [activeProject.imgPath]}
-                    baseWidth={typeof window !== 'undefined' && window.innerWidth < 768 ? Math.min(window.innerWidth - 80, 310) : 640}
-                    autoplay
-                    autoplayDelay={3000}
-                    pauseOnHover
-                    loop={(activeProject.gallery || [activeProject.imgPath]).length > 1}
-                    round={false}
-                    fillHeight={true}
-                  />
-                </div>
-
-                {/* changed: scrollable description area */}
-                <div className="flex flex-col min-h-full">
-                  <div className="flex items-start justify-between gap-2 md:gap-4">
-                    <h2 className="text-[#c8f5e1] text-xl md:text-3xl font-bold break-words">
-                      {activeProject.title}
-                    </h2>
-                  </div>
-
-                  <p className="text-[#e0d7f5] text-sm md:text-lg mt-3 md:mt-4 whitespace-pre-line line-clamp-3 md:line-clamp-none">
-                    {renderMarkedText(activeProject.description || "")}
-                  </p>
-
-                  {Array.isArray(activeProject.techStack) && activeProject.techStack.length > 0 ? (
-                    <>
-                      <div className="mt-4 md:mt-6 flex items-center gap-2 text-white-50/80">
-                        <span
-                          className="icon-mask size-3 md:size-5"
-                          style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
-                          aria-hidden="true"
-                        />
-                        <span className="text-xs md:text-base font-semibold">
-                          Tech Stack
-                        </span>
-                      </div>
-
-                      <div className="mt-2 md:mt-3 flex flex-wrap gap-1 md:gap-2">
-                        {activeProject.techStack.map((t) => (
-                          <span
-                            key={`${activeProject.id}-top-${t}`}
-                            className="glass-card--static text-xs px-2 md:px-3 py-0.5 md:py-1 rounded-sm font-bold"
-                            style={{ color: pickTechColor(t) }}
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </>
-                  ) : null}
-
-                  <div className="mt-auto pt-4 md:pt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 md:gap-4 w-full">
-                    <GlassSurface
-                      width="auto"
-                      height="auto"
-                      borderRadius={40}
-                      className="flex-1 sm:flex-none"
-                      style={{ minHeight: 0 }}
+                <div className="project-page-shell">
+                  <motion.article
+                    layoutId={`showcase-card-${activeProject.id}`}
+                    className="project-page-card"
+                    transition={sharedTransition}
+                  >
+                    <button
+                      type="button"
+                      className="project-page-back"
+                      aria-label="Back to featured projects"
+                      onClick={() => setActiveProjectId(null)}
                     >
-                      <a
-                        href={activeProject.disabled ? undefined : activeProject.href}
-                        target={activeProject.disabled ? undefined : "_blank"}
-                        rel={activeProject.disabled ? undefined : "noopener noreferrer"}
-                        className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-[#e0d7f5] font-semibold inline-flex items-center justify-center w-full"
-                        aria-disabled={activeProject.disabled ? "true" : undefined}
-                        onClick={(e) => {
-                          if (activeProject.disabled) e.preventDefault();
-                        }}
-                      >
-                        View Repo
-                      </a>
-                    </GlassSurface>
+                      <FiArrowLeft className="size-4 md:size-5" />
+                      <span>Back to featured projects</span>
+                    </button>
 
-                    {activeProject.liveHref ? (
-                      <GlassSurface
-                        width="auto"
-                        height="auto"
-                        borderRadius={40}
-                        className="flex-1 sm:flex-none"
-                        style={{ minHeight: 0 }}
-                      >
-                        <a
-                          href={activeProject.liveHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-[#e0d7f5] font-semibold inline-flex items-center justify-center w-full"
+                    <div className="project-page-content">
+                      <motion.div layoutId={`showcase-image-${activeProject.id}`} className="project-page-hero">
+                        <Carousel
+                          gallery={activeProject.gallery || [activeProject.imgPath]}
+                          baseWidth={heroBaseWidth}
+                          autoplay={(activeProject.gallery || [activeProject.imgPath]).length > 1}
+                          autoplayDelay={3000}
+                          pauseOnHover
+                          loop={(activeProject.gallery || [activeProject.imgPath]).length > 1}
+                          round={false}
+                          showBorder={false}
+                        />
+                      </motion.div>
+
+                      <section className="project-page-body">
+                        <div className="project-page-header">
+                          <motion.h2 layoutId={`showcase-title-${activeProject.id}`} className="project-page-title">
+                            {activeProject.title}
+                          </motion.h2>
+                        </div>
+
+                        {activeProject.date ? (
+                          <div className="project-page-meta-row">
+                            <div className="project-page-meta-item">
+                              <FiCalendar className="size-4" />
+                              <span>{activeProject.date}</span>
+                            </div>
+                          </div>
+                        ) : null}
+
+                        {renderProjectActions(activeProject)}
+
+                        {Array.isArray(activeProject.techStack) && activeProject.techStack.length > 0 ? (
+                          <div className="project-page-meta-block">
+                            <div className="project-page-section">
+                              <h3 className="project-page-section-title">Tech Stack</h3>
+                              <div className="project-page-tag-list">
+                                {activeProject.techStack.map((t) => (
+                                  <span
+                                    key={`${activeProject.id}-expanded-${t}`}
+                                    className="project-page-tag"
+                                    style={{ color: pickTechColor(t) }}
+                                  >
+                                    {t}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        ) : null}
+
+                        <div className="project-page-section">
+                          <h3 className="project-page-section-title">Overview</h3>
+                          <p className="project-page-description">
+                            {renderMarkedText(activeProject.description || "")}
+                          </p>
+                        </div>
+                      </section>
+                    </div>
+                  </motion.article>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="showcase-grid"
+                className="showcaselayout"
+                initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -18 }}
+                transition={pageTransition}
+              >
+                <div className="project-list-wrapper overflow-visible grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {featured.map((project, index) => {
+                    const ref = index === 0 ? studyBreakRef : potteryRef;
+
+                    return (
+                      <motion.div key={project.id} layout className="project-card-origin">
+                        <GlareHover
+                          width="100%"
+                          height="100%"
+                          background="transparent"
+                          borderRadius="20px"
+                          borderColor="transparent"
+                          glareColor="#9ad9f5"
+                          glareOpacity={0.5}
+                          glareAngle={-30}
+                          glareSize={400}
+                          transitionDuration={800}
+                          playOnce={false}
+                          className="showcase-float h-full"
+                          style={{ border: "none" }}
                         >
-                          Live App
-                        </a>
-                      </GlassSurface>
-                    ) : (
-                      <span aria-hidden="true" />
-                    )}
-                  </div>
+                          <motion.div
+                            layoutId={`showcase-card-${project.id}`}
+                            className="glass-card w-full h-full"
+                            transition={sharedTransition}
+                          >
+                            <button
+                              type="button"
+                              className="project w-full h-full text-left"
+                              ref={ref}
+                              onClick={() => setActiveProjectId(project.id)}
+                            >
+                              <motion.div
+                                layoutId={`showcase-image-${project.id}`}
+                                className={`image-wrapper ${project.imgBgClass}`}
+                              >
+                                <img src={project.imgPath} alt={project.imgAlt} loading="lazy" />
+                              </motion.div>
+
+                              <div className="showcase-text-with-cta text-white">
+                                <motion.h2 layoutId={`showcase-title-${project.id}`} className="mb-3">
+                                  {project.title}
+                                </motion.h2>
+                                <p className="text-[#e0d7f5] md:text-lg">
+                                  {renderMarkedText(truncateText(stripMarks(project.description || ""), 140))}
+                                </p>
+                                <div className="mt-6 flex items-center gap-2 text-white-50/80">
+                                  <span className="icon-mask size-4 md:size-5" style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }} aria-hidden="true" />
+                                  <span className="text-sm md:text-base font-semibold">Tech Stack</span>
+                                </div>
+                                <div className="mt-3 flex flex-wrap gap-2">
+                                  {project.techStack.map((t) => (
+                                    <span key={`${project.id}-card-${t}`} className="glass-card--static text-xs px-3 py-1 rounded-sm font-bold" style={{ color: pickTechColor(t) }}>
+                                      {t}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            </button>
+                          </motion.div>
+                        </GlareHover>
+                      </motion.div>
+                    );
+                  })}
                 </div>
-              </div>
-            </div>
-          </div>
-        ) : null}
-
-        <div className="showcaselayout">
-          <div className="project-list-wrapper overflow-visible grid grid-cols-1 md:grid-cols-2 gap-8">
-
-            <GlareHover
-              width="100%"
-              height="100%"
-              background="transparent"
-              borderRadius="20px"
-              borderColor="transparent"
-              glareColor="#9ad9f5"
-              glareOpacity={0.5}
-              glareAngle={-30}
-              glareSize={400}
-              transitionDuration={800}
-              playOnce={false}
-              className="showcase-float h-full"
-              style={{ border: "none" }}
-            >
-              <div
-                className={`glass-card w-full h-full ${activeProjectId === featured[0].id ? "ring-2 ring-[#c8f5e1]" : ""}`}
-              >
-                <div
-                  className="project w-full h-full"
-                  ref={studyBreakRef}
-                  role="button"
-                  tabIndex={0}
-                  onClick={(e) =>
-                    openProjectFromCard(
-                      activeProjectId === featured[0].id ? null : featured[0].id,
-                      e.currentTarget
-                    )
-                  }
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      openProjectFromCard(
-                        activeProjectId === featured[0].id ? null : featured[0].id,
-                        e.currentTarget
-                      );
-                    }
-                  }}
-                >
-                  <div className={`image-wrapper ${featured[0].imgBgClass}`}>
-                    <img src={featured[0].imgPath} alt={featured[0].imgAlt} loading="lazy" />
-                  </div>
-                  <div className="showcase-text-with-cta text-white">
-                    <h2 className="mb-3">{featured[0].title}</h2>
-                    <p className="text-[#e0d7f5] md:text-lg">
-                      {renderMarkedText(truncateText(stripMarks(featured[0].description || ""), 140))}
-                    </p>
-                    <div className="mt-6 flex items-center gap-2 text-white-50/80">
-                      <span className="icon-mask size-4 md:size-5" style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }} aria-hidden="true" />
-                      <span className="text-sm md:text-base font-semibold">Tech Stack</span>
-                    </div>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {featured[0].techStack.map((t) => (
-                        <span key={`${featured[0].id}-card-${t}`} className="glass-card--static text-xs px-3 py-1 rounded-sm font-bold" style={{ color: pickTechColor(t) }}>{t}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </GlareHover>
-
-            <GlareHover
-              width="100%"
-              height="100%"
-              background="transparent"
-              borderRadius="20px"
-              borderColor="transparent"
-              glareColor="#9ad9f5"
-              glareOpacity={0.5}
-              glareAngle={-30}
-              glareSize={400}
-              transitionDuration={800}
-              playOnce={false}
-              className="showcase-float h-full"
-              style={{ border: "none" }}
-            >
-              <div
-                className={`glass-card w-full h-full ${activeProjectId === featured[1].id ? "ring-2 ring-[#faf0ca]" : ""}`}
-              >
-                <div
-                  className="project w-full h-full"
-                  ref={potteryRef}
-                  role="button"
-                  tabIndex={0}
-                  onClick={(e) =>
-                    openProjectFromCard(
-                      activeProjectId === featured[1].id ? null : featured[1].id,
-                      e.currentTarget
-                    )
-                  }
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      openProjectFromCard(
-                        activeProjectId === featured[1].id ? null : featured[1].id,
-                        e.currentTarget
-                      );
-                    }
-                  }}
-                >
-                  <div className={`image-wrapper ${featured[1].imgBgClass}`}>
-                    <img src={featured[1].imgPath} alt={featured[1].imgAlt} loading="lazy" />
-                  </div>
-                  <div className="showcase-text-with-cta text-white">
-                    <h2 className="mb-3">{featured[1].title}</h2>
-                    <p className="text-[#e0d7f5] md:text-lg">
-                      {renderMarkedText(truncateText(stripMarks(featured[1].description || ""), 140))}
-                    </p>
-                    <div className="mt-6 flex items-center gap-2 text-white-50/80">
-                      <span className="icon-mask size-4 md:size-5" style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }} aria-hidden="true" />
-                      <span className="text-sm md:text-base font-semibold">Tech Stack</span>
-                    </div>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {featured[1].techStack.map((t) => (
-                        <span key={`${featured[1].id}-card-${t}`} className="glass-card--static text-xs px-3 py-1 rounded-sm font-bold" style={{ color: pickTechColor(t) }}>{t}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </GlareHover>
-
-          </div>
-        </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </LayoutGroup>
       </div>
     </div>
   );

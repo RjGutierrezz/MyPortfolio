@@ -317,6 +317,7 @@ const projects = [
   {
     id: "studybreak-bite",
     title: "StudyBreak-Bite",
+    date: "2025",
     imgPath: asset("images/appmockup.png"),
     imgAlt: "StudyBreak-Bite",
     imgBgClass: "bg-[#E0E1DD]",
@@ -333,6 +334,7 @@ const projects = [
   {
     id: "pottery-webapp",
     title: "Pottery WebApp",
+    date: "2025",
     imgPath: asset("images/project1.png"),
     imgAlt: "Pottery WebApp",
     imgBgClass: "bg-[#E0E1DD]",
@@ -348,6 +350,7 @@ const projects = [
   {
     id: "todo-app",
     title: "Tiny Wins Matter",
+    date: "2025",
     imgPath: asset("images/lightmode.png"),
     imgAlt: "Tiny Wins Matter",
     imgBgClass: "bg-[#E0E1DD]",
@@ -366,6 +369,7 @@ const projects = [
   {
     id: "bill-splitter",
     title: "Bill Splitter",
+    date: "2024",
     imgPath: asset("images/tip-splitter.png"),
     imgAlt: "Bill Splitter",
     imgBgClass: "bg-[#E0E1DD]",
