@@ -52,7 +52,7 @@ function CarouselItem({ item, index, itemWidth, round, trackItemOffset, x, trans
       className={`relative shrink-0 flex flex-col ${
         round
           ? 'items-center justify-center text-center bg-[#060010] border-0'
-          : 'items-start justify-between border border-[#9ad9f5] rounded-[12px]'
+          : 'items-start justify-between border border-[#b4befe] rounded-[12px]'
       } overflow-hidden cursor-grab active:cursor-grabbing`}
       style={{
         width: itemWidth,
@@ -239,8 +239,8 @@ export default function Carousel({
       ref={containerRef}
       className={`relative overflow-hidden p-4 ${
         round
-          ? `rounded-full ${showBorder ? 'border border-[#9ad9f5]' : ''}`
-          : `rounded-[24px] ${showBorder ? 'border border-[#9ad9f5]' : ''}`
+          ? `rounded-full ${showBorder ? 'border border-[#b4befe]' : ''}`
+          : `rounded-[24px] ${showBorder ? 'border border-[#b4befe]' : ''}`
       }`}
       style={{
         width: `${baseWidth}px`,
@@ -287,9 +287,9 @@ export default function Carousel({
                 activeIndex === index
                   ? round
                     ? 'bg-white'
-                    : 'bg-[#9ad9f5]'
+                    : 'bg-[#b4befe]'
                   : round
-                    ? 'bg-[#9ad9f5]'
+                    ? 'bg-[#b4befe]'
                     : 'bg-[#5a7fa8]'
               }`}
               animate={{
