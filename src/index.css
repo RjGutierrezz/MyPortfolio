@@ -576,7 +576,7 @@ section {
 
   /* added: global project hover effects (same as ShowcaseSection) */
   .project:hover {
-    border-color: #b4befe;
+    border-color: #cba6f7;
     box-shadow: 0 14px 36px rgba(13, 27, 42, 0.24);
   }
 
@@ -631,7 +631,7 @@ section {
 
   /* added: change project card title color on hover (applies to ShowcaseSection + ProjectsCollection) */
   .project:hover h2 {
-    color: #b4befe;
+    color: #cba6f7;
   }
 
   /* added: smooth ease-in-out for project title color changes */

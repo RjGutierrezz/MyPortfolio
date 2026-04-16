@@ -317,7 +317,7 @@ const projects = [
   {
     id: "studybreak-bite",
     title: "StudyBreak-Bite",
-    date: "2025",
+    date: "2026",
     imgPath: asset("images/appmockup.png"),
     imgAlt: "StudyBreak-Bite",
     imgBgClass: "bg-[#E0E1DD]",
@@ -369,7 +369,7 @@ const projects = [
   {
     id: "bill-splitter",
     title: "Bill Splitter",
-    date: "2024",
+    date: "2025",
     imgPath: asset("images/tip-splitter.png"),
     imgAlt: "Bill Splitter",
     imgBgClass: "bg-[#E0E1DD]",

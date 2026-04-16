@@ -103,11 +103,11 @@ const ProjectsCollection = () => {
 
   const pageTransition = reduceMotion
     ? { duration: 0 }
-    : { duration: 0.5, ease: "easeInOut" };
+    : { duration: 0.2, ease: "easeInOut" };
 
   const sharedTransition = reduceMotion
     ? { duration: 0 }
-    : { duration: 0.5, ease: "easeInOut" };
+    : { duration: 0.2, ease: "easeInOut" };
 
   const renderProjectActions = (project) => (
     <div className="project-page-actions">

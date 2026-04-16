@@ -161,11 +161,11 @@ const ShowcaseSection = () => {
 
   const pageTransition = reduceMotion
     ? { duration: 0 }
-    : { duration: 0.5, ease: "easeInOut" };
+    : { duration: 0.2, ease: "easeInOut" };
 
   const sharedTransition = reduceMotion
     ? { duration: 0 }
-    : { duration: 0.5, ease: "easeInOut" };
+    : { duration: 0.2, ease: "easeInOut" };
 
   const heroBaseWidth =
     typeof window !== "undefined"
