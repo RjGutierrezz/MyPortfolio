@@ -4,7 +4,6 @@ import { FiArrowLeft, FiCalendar, FiExternalLink, FiGithub } from "react-icons/f
 import { projects } from "../constants/index.js";
 import GlareHover from "../components/HeroModels/GlareHover.jsx";
 import Carousel from "../components/HeroModels/Carousel.jsx";
-import GlassSurface from "../components/HeroModels/GlassSurface.jsx";
 
 const truncateText = (text, maxLength) =>
   text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
@@ -29,6 +28,16 @@ const pickTechColor = (label) => {
   const idx = Math.abs(h) % TECH_BADGE_COLORS.length;
   return TECH_BADGE_COLORS[idx];
 };
+
+const DESCRIPTION_SECTION_TITLES = [
+  "Overview",
+  "Why I Built It",
+  "What It Does",
+  "My Contribution",
+  "Technical Highlights",
+  "Challenges and Decisions",
+  "Outcome or What I Learned",
+];
 
 const ProjectsCollection = () => {
   const [activeProjectId, setActiveProjectId] = useState(null);
@@ -78,6 +87,114 @@ const ProjectsCollection = () => {
   // changed: truncate for plain text (strip the markup so snippets don’t show [[...|...]])
   const stripMarks = (text) => String(text ?? "").replace(/\[\[([\s\S]+?)\|([a-zA-Z0-9_-]+)\]\]/g, "$1");
 
+  const parseDescriptionSections = (text) => {
+    const normalized = String(text ?? "").replace(/\r\n/g, "\n").trim();
+    if (!normalized) return [];
+
+    const lines = normalized.split("\n");
+    const sections = [];
+    let currentSection = null;
+
+    lines.forEach((line) => {
+      const trimmed = line.trim();
+
+      if (DESCRIPTION_SECTION_TITLES.includes(trimmed)) {
+        if (currentSection) sections.push(currentSection);
+        currentSection = { title: trimmed, lines: [] };
+        return;
+      }
+
+      if (!currentSection) {
+        currentSection = { title: "Overview", lines: [] };
+      }
+
+      currentSection.lines.push(line);
+    });
+
+    if (currentSection) sections.push(currentSection);
+
+    return sections
+      .map((section) => ({
+        ...section,
+        content: section.lines.join("\n").trim(),
+      }))
+      .filter((section) => section.content.length > 0);
+  };
+
+  const renderDescriptionBlocks = (content, keyPrefix) => {
+    const lines = String(content ?? "").split("\n");
+    const blocks = [];
+    let paragraph = [];
+    let list = [];
+
+    const flushParagraph = () => {
+      if (!paragraph.length) return;
+      blocks.push({ type: "paragraph", content: paragraph.join(" ") });
+      paragraph = [];
+    };
+
+    const flushList = () => {
+      if (!list.length) return;
+      blocks.push({ type: "list", items: list });
+      list = [];
+    };
+
+    lines.forEach((line) => {
+      const trimmed = line.trim();
+
+      if (!trimmed) {
+        flushParagraph();
+        flushList();
+        return;
+      }
+
+      if (trimmed.startsWith("- ")) {
+        flushParagraph();
+        list.push(trimmed.slice(2));
+        return;
+      }
+
+      flushList();
+      paragraph.push(trimmed);
+    });
+
+    flushParagraph();
+    flushList();
+
+    return blocks.map((block, index) => {
+      if (block.type === "list") {
+        return (
+          <ul key={`${keyPrefix}-list-${block.items.join("|")}`} className="project-page-list">
+            {block.items.map((item) => (
+              <li key={`${keyPrefix}-item-${item}`}>{renderMarkedText(item)}</li>
+            ))}
+          </ul>
+        );
+      }
+
+      return (
+        <p key={`${keyPrefix}-paragraph-${block.content}`} className="project-page-description">
+          {renderMarkedText(block.content)}
+        </p>
+      );
+    });
+  };
+
+  const renderDescriptionSections = (text, projectId) => {
+    const sections = parseDescriptionSections(text);
+
+    return sections.map((section, index) => (
+      <div key={`${projectId}-section-${section.title}-${index}`} className="project-page-section">
+        <div className="project-page-section-header text-white-50/80">
+          <span className="text-sm md:text-base font-semibold text-[#89dceb]">{section.title}</span>
+        </div>
+        <div className="project-page-section-content">
+          {renderDescriptionBlocks(section.content, `${projectId}-${section.title}`)}
+        </div>
+      </div>
+    ));
+  };
+
   useEffect(() => {
     const onKeyDown = (event) => {
       if (event.key === "Escape") setActiveProjectId(null);
@@ -109,36 +226,32 @@ const ProjectsCollection = () => {
     ? { duration: 0 }
     : { duration: 0.2, ease: "easeInOut" };
 
-  const renderProjectActions = (project) => (
-    <div className="project-page-actions">
-      <GlassSurface width="auto" height="auto" borderRadius={40} className="flex-1 sm:flex-none" style={{ minHeight: 0 }}>
-        <a
-          href={project.disabled ? undefined : project.href}
-          target={project.disabled ? undefined : "_blank"}
-          rel={project.disabled ? undefined : "noopener noreferrer"}
-          className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-[#e0d7f5] font-semibold inline-flex items-center justify-center gap-2 w-full"
-          aria-disabled={project.disabled ? "true" : undefined}
-          onClick={(e) => {
-            if (project.disabled) e.preventDefault();
-          }}
-        >
-          <FiGithub className="size-4" />
-          <span>View Repo</span>
-        </a>
-      </GlassSurface>
+  const renderProjectActionIcons = (project) => (
+    <div className="project-page-icon-actions">
+      <a
+        href={project.disabled ? undefined : project.href}
+        target={project.disabled ? undefined : "_blank"}
+        rel={project.disabled ? undefined : "noopener noreferrer"}
+        className="project-page-icon-button"
+        aria-label={`Open ${project.title} GitHub repository`}
+        aria-disabled={project.disabled ? "true" : undefined}
+        onClick={(e) => {
+          if (project.disabled) e.preventDefault();
+        }}
+      >
+        <FiGithub className="size-4 md:size-[18px]" />
+      </a>
 
       {project.liveHref ? (
-        <GlassSurface width="auto" height="auto" borderRadius={40} className="flex-1 sm:flex-none" style={{ minHeight: 0 }}>
-          <a
-            href={project.liveHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs md:text-sm px-4 md:px-6 py-3 md:py-4 text-[#e0d7f5] font-semibold inline-flex items-center justify-center gap-2 w-full"
-          >
-            <FiExternalLink className="size-4" />
-            <span>Live App</span>
-          </a>
-        </GlassSurface>
+        <a
+          href={project.liveHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="project-page-icon-button"
+          aria-label={`Open ${project.title} live app`}
+        >
+          <FiExternalLink className="size-4 md:size-[18px]" />
+        </a>
       ) : null}
     </div>
   );
@@ -212,23 +325,27 @@ const ProjectsCollection = () => {
                           >
                             {activeProject.title}
                           </motion.h2>
-                        </div>
 
-                        {activeProject.date ? (
                           <div className="project-page-meta-row">
                             <div className="project-page-meta-item">
                               <FiCalendar className="size-4" />
-                              <span>{activeProject.date}</span>
+                              <span>{activeProject.date || ""}</span>
                             </div>
+                            {renderProjectActionIcons(activeProject)}
                           </div>
-                        ) : null}
-
-                        {renderProjectActions(activeProject)}
+                        </div>
 
                         <div className="project-page-meta-block">
                           {Array.isArray(activeProject.techStack) && activeProject.techStack.length > 0 ? (
                             <div className="project-page-section">
-                              <h3 className="project-page-section-title">Tech Stack</h3>
+                              <div className="project-page-section-header flex items-center gap-2 text-white-50/80">
+                                <span
+                                  className="icon-mask size-3 md:size-5"
+                                  style={{ ["--icon-url"]: `url(${asset("images/tag.png")})` }}
+                                  aria-hidden="true"
+                                />
+                                <span className="text-xs md:text-base font-semibold">Tech Stack</span>
+                              </div>
                               <div className="project-page-tag-list">
                                 {activeProject.techStack.map((t) => (
                                   <span
@@ -244,12 +361,7 @@ const ProjectsCollection = () => {
                           ) : null}
                         </div>
 
-                        <div className="project-page-section">
-                          <h3 className="project-page-section-title">Overview</h3>
-                          <p className="project-page-description">
-                            {renderMarkedText(activeProject.description || "")}
-                          </p>
-                        </div>
+                        {renderDescriptionSections(activeProject.description || "", activeProject.id)}
                       </section>
                     </div>
                   </motion.article>

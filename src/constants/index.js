@@ -321,8 +321,34 @@ const projects = [
     imgPath: asset("images/dashboard.png"),
     imgAlt: "AuraDrip WebApp",
     imgBgClass: "bg-[#E0E1DD]",
-    description:
-      "A [[full-stack|accent]] wardrobe management and outfit recommendation app built with React, Express, Prisma, PostgreSQL, and Supabase.",
+    description: `Overview
+Aura Drip is a [[full-stack|accent]] wardrobe management and outfit recommendation app that helps users organize their clothing in one place and get outfit suggestions based on what they already own. It is designed for users who want a more personalized alternative to generic fashion apps. Instead of browsing random outfit ideas, users can upload their own pieces, manage favorites, and generate recommendations from their actual wardrobe.
+
+Why I Built It
+I built Aura Drip because I wanted a project that felt more like a real product than a tutorial or classroom assignment. As a new computer science graduate, I wanted to challenge myself to build something end-to-end that involved frontend development, backend APIs, authentication, database design, deployment, and UI polish. I was also interested in creating something personal and visual, since that pushed me to think more carefully about user experience and responsiveness.
+
+What It Does
+- Lets users create an account, sign in securely, and access only their own wardrobe data.
+- Allows users to upload clothing items with images and save details like category, color, style, occasion, and warmth.
+- Provides search, filtering, editing, deleting, and favoriting for wardrobe items.
+- Generates outfit suggestions from natural language prompts using the user's saved clothing items.
+- Includes a responsive dashboard, favorites page, outfit page, and profile page for a more complete app experience.
+
+My Contribution
+I built this project myself from the ground up, including both the frontend and backend. I implemented the React frontend, designed the app flow and UI, created the Express API, modeled the database with Prisma, and connected everything to Supabase for authentication and image storage. I also handled deployment with Vercel and Render, debugged production issues around database connectivity and auth redirects, and iterated on the mobile experience after the first live version was up.
+
+Technical Highlights
+- Built a full-stack architecture with a React + TypeScript frontend and an Express + Prisma backend.
+- Designed authenticated API routes that verify Supabase JWTs and scope all clothing data to the current user.
+- Modeled wardrobe data in PostgreSQL with Prisma and used migrations to manage schema changes.
+- Integrated Supabase Storage for image uploads and Supabase Auth for account creation and login.
+- Implemented a rule-based outfit recommendation flow that parses prompt intent and scores saved items based on style, occasion, color, warmth, and favorites.
+
+Challenges and Decisions
+One of the biggest challenges was getting the deployed app working smoothly across multiple services. I had to debug issues involving Prisma migrations, environment variables, Supabase auth redirect URLs, and database connectivity from Render. I chose a split deployment setup with Vercel for the frontend and Render for the backend because it matched the architecture of the project better than forcing everything onto one platform. I also spent time refining the mobile experience, which taught me that responsive design is not just about shrinking layouts, but about rethinking spacing, hierarchy, and navigation for smaller screens.
+
+Outcome or What I Learned
+This project taught me how much goes into building and shipping a full-stack product beyond just writing features. I became more comfortable working across the entire stack, from database design and API validation to deployment and post-launch UI improvements. More than anything, Aura Drip helped me practice thinking like an engineer who owns a problem end-to-end, which is exactly the kind of mindset I want to bring into an entry-level software engineering role.`,
     href: "https://github.com/RjGutierrezz/Aura-Drip",
     techStack: ["Vite", "TypeScript", "HTML", "CSS", "Supabase", "React", "Express", "Prisma"],
     gallery: [asset("images/dashboard.png"),asset("images/wardrobe.png"), asset("images/login.png"), asset("images/favorite.png"), asset("images/add.png"), asset("images/profile.png"), asset("images/outfit.png")],
