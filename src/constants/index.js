@@ -363,8 +363,34 @@ This project taught me how much goes into building and shipping a full-stack pro
     imgPath: asset("images/appmockup.png"),
     imgAlt: "StudyBreak-Bite",
     imgBgClass: "bg-[#E0E1DD]",
-    description:
-      "A [[mobile|accent]] food discovery and delivery app built for [[university students|accent]], focused on saving time and minimizing interruptions during busy academic schedules.",
+    description: `Overview
+StudyBreak-Bite is a [[mobile|accent]] food ordering app concept built for college students who need a faster, more convenient way to grab meals between classes, study sessions, and other campus commitments. The app is designed to make ordering feel simple and low-friction by letting users browse menu items, customize meals, manage a cart, and save delivery details in one place. I built it around the idea that even small campus frustrations, like long lines or leaving a study spot, can be improved with thoughtful software.
+
+Why I Built It
+I built this project because I wanted to move beyond small isolated assignments and create something that felt closer to a real product. As a new CS graduate, I wanted practice building a full mobile app experience with authentication, state management, backend integration, and user-focused flows. I was especially interested in learning how to connect a polished frontend to real data and make the app feel useful, not just functional.
+
+What It Does
+- Allows users to create an account, sign in, and access a personalized in-app experience.
+- Lets users browse food items, search by keyword, and filter by category.
+- Provides a product details flow where users can customize meals with toppings and sides.
+- Supports cart management with quantity updates, pricing totals, and customized item handling.
+- Gives users a profile area where they can update personal information like name, phone number, address, and profile photo preview.
+
+My Contribution
+I personally built the core mobile application experience, including the authentication flow, screen routing, menu browsing, search and filtering, product detail customization flow, cart functionality, and profile management features. I also integrated the app with Appwrite for user accounts and database-backed content, and used Zustand to manage authentication and cart state across the app. In addition to building the UI, I worked through the underlying logic for dynamic pricing, customized cart entries, and syncing user-facing profile data with backend records.
+
+Technical Highlights
+- Built the app with React Native, Expo, TypeScript, and Expo Router for a structured mobile development workflow.
+- Integrated Appwrite for authentication and database operations, including user records, menu data, and category-based content.
+- Used Zustand for lightweight global state management for both auth state and cart behavior.
+- Implemented customization-aware cart logic so identical products with different add-ons are treated as separate entries.
+- Organized the project with clear separation between route screens, reusable components, backend integration logic, constants, and state stores.
+
+Challenges and Decisions
+One of the biggest challenges was making the cart logic behave in a way that felt realistic. It was not enough to simply add products by ID, because the same item can be added with different toppings or sides, so I had to think more carefully about how those variations should be stored and compared. I chose Expo and Appwrite because they gave me a practical way to focus on building product features quickly while still working with real authentication and backend data, which made the project feel much closer to production-style development than a static frontend mockup.
+
+Outcome or What I Learned
+This project helped me grow from building individual components to thinking in terms of complete user flows and real product structure. I got more comfortable connecting frontend screens to backend services, managing shared application state, and making implementation decisions based on how users would actually interact with the app. More than anything, it reinforced that I enjoy building practical software and that I want to keep growing into an engineer who can contribute across both product experience and technical implementation.`,
     href: "https://github.com/RjGutierrezz/StudyBreak-Bite.git",
     techStack: ["React Native", "JavaScript", "TypeScript", "Expo",
       "Expo Router", "Tailwind CSS"],
