@@ -314,6 +314,22 @@ const socialImgs = [
 ];
 
 const projects = [
+    {
+    id: "aura-drip",
+    title: "AuraDrip WebApp",
+    date: "2026",
+    imgPath: asset("images/dashboard.png"),
+    imgAlt: "AuraDrip WebApp",
+    imgBgClass: "bg-[#E0E1DD]",
+    description:
+      "A [[full-stack|accent]] wardrobe management and outfit recommendation app built with React, Express, Prisma, PostgreSQL, and Supabase.",
+    href: "https://github.com/RjGutierrezz/Aura-Drip",
+    techStack: ["Vite", "TypeScript", "HTML", "CSS", "Supabase", "React", "Express", "Prisma"],
+    gallery: [asset("images/dashboard.png"),asset("images/wardrobe.png"), asset("images/login.png"), asset("images/favorite.png"), asset("images/add.png"), asset("images/profile.png"), asset("images/outfit.png")],
+    liveHref: "https://aura-drip.vercel.app",
+    disabled: false,
+  },
+
   {
     id: "studybreak-bite",
     title: "StudyBreak-Bite",
